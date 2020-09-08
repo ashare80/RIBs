@@ -9,9 +9,6 @@
 /* Begin PBXBuildFile section */
 		7EDD59501FA13579005EC8B2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EDD594F1FA13579005EC8B2 /* Default-568h@2x.png */; };
 		E37156A72503AC9400797747 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E37156A62503AC9400797747 /* SnapKit */; };
-		E37156B62503ADF200797747 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E37156B52503ADF200797747 /* RxSwift */; };
-		E37156B82503ADF200797747 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = E37156B72503ADF200797747 /* RxRelay */; };
-		E37156BA2503ADF200797747 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = E37156B92503ADF200797747 /* RxCocoa */; };
 		E37156BD2503AE3700797747 /* RIBs in Frameworks */ = {isa = PBXBuildFile; productRef = E37156BC2503AE3700797747 /* RIBs */; };
 		E90A68681FB7069A00D303EE /* LoggedInActionableItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90A68671FB7069A00D303EE /* LoggedInActionableItem.swift */; };
 		E90A686A1FB7074400D303EE /* LaunchGameWorkflow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90A68691FB7074400D303EE /* LaunchGameWorkflow.swift */; };
@@ -112,9 +109,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E37156BD2503AE3700797747 /* RIBs in Frameworks */,
-				E37156B62503ADF200797747 /* RxSwift in Frameworks */,
-				E37156BA2503ADF200797747 /* RxCocoa in Frameworks */,
-				E37156B82503ADF200797747 /* RxRelay in Frameworks */,
 				E37156A72503AC9400797747 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -136,7 +130,6 @@
 				E37156BB2503AE2D00797747 /* RIBs */,
 				E9894B4C1F972CC500688FCB /* TicTacToe */,
 				E9894B4B1F972CC500688FCB /* Products */,
-				F5205CCF508911BE388D8406 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -287,13 +280,6 @@
 			path = OffGame;
 			sourceTree = "<group>";
 		};
-		F5205CCF508911BE388D8406 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -312,9 +298,6 @@
 			name = TicTacToe;
 			packageProductDependencies = (
 				E37156A62503AC9400797747 /* SnapKit */,
-				E37156B52503ADF200797747 /* RxSwift */,
-				E37156B72503ADF200797747 /* RxRelay */,
-				E37156B92503ADF200797747 /* RxCocoa */,
 				E37156BC2503AE3700797747 /* RIBs */,
 			);
 			productName = TicTacToe;
@@ -349,7 +332,6 @@
 			mainGroup = E9894B411F972CC500688FCB;
 			packageReferences = (
 				E37156A52503AC9400797747 /* XCRemoteSwiftPackageReference "SnapKit" */,
-				E37156B42503ADF200797747 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = E9894B4B1F972CC500688FCB /* Products */;
 			projectDirPath = "";
@@ -602,14 +584,6 @@
 				kind = branch;
 			};
 		};
-		E37156B42503ADF200797747 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.1.1;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -617,21 +591,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E37156A52503AC9400797747 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
-		};
-		E37156B52503ADF200797747 /* RxSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E37156B42503ADF200797747 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxSwift;
-		};
-		E37156B72503ADF200797747 /* RxRelay */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E37156B42503ADF200797747 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxRelay;
-		};
-		E37156B92503ADF200797747 /* RxCocoa */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E37156B42503ADF200797747 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxCocoa;
 		};
 		E37156BC2503AE3700797747 /* RIBs */ = {
 			isa = XCSwiftPackageProductDependency;

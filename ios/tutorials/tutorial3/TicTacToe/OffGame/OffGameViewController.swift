@@ -15,12 +15,10 @@
 //
 
 import RIBs
-import RxCocoa
-import RxSwift
 import SnapKit
 import UIKit
 
-protocol OffGamePresentableListener: class {
+protocol OffGamePresentableListener: AnyObject {
     func startGame()
 }
 
@@ -56,14 +54,13 @@ final class OffGameViewController: UIViewController, OffGamePresentable, OffGame
         startButton.setTitle("Start Game", for: .normal)
         startButton.setTitleColor(UIColor.white, for: .normal)
         startButton.backgroundColor = UIColor.black
-        startButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.listener?.startGame()
-            })
-            .disposed(by: disposeBag)
+        startButton.addTarget(self, action: #selector(startButtonDidTouchUpInside), for: .touchUpInside)
     }
-
-    private let disposeBag = DisposeBag()
+    
+    @objc
+    private func startButtonDidTouchUpInside() {
+        listener?.startGame()
+    }
 }
 
 extension PlayerType {

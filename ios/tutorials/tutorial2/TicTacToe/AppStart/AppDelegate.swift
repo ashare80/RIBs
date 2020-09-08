@@ -15,7 +15,6 @@
 //
 
 import RIBs
-import RxSwift
 import UIKit
 
 /// Game app delegate.

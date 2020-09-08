@@ -16,7 +16,6 @@
 
 import Foundation
 import RIBs
-import RxSwift
 
 public protocol RandomWinRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
@@ -27,7 +26,7 @@ protocol RandomWinPresentable: Presentable {
     func announce(winner: PlayerType, withCompletionHandler handler: @escaping () -> ())
 }
 
-public protocol RandomWinListener: class {
+public protocol RandomWinListener: AnyObject {
     func didRandomlyWin(with player: PlayerType)
 }
 

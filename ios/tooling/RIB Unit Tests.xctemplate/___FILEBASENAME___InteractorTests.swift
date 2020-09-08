@@ -17,8 +17,8 @@ final class ___VARIABLE_productName___InteractorTests: XCTestCase {
 
     // MARK: - Tests
 
-    func test_exampleObservable_callsRouterOrListener_exampleProtocol() {
+    func test_examplePublisher_callsRouterOrListener_exampleProtocol() {
         // This is an example of an interactor test case.
-        // Test your interactor binds observables and sends messages to router or listener.
+        // Test your interactor binds publishers and sends messages to router or listener.
     }
 }

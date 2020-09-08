@@ -39,3 +39,21 @@ final class FoundationExtensionsTests: XCTestCase {
         XCTAssert(array.isEmpty)
     }
 }
+
+extension XCTestCase {
+    func expectAssertionFailure(_ execute: () -> ()) {
+
+        let expect = expectation(description: "Did not assert")
+
+        assertionFailureClosure = {
+            (_, _, _) in
+            expect.fulfill()
+        }
+
+        execute();
+
+        waitForExpectations(timeout: 0.0, handler: nil)
+
+        assertionFailureClosure = defaultAssertionFailureClosure
+    }
+}

@@ -15,12 +15,10 @@
 //
 
 import RIBs
-import RxCocoa
-import RxSwift
 import SnapKit
 import UIKit
 
-protocol OffGamePresentableListener: class {
+protocol OffGamePresentableListener: AnyObject {
     func start(_ game: Game)
 }
 
@@ -66,7 +64,7 @@ final class OffGameViewController: UIViewController, OffGamePresentable, OffGame
     }
 
     private func buildStartButton(with game: Game, previousButton: UIView?) -> UIButton {
-        let startButton = UIButton()
+        let startButton = DelegatingButton(game: game, viewController: self)
         view.addSubview(startButton)
         startButton.accessibilityIdentifier = game.name
         startButton.snp.makeConstraints { (maker: ConstraintMaker) in
@@ -81,14 +79,28 @@ final class OffGameViewController: UIViewController, OffGamePresentable, OffGame
         startButton.setTitle(game.name, for: .normal)
         startButton.setTitleColor(UIColor.white, for: .normal)
         startButton.backgroundColor = UIColor.black
-        startButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.listener?.start(game)
-            })
-            .disposed(by: disposeBag)
-
         return startButton
     }
 
-    private let disposeBag = DisposeBag()
+    final class DelegatingButton: UIButton {
+        weak var viewController: OffGameViewController?
+        
+        private let game: Game
+        
+        init(game: Game, viewController: OffGameViewController) {
+            self.game = game
+            self.viewController = viewController
+            super.init(frame: .zero)
+            addTarget(self, action: #selector(startButtonDidTouchUpInside), for: .touchUpInside)
+        }
+        
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+        @objc
+        func startButtonDidTouchUpInside() {
+            viewController?.listener?.start(game)
+        }
+    }
 }

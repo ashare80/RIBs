@@ -15,12 +15,10 @@
 //
 
 import RIBs
-import RxCocoa
-import RxSwift
 import SnapKit
 import UIKit
 
-protocol RandomWinPresentableListener: class {
+protocol RandomWinPresentableListener: AnyObject {
     func determineWinner()
 }
 
@@ -81,13 +79,11 @@ final class RandomWinViewController: UIViewController, RandomWinPresentable, Ran
             maker.leading.trailing.equalTo(self.view).inset(20)
             maker.height.equalTo(100)
         }
-
-        button.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.listener?.determineWinner()
-            })
-            .disposed(by: disposeBag)
+        button.addTarget(self, action: #selector(goButtonDidTouchUpInside), for: .touchUpInside)
     }
-
-    private let disposeBag = DisposeBag()
+    
+    @objc
+    func goButtonDidTouchUpInside() {
+        listener?.determineWinner()
+    }
 }

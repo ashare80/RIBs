@@ -29,3 +29,11 @@ public extension Array {
         remove(at: objIndex)
     }
 }
+
+#if targetEnvironment(simulator)
+func assertionFailure(_ message: @autoclosure () -> String = "", file: StaticString = #file, line: UInt = #line) {
+    assertionFailureClosure(message(), file, line)
+}
+var assertionFailureClosure: (String, StaticString, UInt) -> () = defaultAssertionFailureClosure
+let defaultAssertionFailureClosure = { Swift.assertionFailure($0, file: $1, line: $2) }
+#endif

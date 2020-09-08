@@ -15,7 +15,6 @@
 //
 
 import RIBs
-import RxSwift
 
 protocol TicTacToeRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
@@ -27,7 +26,7 @@ protocol TicTacToePresentable: Presentable {
     func announce(winner: PlayerType?, withCompletionHandler handler: @escaping () -> ())
 }
 
-protocol TicTacToeListener: class {
+protocol TicTacToeListener: AnyObject {
     func gameDidEnd(withWinner winner: PlayerType?)
 }
 

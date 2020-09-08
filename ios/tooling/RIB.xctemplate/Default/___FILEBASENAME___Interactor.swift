@@ -1,14 +1,13 @@
 //___FILEHEADER___
 
 import RIBs
-import RxSwift
 
 protocol ___VARIABLE_productName___Routing: Routing {
     func cleanupViews()
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 
-protocol ___VARIABLE_productName___Listener: class {
+protocol ___VARIABLE_productName___Listener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
 }
 

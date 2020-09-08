@@ -15,7 +15,7 @@
 //
 
 import XCTest
-import RxSwift
+import Combine
 @testable import RIBs
 
 final class WorkerflowTests: XCTestCase {
@@ -29,44 +29,44 @@ final class WorkerflowTests: XCTestCase {
         var innerStep2RunCount = 0
         var innerStep3RunCount = 0
 
-        let emptyObservable = Observable.just(((), ()))
+        let emptyPublisher = Just(((), ())).eraseToAnyPublisher()
 
         let workflow = Workflow<String>()
         _ = workflow
-            .onStep { (mock) -> Observable<((), ())> in
+            .onStep { (mock) -> AnyPublisher<((), ()), Never> in
                 outerStep1RunCount += 1
 
-                return emptyObservable
+                return emptyPublisher
             }
-            .onStep { (_, _) -> Observable<((), ())> in
+            .onStep { (_, _) -> AnyPublisher<((), ()), Never> in
                 outerStep2RunCount += 1
 
-                return emptyObservable
+                return emptyPublisher
             }
-            .onStep { (_, _) -> Observable<((), ())> in
+            .onStep { (_, _) -> AnyPublisher<((), ()), Never> in
                 outerStep3RunCount += 1
 
-                let innerStep: Step<String, (), ()>? = emptyObservable.fork(workflow)
+                let innerStep: Step<String, (), (), Never>? = emptyPublisher.fork(workflow)
 
                 innerStep?
-                    .onStep({ (_, _) -> Observable<((), ())> in
+                    .onStep({ (_, _) -> AnyPublisher<((), ()), Never> in
                         innerStep1RunCount += 1
-                        return emptyObservable
+                        return emptyPublisher
                     })
-                    .onStep({ (_, _) -> Observable<((), ())> in
+                    .onStep({ (_, _) -> AnyPublisher<((), ()), Never> in
                         innerStep2RunCount += 1
-                        return emptyObservable
+                        return emptyPublisher
                     })
-                    .onStep({ (_, _) -> Observable<((), ())> in
+                    .onStep({ (_, _) -> AnyPublisher<((), ()), Never> in
                         innerStep3RunCount += 1
-                        return emptyObservable
+                        return emptyPublisher
                     })
                     .commit()
 
-                return emptyObservable
+                return emptyPublisher
             }
             .commit()
-            .subscribe("Test Actionable Item")
+            .sink("Test Actionable Item")
 
         XCTAssertEqual(outerStep1RunCount, 1, "Outer step 1 should not have been run more than once")
         XCTAssertEqual(outerStep2RunCount, 1, "Outer step 2 should not have been run more than once")
@@ -80,22 +80,22 @@ final class WorkerflowTests: XCTestCase {
     func test_workflowReceivesError() {
         let workflow = TestWorkflow()
 
-        let emptyObservable = Observable.just(((), ()))
+        let emptyPublisher = Just(((), ())).eraseToAnyPublisher()
         _ = workflow
-            .onStep { _ -> Observable<((), ())> in
-                return emptyObservable
+            .onStep { _ -> AnyPublisher<((), ()), Never> in
+                return emptyPublisher
             }
-            .onStep { _, _ -> Observable<((), ())> in
-                return emptyObservable
+            .onStep { _, _ -> AnyPublisher<((), ()), Never> in
+                return emptyPublisher
             }
-            .onStep { _, _ -> Observable<((), ())> in
-                return Observable.error(WorkflowTestError.error)
+            .onStep { _, _ -> AnyPublisher<((), ()), WorkflowTestError> in
+                return Fail<(Void, Void), WorkflowTestError>(error: WorkflowTestError.error).eraseToAnyPublisher()
             }
-            .onStep { _, _ -> Observable<((), ())> in
-                return emptyObservable
+            .onStep { _, _ -> AnyPublisher<((), ()), WorkflowTestError> in
+                return Just(((), ())).mapError().eraseToAnyPublisher()
             }
             .commit()
-            .subscribe(())
+            .sink()
 
         XCTAssertEqual(0, workflow.completeCallCount)
         XCTAssertEqual(0, workflow.forkCallCount)
@@ -105,19 +105,19 @@ final class WorkerflowTests: XCTestCase {
     func test_workflowDidComplete() {
         let workflow = TestWorkflow()
 
-        let emptyObservable = Observable.just(((), ()))
+        let emptyPublisher = Just(((), ())).eraseToAnyPublisher()
         _ = workflow
-            .onStep { _ -> Observable<((), ())> in
-                return emptyObservable
+            .onStep { _ -> AnyPublisher<((), ()), Never> in
+                return emptyPublisher
             }
-            .onStep { _, _ -> Observable<((), ())> in
-                return emptyObservable
+            .onStep { _, _ -> AnyPublisher<((), ()), Never> in
+                return emptyPublisher
             }
-            .onStep { _, _ -> Observable<((), ())> in
-                return emptyObservable
+            .onStep { _, _ -> AnyPublisher<((), ()), Never> in
+                return emptyPublisher
             }
             .commit()
-            .subscribe(())
+            .sink(())
 
         XCTAssertEqual(1, workflow.completeCallCount)
         XCTAssertEqual(0, workflow.forkCallCount)
@@ -127,28 +127,28 @@ final class WorkerflowTests: XCTestCase {
     func test_workflowDidFork() {
         let workflow = TestWorkflow()
 
-        let emptyObservable = Observable.just(((), ()))
+        let emptyPublisher = Just(((), ())).eraseToAnyPublisher()
         _ = workflow
-            .onStep { _ -> Observable<((), ())> in
-                return emptyObservable
+            .onStep { _ -> AnyPublisher<((), ()), Never> in
+                return emptyPublisher
             }
-            .onStep { _, _ -> Observable<((), ())> in
-                return emptyObservable
+            .onStep { _, _ -> AnyPublisher<((), ()), Never> in
+                return emptyPublisher
             }
-            .onStep { _, _ -> Observable<((), ())> in
-                return emptyObservable
+            .onStep { _, _ -> AnyPublisher<((), ()), Never> in
+                return emptyPublisher
             }
-            .onStep { _, _ -> Observable<((), ())> in
-                let forkedStep: Step<(), (), ()>? = emptyObservable.fork(workflow)
+            .onStep { _, _ -> AnyPublisher<((), ()), Never> in
+                let forkedStep: Step<(), (), (), Never>? = emptyPublisher.fork(workflow)
                 forkedStep?
-                    .onStep { _, _ -> Observable<((), ())> in
-                        return emptyObservable
+                    .onStep { _, _ -> AnyPublisher<((), ()), Never> in
+                        return emptyPublisher
                     }
                     .commit()
-                return emptyObservable
+                return emptyPublisher
             }
             .commit()
-            .subscribe(())
+            .sink(())
 
         XCTAssertEqual(1, workflow.completeCallCount)
         XCTAssertEqual(1, workflow.forkCallCount)
@@ -159,30 +159,30 @@ final class WorkerflowTests: XCTestCase {
         let workflow = TestWorkflow()
 
         var rootCallCount = 0
-        let emptyObservable = Observable.just(((), ()))
+        let emptyPublisher = Just(((), ())).eraseToAnyPublisher()
         let rootStep = workflow
-            .onStep { _ -> Observable<((), ())> in
+            .onStep { _ -> AnyPublisher<((), ()), Never> in
                 rootCallCount += 1
-                return emptyObservable
+                return emptyPublisher
         }
 
-        let firstFork: Step<(), (), ()>? = rootStep.asObservable().fork(workflow)
+        let firstFork: Step<(), (), (), Never>? = rootStep.eraseToAnyPublisher().fork(workflow)
         _ = firstFork?
-            .onStep { (_, _) -> Observable<((), ())> in
-                return Observable.just(((), ()))
+            .onStep { (_, _) -> AnyPublisher<((), ()), Never> in
+                return Just(((), ())).eraseToAnyPublisher()
             }
             .commit()
 
-        let secondFork: Step<(), (), ()>? = rootStep.asObservable().fork(workflow)
+        let secondFork: Step<(), (), (), Never>? = rootStep.eraseToAnyPublisher().fork(workflow)
         _ = secondFork?
-            .onStep { (_, _) -> Observable<((), ())> in
-                return Observable.just(((), ()))
+            .onStep { (_, _) -> AnyPublisher<((), ()), Never> in
+                return Just(((), ())).eraseToAnyPublisher()
             }
             .commit()
 
         XCTAssertEqual(0, rootCallCount)
 
-        _ = workflow.subscribe(())
+        _ = workflow.sink(())
 
         XCTAssertEqual(1, rootCallCount)
     }
