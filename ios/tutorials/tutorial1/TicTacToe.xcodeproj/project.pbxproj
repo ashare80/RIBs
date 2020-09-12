@@ -17,7 +17,7 @@
 		E9CB1D631F9730EF00D84847 /* RootComponent+LoggedOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D391F972FE400D84847 /* RootComponent+LoggedOut.swift */; };
 		E9CB1D641F9730EF00D84847 /* RootInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D3A1F972FE400D84847 /* RootInteractor.swift */; };
 		E9CB1D651F9730EF00D84847 /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D3B1F972FE400D84847 /* RootRouter.swift */; };
-		E9CB1D661F9730EF00D84847 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D3C1F972FE400D84847 /* RootView.swift */; };
+		E9CB1D661F9730EF00D84847 /* RootPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D3C1F972FE400D84847 /* RootPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +33,7 @@
 		E9CB1D391F972FE400D84847 /* RootComponent+LoggedOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootComponent+LoggedOut.swift"; sourceTree = "<group>"; };
 		E9CB1D3A1F972FE400D84847 /* RootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractor.swift; sourceTree = "<group>"; };
 		E9CB1D3B1F972FE400D84847 /* RootRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
-		E9CB1D3C1F972FE400D84847 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		E9CB1D3C1F972FE400D84847 /* RootPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,7 +103,7 @@
 				E9CB1D391F972FE400D84847 /* RootComponent+LoggedOut.swift */,
 				E9CB1D3A1F972FE400D84847 /* RootInteractor.swift */,
 				E9CB1D3B1F972FE400D84847 /* RootRouter.swift */,
-				E9CB1D3C1F972FE400D84847 /* RootView.swift */,
+				E9CB1D3C1F972FE400D84847 /* RootPresenter.swift */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -206,7 +206,7 @@
 				E9CB1D611F9730EF00D84847 /* RootBuilder.swift in Sources */,
 				E9CB1D531F97305A00D84847 /* AppComponent.swift in Sources */,
 				E9CB1D651F9730EF00D84847 /* RootRouter.swift in Sources */,
-				E9CB1D661F9730EF00D84847 /* RootView.swift in Sources */,
+				E9CB1D661F9730EF00D84847 /* RootPresenter.swift in Sources */,
 				E9C3E1EA1FA1BD0400781364 /* DELETE_ME.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
