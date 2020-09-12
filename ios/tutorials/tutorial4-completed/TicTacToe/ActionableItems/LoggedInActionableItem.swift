@@ -14,8 +14,8 @@
 //  limitations under the License.
 //
 
-import RxSwift
+import Combine
 
-public protocol LoggedInActionableItem: class {
-    func launchGame(with id: String?) -> Observable<(LoggedInActionableItem, ())>
+public protocol LoggedInActionableItem: AnyObject {
+    func launchGame(with id: String?) -> AnyPublisher<(LoggedInActionableItem, ()), Never>
 }

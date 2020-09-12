@@ -14,8 +14,8 @@
 //  limitations under the License.
 //
 
-import RxSwift
+import Combine
 
-public protocol RootActionableItem: class {
-    func waitForLogin() -> Observable<(LoggedInActionableItem, ())>
+public protocol RootActionableItem: AnyObject {
+    func waitForLogin() -> AnyPublisher<(LoggedInActionableItem, ()), Never>
 }

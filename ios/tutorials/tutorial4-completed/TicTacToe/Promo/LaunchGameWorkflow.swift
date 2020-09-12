@@ -14,9 +14,9 @@
 //  limitations under the License.
 //
 
+import Combine
 import Foundation
 import RIBs
-import RxSwift
 
 public class LaunchGameWorkflow: Workflow<RootActionableItem> {
     public init(url: URL) {
@@ -25,10 +25,10 @@ public class LaunchGameWorkflow: Workflow<RootActionableItem> {
         let gameId = parseGameId(from: url)
 
         self
-            .onStep { (rootItem: RootActionableItem) -> Observable<(LoggedInActionableItem, ())> in
+            .onStep { (rootItem: RootActionableItem) -> AnyPublisher<(LoggedInActionableItem, ()), Never> in
                 rootItem.waitForLogin()
             }
-            .onStep { (loggedInItem: LoggedInActionableItem, _) -> Observable<(LoggedInActionableItem, ())> in
+            .onStep { (loggedInItem: LoggedInActionableItem, _) -> AnyPublisher<(LoggedInActionableItem, ()), Never> in
                 loggedInItem.launchGame(with: gameId)
             }
             .commit()

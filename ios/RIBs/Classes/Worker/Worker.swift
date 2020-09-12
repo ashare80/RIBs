@@ -14,13 +14,13 @@
 //  limitations under the License.
 //
 
-import RxSwift
+import Combine
 
 /// The base protocol of all workers that perform a self-contained piece of logic.
 ///
 /// `Worker`s are always bound to an `Interactor`. A `Worker` can only start if its bound `Interactor` is active.
 /// It is stopped when its bound interactor is deactivated.
-public protocol Working: class {
+public protocol Working: AnyObject {
 
     /// Starts the `Worker`.
     ///
@@ -42,7 +42,7 @@ public protocol Working: class {
     ///
     /// Subscription to this stream always immediately returns the last event. This stream terminates after the
     /// `Worker` is deallocated.
-    var isStartedStream: Observable<Bool> { get }
+    var isStartedStream: AnyPublisher<Bool, Never> { get }
 }
 
 /// The base `Worker` implementation.
@@ -50,18 +50,14 @@ open class Worker: Working {
 
     /// Indicates if the `Worker` is started.
     public final var isStarted: Bool {
-        do {
-            return try isStartedSubject.value()
-        } catch {
-            return false
-        }
+        return isStartedSubject.value
     }
 
     /// The lifecycle stream of this `Worker`.
-    public final var isStartedStream: Observable<Bool> {
+    public final var isStartedStream: AnyPublisher<Bool, Never> {
         return isStartedSubject
-            .asObservable()
-            .distinctUntilChanged()
+            .removeDuplicates()
+        .eraseToAnyPublisher()
     }
 
     /// Initializer.
@@ -82,7 +78,7 @@ open class Worker: Working {
 
         stop()
 
-        isStartedSubject.onNext(true)
+        isStartedSubject.send(true)
 
         // Create a separate scope struct to avoid passing the given scope instance, since usually
         // the given instance is the interactor itself. If the interactor holds onto the worker without
@@ -109,7 +105,7 @@ open class Worker: Working {
             return
         }
 
-        isStartedSubject.onNext(false)
+        isStartedSubject.send(false)
 
         executeStop()
     }
@@ -119,7 +115,7 @@ open class Worker: Working {
     /// Subclasses should override this method abnd implement any cleanup logic that they might want to execute when
     /// the `Worker` stops. The default implementation does noting.
     ///
-    /// - note: All subscriptions added to the disposable provided in the `didStart` method are automatically disposed
+    /// - note: All subscriptions added to the disposable provided in the `didStart` method are automatically cancelled
     /// when the worker stops.
     open func didStop() {
         // No-op
@@ -127,15 +123,15 @@ open class Worker: Working {
 
     // MARK: - Private
 
-    private let isStartedSubject = BehaviorSubject<Bool>(value: false)
-    fileprivate var disposable: CompositeDisposable?
-    private var interactorBindingDisposable: Disposable?
+    private let isStartedSubject = CurrentValueSubject<Bool, Never>(false)
+    fileprivate var disposable: CompositeCancellable?
+    private var interactorBindingCancellable: Cancellable?
 
     private func bind(to interactorScope: InteractorScope) {
         unbindInteractor()
 
-        interactorBindingDisposable = interactorScope.isActiveStream
-            .subscribe(onNext: { [weak self] (isInteractorActive: Bool) in
+        interactorBindingCancellable = interactorScope.isActiveStream
+            .sink(receiveValue: { [weak self] (isInteractorActive: Bool) in
                 if isInteractorActive {
                     if self?.isStarted == true {
                         self?.executeStart(interactorScope)
@@ -147,7 +143,7 @@ open class Worker: Working {
     }
 
     private func executeStart(_ interactorScope: InteractorScope) {
-        disposable = CompositeDisposable()
+        disposable = CompositeCancellable()
         didStart(interactorScope)
     }
 
@@ -156,43 +152,43 @@ open class Worker: Working {
             return
         }
 
-        disposable.dispose()
+        disposable.cancel()
         self.disposable = nil
 
         didStop()
     }
 
     private func unbindInteractor() {
-        interactorBindingDisposable?.dispose()
-        interactorBindingDisposable = nil
+        interactorBindingCancellable?.cancel()
+        interactorBindingCancellable = nil
     }
 
     deinit {
         stop()
         unbindInteractor()
-        isStartedSubject.onCompleted()
+        isStartedSubject.send(completion: .finished)
     }
 }
 
-/// Worker related `Disposable` extensions.
-public extension Disposable {
+/// Worker related `Cancellable` extensions.
+public extension Cancellable {
 
-    /// Disposes the subscription based on the lifecycle of the given `Worker`. The subscription is disposed when the
+    /// Cancels the subscription based on the lifecycle of the given `Worker`. The subscription is cancelled when the
     /// `Worker` is stopped.
     ///
     /// If the given worker is stopped at the time this method is invoked, the subscription is immediately terminated.
     ///
     /// - note: When using this composition, the subscription closure may freely retain the `Worker` itself, since the
-    ///   subscription closure is disposed once the `Worker` is stopped, thus releasing the retain cycle before the
+    ///   subscription closure is cancelled once the `Worker` is stopped, thus releasing the retain cycle before the
     ///   `worker` needs to be deallocated.
     ///
-    /// - parameter worker: The `Worker` to dispose the subscription based on.
+    /// - parameter worker: The `Worker` to cancel the subscription based on.
     @discardableResult
-    func disposeOnStop(_ worker: Worker) -> Disposable {
-        if let compositeDisposable = worker.disposable {
-            _ = compositeDisposable.insert(self)
+    func cancelOnStop(_ worker: Worker) -> Cancellable {
+        if let compositeCancellable = worker.disposable {
+            compositeCancellable.insert(self)
         } else {
-            dispose()
+            cancel()
             print("Subscription immediately terminated, since \(worker) is stopped.")
         }
         return self
@@ -207,8 +203,8 @@ fileprivate class WeakInteractorScope: InteractorScope {
         return sourceScope?.isActive ?? false
     }
 
-    var isActiveStream: Observable<Bool> {
-        return sourceScope?.isActiveStream ?? Observable.just(false)
+    var isActiveStream: AnyPublisher<Bool, Never> {
+        return sourceScope?.isActiveStream ?? Just(false).eraseToAnyPublisher()
     }
 
     fileprivate init(sourceScope: InteractorScope) {

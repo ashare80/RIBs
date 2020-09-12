@@ -15,7 +15,6 @@
 //
 
 import RIBs
-import RxSwift
 
 public protocol BasicScoreBoardRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
@@ -26,7 +25,7 @@ protocol BasicScoreBoardPresentable: Presentable {
     func set(score: Score)
 }
 
-public protocol BasicScoreBoardListener: class {
+public protocol BasicScoreBoardListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
 }
 
@@ -55,9 +54,9 @@ final class BasicScoreBoardInteractor: PresentableInteractor<BasicScoreBoardPres
 
     private func updateScore() {
         scoreStream.score
-            .subscribe(onNext: { (score: Score) in
+            .sink(receiveValue: { (score: Score) in
                 self.presenter.set(score: score)
             })
-            .disposeOnDeactivate(interactor: self)
+            .cancelOnDeactivate(interactor: self)
     }
 }

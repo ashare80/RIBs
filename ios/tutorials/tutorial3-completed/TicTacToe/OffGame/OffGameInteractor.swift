@@ -15,7 +15,6 @@
 //
 
 import RIBs
-import RxSwift
 
 protocol OffGameRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
@@ -26,7 +25,7 @@ protocol OffGamePresentable: Presentable {
     func set(score: Score)
 }
 
-protocol OffGameListener: class {
+protocol OffGameListener: AnyObject {
     func startTicTacToe()
 }
 
@@ -58,11 +57,12 @@ final class OffGameInteractor: PresentableInteractor<OffGamePresentable>, OffGam
 
     private func updateScore() {
         scoreStream.score
-            .subscribe(onNext: { (score: Score) in
+            .sink(receiveValue: { (score: Score) in
                 self.presenter.set(score: score)
             })
-            .disposeOnDeactivate(interactor: self)
+            .cancelOnDeactivate(interactor: self)
     }
+    
     // MARK: - OffGamePresentableListener
 
     func startGame() {

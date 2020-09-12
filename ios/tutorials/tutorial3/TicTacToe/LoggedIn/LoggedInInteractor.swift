@@ -15,7 +15,6 @@
 //
 
 import RIBs
-import RxSwift
 
 enum PlayerType: Int {
     case player1 = 1
@@ -28,7 +27,7 @@ protocol LoggedInRouting: Routing {
     func routeToOffGame()
 }
 
-protocol LoggedInListener: class {
+protocol LoggedInListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
 }
 

@@ -15,21 +15,19 @@
 //
 
 import XCTest
-import RxSwift
+import Combine
 @testable import RIBs
 
 final class WorkerTests: XCTestCase {
 
     private var worker: TestWorker!
     private var interactor: InteractorMock!
-    private var disposable: DisposeBag!
+    private var cancellables: [AnyCancellable] = []
 
     // MARK: - Setup
 
     override func setUp() {
         super.setUp()
-
-        disposable = DisposeBag()
 
         worker = TestWorker()
         interactor = InteractorMock()
@@ -86,24 +84,24 @@ final class WorkerTests: XCTestCase {
 
     func test_start_stop_lifecycle() {
         worker.isStartedStream
-            .take(1)
-            .subscribe(onNext: { XCTAssertFalse($0) })
-            .disposed(by: disposable)
+            .first()
+            .sink(receiveValue: { XCTAssertFalse($0) })
+            .store(in: &cancellables)
 
         interactor.activate()
         worker.start(interactor)
 
         worker.isStartedStream
-            .take(1)
-            .subscribe(onNext: { XCTAssertTrue($0) })
-            .disposed(by: disposable)
+            .first()
+            .sink(receiveValue: { XCTAssertTrue($0) })
+            .store(in: &cancellables)
 
         worker.stop()
 
         worker.isStartedStream
-            .take(1)
-            .subscribe(onNext: { XCTAssertFalse($0) })
-            .disposed(by: disposable)
+            .first()
+            .sink(receiveValue: { XCTAssertFalse($0) })
+            .store(in: &cancellables)
     }
 }
 

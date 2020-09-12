@@ -15,8 +15,8 @@
 //
 
 @testable import TicTacToe
+import Combine
 import RIBs
-import RxSwift
 import UIKit
 
 // MARK: - LoggedInBuildableMock class
@@ -51,9 +51,9 @@ class LoggedInInteractableMock: LoggedInInteractable {
     var listenerSetCallCount = 0
     var isActive: Bool = false { didSet { isActiveSetCallCount += 1 } }
     var isActiveSetCallCount = 0
-    var isActiveStreamSubject: PublishSubject<Bool> = PublishSubject<Bool>() { didSet { isActiveStreamSubjectSetCallCount += 1 } }
+    var isActiveStreamSubject: PassthroughSubject<Bool, Never> = PassthroughSubject<Bool, Never>() { didSet { isActiveStreamSubjectSetCallCount += 1 } }
     var isActiveStreamSubjectSetCallCount = 0
-    var isActiveStream: Observable<Bool> { return isActiveStreamSubject }
+    var isActiveStream: AnyPublisher<Bool, Never> { return isActiveStreamSubject.eraseToAnyPublisher() }
 
     // Function Handlers
     var activateHandler: (() -> ())?
@@ -106,9 +106,9 @@ class LoggedInRoutingMock: LoggedInRouting {
     var interactableSetCallCount = 0
     var children: [Routing] = [Routing]() { didSet { childrenSetCallCount += 1 } }
     var childrenSetCallCount = 0
-    var lifecycleSubject: PublishSubject<RouterLifecycle> = PublishSubject<RouterLifecycle>() { didSet { lifecycleSubjectSetCallCount += 1 } }
+    var lifecycleSubject: PassthroughSubject<RouterLifecycle, Never> = PassthroughSubject<RouterLifecycle, Never>() { didSet { lifecycleSubjectSetCallCount += 1 } }
     var lifecycleSubjectSetCallCount = 0
-    var lifecycle: Observable<RouterLifecycle> { return lifecycleSubject }
+    var lifecycle: AnyPublisher<RouterLifecycle, Never> { return lifecycleSubject.eraseToAnyPublisher() }
 
     // Function Handlers
     var cleanupViewsHandler: (() -> ())?
@@ -203,9 +203,9 @@ class RootInteractableMock: RootInteractable {
     var listenerSetCallCount = 0
     var isActive: Bool = false { didSet { isActiveSetCallCount += 1 } }
     var isActiveSetCallCount = 0
-    var isActiveStreamSubject: PublishSubject<Bool> = PublishSubject<Bool>() { didSet { isActiveStreamSubjectSetCallCount += 1 } }
+    var isActiveStreamSubject: PassthroughSubject<Bool, Never> = PassthroughSubject<Bool, Never>() { didSet { isActiveStreamSubjectSetCallCount += 1 } }
     var isActiveStreamSubjectSetCallCount = 0
-    var isActiveStream: Observable<Bool> { return isActiveStreamSubject }
+    var isActiveStream: AnyPublisher<Bool, Never> { return isActiveStreamSubject.eraseToAnyPublisher() }
 
     // Function Handlers
     var activateHandler: (() -> ())?

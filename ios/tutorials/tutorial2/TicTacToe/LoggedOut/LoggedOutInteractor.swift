@@ -15,7 +15,6 @@
 //
 
 import RIBs
-import RxSwift
 
 protocol LoggedOutRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
@@ -26,7 +25,7 @@ protocol LoggedOutPresentable: Presentable {
     // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
-protocol LoggedOutListener: class {
+protocol LoggedOutListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
 }
 

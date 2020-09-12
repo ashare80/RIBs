@@ -15,7 +15,6 @@
 //
 
 import RIBs
-import RxSwift
 
 protocol RootRouting: ViewableRouting {
     func routeToLoggedIn(withPlayer1Name player1Name: String, player2Name: String)
@@ -26,7 +25,7 @@ protocol RootPresentable: Presentable {
     // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
-protocol RootListener: class {
+protocol RootListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
 }
 

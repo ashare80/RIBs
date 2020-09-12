@@ -15,7 +15,6 @@
 //
 
 import RIBs
-import RxSwift
 
 protocol OffGameRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
@@ -26,7 +25,7 @@ protocol OffGamePresentable: Presentable {
     // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
-protocol OffGameListener: class {
+protocol OffGameListener: AnyObject {
     func startTicTacToe()
 }
 

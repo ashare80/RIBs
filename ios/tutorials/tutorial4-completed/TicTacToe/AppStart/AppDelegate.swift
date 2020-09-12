@@ -15,7 +15,6 @@
 //
 
 import RIBs
-import RxSwift
 import UIKit
 
 /// Game app delegate.
@@ -56,6 +55,6 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
     private var urlHandler: UrlHandler?
 }
 
-protocol UrlHandler: class {
+protocol UrlHandler: AnyObject {
     func handle(_ url: URL)
 }

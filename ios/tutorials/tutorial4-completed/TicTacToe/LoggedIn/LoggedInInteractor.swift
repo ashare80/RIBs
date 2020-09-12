@@ -14,8 +14,8 @@
 //  limitations under the License.
 //
 
+import Combine
 import RIBs
-import RxSwift
 
 protocol LoggedInRouting: Routing {
     func cleanupViews()
@@ -23,7 +23,7 @@ protocol LoggedInRouting: Routing {
     func routeToGame(with gameBuilder: GameBuildable)
 }
 
-protocol LoggedInListener: class {
+protocol LoggedInListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
 }
 
@@ -66,7 +66,7 @@ final class LoggedInInteractor: Interactor, LoggedInInteractable, LoggedInAction
 
     // MARK: - LoggedInActionableItem
 
-    func launchGame(with id: String?) -> Observable<(LoggedInActionableItem, ())> {
+    func launchGame(with id: String?) -> AnyPublisher<(LoggedInActionableItem, ()), Never> {
         let game: Game? = games.first { game in
             return game.id.lowercased() == id?.lowercased()
         }
@@ -75,7 +75,7 @@ final class LoggedInInteractor: Interactor, LoggedInInteractable, LoggedInAction
             router?.routeToGame(with: game.builder)
         }
 
-        return Observable.just((self, ()))
+        return Just((self, ())).eraseToAnyPublisher()
     }
 
     // MARK: - Private

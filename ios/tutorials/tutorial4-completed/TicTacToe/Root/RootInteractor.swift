@@ -14,9 +14,9 @@
 //  limitations under the License.
 //
 
+import Combine
 import Foundation
 import RIBs
-import RxSwift
 
 protocol RootRouting: ViewableRouting {
     func routeToLoggedIn(withPlayer1Name player1Name: String, player2Name: String) -> LoggedInActionableItem
@@ -27,7 +27,7 @@ protocol RootPresentable: Presentable {
     // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
-protocol RootListener: class {
+protocol RootListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
 }
 
@@ -59,7 +59,7 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     func didLogin(withPlayer1Name player1Name: String, player2Name: String) {
         let loggedInActionableItem = router?.routeToLoggedIn(withPlayer1Name: player1Name, player2Name: player2Name)
         if let loggedInActionableItem = loggedInActionableItem {
-            loggedInActionableItemSubject.onNext(loggedInActionableItem)
+            loggedInActionableItemSubject.send(loggedInActionableItem)
         }
     }
 
@@ -68,20 +68,47 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     func handle(_ url: URL) {
         let launchGameWorkflow = LaunchGameWorkflow(url: url)
         launchGameWorkflow
-            .subscribe(self)
-            .disposeOnDeactivate(interactor: self)
+            .sink(self)
+            .cancelOnDeactivate(interactor: self)
     }
 
     // MARK: - RootActionableItem
 
-    func waitForLogin() -> Observable<(LoggedInActionableItem, ())> {
+    func waitForLogin() -> AnyPublisher<(LoggedInActionableItem, ()), Never> {
         return loggedInActionableItemSubject
+            .filterNil()
             .map { (loggedInItem: LoggedInActionableItem) -> (LoggedInActionableItem, ()) in
                 (loggedInItem, ())
         }
+        .eraseToAnyPublisher()
     }
 
     // MARK: - Private
 
-    private let loggedInActionableItemSubject = ReplaySubject<LoggedInActionableItem>.create(bufferSize: 1)
+    private let loggedInActionableItemSubject = CurrentValueSubject<LoggedInActionableItem?, Never>(nil)
+}
+
+protocol OptionalType {
+    associatedtype Wrapped
+    var value: Wrapped? { get }
+}
+
+extension Optional: OptionalType {
+    var value: Wrapped? {
+        return self
+    }
+}
+
+extension Publisher where Output: OptionalType {
+    func filterNil() -> AnyPublisher<Output.Wrapped, Failure> {
+        return map { (output) -> AnyPublisher<Output.Wrapped, Failure> in
+            if let output = output.value {
+                return Just(output).mapError().eraseToAnyPublisher()
+            } else {
+                return Empty().eraseToAnyPublisher()
+            }
+        }
+        .switchToLatest()
+        .eraseToAnyPublisher()
+    }
 }

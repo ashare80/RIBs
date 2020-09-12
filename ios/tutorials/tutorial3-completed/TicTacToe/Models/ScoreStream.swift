@@ -14,8 +14,7 @@
 //  limitations under the License.
 //
 
-import RxSwift
-import RxRelay
+import Combine
 
 struct Score {
     let player1Score: Int
@@ -26,8 +25,8 @@ struct Score {
     }
 }
 
-protocol ScoreStream: class {
-    var score: Observable<Score> { get }
+protocol ScoreStream: AnyObject {
+    var score: AnyPublisher<Score, Never> { get }
 }
 
 protocol MutableScoreStream: ScoreStream {
@@ -36,9 +35,9 @@ protocol MutableScoreStream: ScoreStream {
 
 class ScoreStreamImpl: MutableScoreStream {
 
-    var score: Observable<Score> {
+    var score: AnyPublisher<Score, Never> {
         return variable
-            .asObservable()
+            .asPublisher()
             .distinctUntilChanged { (lhs: Score, rhs: Score) -> Bool in
                 Score.equals(lhs: lhs, rhs: rhs)
             }
