@@ -16,7 +16,7 @@
 
 import RIBs
 
-protocol OffGameRouting: ViewableRouting {
+protocol OffGameRouting: PresentableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 

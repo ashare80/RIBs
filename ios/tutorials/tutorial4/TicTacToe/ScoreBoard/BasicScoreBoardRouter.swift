@@ -21,15 +21,11 @@ protocol BasicScoreBoardInteractable: Interactable {
     var listener: BasicScoreBoardListener? { get set }
 }
 
-protocol BasicScoreBoardViewControllable: ViewControllable {
-    // TODO: Declare methods the router invokes to manipulate the view hierarchy.
-}
-
-final class BasicScoreBoardRouter: ViewableRouter<BasicScoreBoardInteractable, BasicScoreBoardViewControllable>, BasicScoreBoardRouting {
+final class BasicScoreBoardRouter: PresentableRouter<BasicScoreBoardInteractable, BasicScoreBoardPresentable>, BasicScoreBoardRouting {
 
     // TODO: Constructor inject child builder protocols to allow building children.
-    override init(interactor: BasicScoreBoardInteractable, viewController: BasicScoreBoardViewControllable) {
-        super.init(interactor: interactor, viewController: viewController)
+    override init(interactor: BasicScoreBoardInteractable, presenter: BasicScoreBoardPresentable) {
+        super.init(interactor: interactor, presenter: presenter)
         interactor.router = self
     }
 }

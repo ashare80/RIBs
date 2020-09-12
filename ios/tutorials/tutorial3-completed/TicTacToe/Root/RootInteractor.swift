@@ -16,13 +16,8 @@
 
 import RIBs
 
-protocol RootRouting: ViewableRouting {
+protocol RootRouting: PresentableRouting {
     func routeToLoggedIn(withPlayer1Name player1Name: String, player2Name: String)
-}
-
-protocol RootPresentable: Presentable {
-    var listener: RootPresentableListener? { get set }
-    // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
 protocol RootListener: AnyObject {

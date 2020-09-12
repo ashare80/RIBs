@@ -15,24 +15,29 @@
 //
 
 import RIBs
-import UIKit
+import SwiftUI
 
 protocol LoggedOutDependency {}
 
 protocol LoggedOutListener {}
 
 protocol LoggedOutBuildable {
-    func build(withListener: LoggedOutListener) -> ViewableRouting
+    func build(withListener: LoggedOutListener) -> PresentableRouting
 }
 
-class LoggedOutInteractor: Interactor {}
+final class LoggedOutInteractor: Interactor {}
 
-class LoggedOutViewController: UIViewController, ViewControllable {
+final class LoggedOutPresenter: Presenter<LoggedOutView>, ViewPresentable {
 }
 
-class LoggedOutBuilder: LoggedOutBuildable {
+struct LoggedOutView: PresenterView {
+    @ObservedObject var presenter: LoggedOutPresenter
+    var body: some View { EmptyView() }
+}
+
+final class LoggedOutBuilder: LoggedOutBuildable {
     init(dependency: Any) {}
-    func build(withListener: LoggedOutListener) -> ViewableRouting {
-        return ViewableRouter<Interactable, ViewControllable>(interactor: LoggedOutInteractor(), viewController: LoggedOutViewController())
+    func build(withListener: LoggedOutListener) -> PresentableRouting {
+        return PresentableRouter<Interactable, Presentable>(interactor: LoggedOutInteractor(), presenter: LoggedOutPresenter())
     }
 }

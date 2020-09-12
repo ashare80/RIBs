@@ -32,7 +32,7 @@ class RandomWinAdapter: Game, GameBuildable, RandomWinListener {
         randomWinBuilder = RandomWinBuilder(dependency: dependency)
     }
 
-    func build(withListener listener: GameListener) -> ViewableRouting {
+    func build(withListener listener: GameListener) -> PresentableRouting {
         self.listener = listener
         return randomWinBuilder.build(withListener: self)
     }

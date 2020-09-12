@@ -15,72 +15,43 @@
 //
 
 import RIBs
-import SnapKit
-import UIKit
+import SwiftUI
 
 protocol LoggedOutPresentableListener: AnyObject {
     func login(withPlayer1Name: String?, player2Name: String?)
 }
 
-final class LoggedOutViewController: UIViewController, LoggedOutPresentable, LoggedOutViewControllable {
-
+final class LoggedOutPresenter: Presenter<LoggedOutView>, ViewPresentable, LoggedOutPresentable {
+    
     weak var listener: LoggedOutPresentableListener?
+    
+    @Published var player1: String = ""
+    @Published var player2: String = ""
+    
+    func loginButtonTouchUpInside() {
+        listener?.login(withPlayer1Name: player1, player2Name: player2)
+    }
+}
 
-    init() {
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("Method is not supported")
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.backgroundColor = UIColor.white
-        buildPlayerFields()
-        buildLoginButton()
-    }
+struct LoggedOutView: PresenterView {
+    @ObservedObject var presenter: LoggedOutPresenter
     
-    // MARK: - Private
-    
-    private lazy var player1Field = UITextField()
-    private lazy var player2Field = UITextField()
-    
-    private func buildPlayerFields() {
-        player1Field.borderStyle = UITextField.BorderStyle.line
-        view.addSubview(player1Field)
-        player1Field.placeholder = "Player 1 name"
-        player1Field.snp.makeConstraints { (maker: ConstraintMaker) in
-            maker.top.equalTo(view).offset(100)
-            maker.leading.trailing.equalTo(view).inset(40)
-            maker.height.equalTo(40)
+    var body: some View {
+        VStack {
+            TextField("Player 1 name", text: $presenter.player1)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            TextField("Player 2 name", text: $presenter.player2)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            Button(action: presenter.loginButtonTouchUpInside,
+                   label: {
+                    Text("Login")
+                        .padding(8)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.black)
+                        .foregroundColor(Color.white)
+            })
         }
-        
-        player2Field.borderStyle = UITextField.BorderStyle.line
-        view.addSubview(player2Field)
-        player2Field.placeholder = "Player 2 name"
-        player2Field.snp.makeConstraints { (maker: ConstraintMaker) in
-            maker.top.equalTo(player1Field.snp.bottom).offset(20)
-            maker.left.right.height.equalTo(player1Field)
-        }
-    }
-    
-    private func buildLoginButton() {
-        let loginButton = UIButton()
-        view.addSubview(loginButton)
-        loginButton.snp.makeConstraints { (maker: ConstraintMaker) in
-            maker.top.equalTo(player2Field.snp.bottom).offset(20)
-            maker.left.right.height.equalTo(player1Field)
-        }
-        loginButton.setTitle("Login", for: .normal)
-        loginButton.setTitleColor(UIColor.white, for: .normal)
-        loginButton.backgroundColor = UIColor.black
-        loginButton.addTarget(self, action: #selector(loginButtonTouchUpInside), for: .touchUpInside)
-    }
-    
-    @objc
-    private func loginButtonTouchUpInside() {
-        listener?.login(withPlayer1Name: player1Field.text, player2Name: player2Field.text)
+        .background(Color.white)
+        .padding(16)
     }
 }

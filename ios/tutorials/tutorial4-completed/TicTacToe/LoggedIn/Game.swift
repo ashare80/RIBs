@@ -21,7 +21,7 @@ public protocol GameListener: AnyObject {
 }
 
 public protocol GameBuildable: Buildable {
-    func build(withListener listener: GameListener) -> ViewableRouting
+    func build(withListener listener: GameListener) -> PresentableRouting
 }
 
 public protocol Game {

@@ -17,7 +17,7 @@
 @testable import TicTacToe
 import Combine
 import RIBs
-import UIKit
+import SwiftUI
 
 // MARK: - LoggedInBuildableMock class
 
@@ -240,34 +240,38 @@ class RootInteractableMock: RootInteractable {
     }
 }
 
-// MARK: - RootViewControllableMock class
+// MARK: - RootPresentableMock class
 
-/// A RootViewControllableMock class used for testing.
-class RootViewControllableMock: RootViewControllable {
+struct ViewableMock: Viewable {
+    let asAnyPresenter: AnyView = EmptyView().asAnyView
+}
+
+/// A RootPresentableMock class used for testing.
+class RootPresentableMock: RootPresentable {
     // Variables
-    var uiviewController: UIViewController = UIViewController() { didSet { uiviewControllerSetCallCount += 1 } }
-    var uiviewControllerSetCallCount = 0
+    var view: Viewable = ViewableMock() { didSet { viewSetCallCount += 1 } }
+    var viewSetCallCount = 0
 
     // Function Handlers
-    var presentHandler: ((_ viewController: ViewControllable) -> ())?
+    var presentHandler: ((_ presenter: Presentable) -> ())?
     var presentCallCount: Int = 0
-    var dismissHandler: ((_ viewController: ViewControllable) -> ())?
+    var dismissHandler: ((_ presenter: Presentable) -> ())?
     var dismissCallCount: Int = 0
 
     init() {
     }
 
-    func present(viewController: ViewControllable) {
+    func present(presenter: Presentable) {
         presentCallCount += 1
         if let presentHandler = presentHandler {
-            return presentHandler(viewController)
+            return presentHandler(view)
         }
     }
 
-    func dismiss(viewController: ViewControllable) {
+    func dismiss(presenter: Presentable) {
         dismissCallCount += 1
         if let dismissHandler = dismissHandler {
-            return dismissHandler(viewController)
+            return dismissHandler(view)
         }
     }
 }

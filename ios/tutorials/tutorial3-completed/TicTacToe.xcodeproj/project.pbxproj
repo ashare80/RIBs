@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7EDD59501FA13579005EC8B2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EDD594F1FA13579005EC8B2 /* Default-568h@2x.png */; };
-		E37156E82503DB6E00797747 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E37156E72503DB6E00797747 /* SnapKit */; };
+		E34E6D03250C4C63001DC023 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34E6D02250C4C63001DC023 /* SceneDelegate.swift */; };
 		E37156F32503DBC400797747 /* RIBs in Frameworks */ = {isa = PBXBuildFile; productRef = E37156F22503DBC400797747 /* RIBs */; };
 		E9CB1D521F97303800D84847 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D351F972FD500D84847 /* AppDelegate.swift */; };
 		E9CB1D531F97305A00D84847 /* AppComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D341F972FD500D84847 /* AppComponent.swift */; };
@@ -40,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		7EDD594F1FA13579005EC8B2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		E34E6D02250C4C63001DC023 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E37156F02503DBB200797747 /* RIBs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = RIBs; path = ../../..; sourceTree = "<group>"; };
 		E9894B4A1F972CC500688FCB /* TicTacToe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TicTacToe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9894B591F972CC500688FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -77,7 +78,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E37156F32503DBC400797747 /* RIBs in Frameworks */,
-				E37156E82503DB6E00797747 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +136,7 @@
 		E9CB1D331F972FD500D84847 /* AppStart */ = {
 			isa = PBXGroup;
 			children = (
+				E34E6D02250C4C63001DC023 /* SceneDelegate.swift */,
 				E9CB1D341F972FD500D84847 /* AppComponent.swift */,
 				E9CB1D351F972FD500D84847 /* AppDelegate.swift */,
 			);
@@ -225,7 +226,6 @@
 			);
 			name = TicTacToe;
 			packageProductDependencies = (
-				E37156E72503DB6E00797747 /* SnapKit */,
 				E37156F22503DBC400797747 /* RIBs */,
 			);
 			productName = TicTacToe;
@@ -259,7 +259,6 @@
 			);
 			mainGroup = E9894B411F972CC500688FCB;
 			packageReferences = (
-				E37156E62503DB6E00797747 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = E9894B4B1F972CC500688FCB /* Products */;
 			projectDirPath = "";
@@ -297,6 +296,7 @@
 				E9CB1D591F9730E700D84847 /* LoggedOutBuilder.swift in Sources */,
 				E9CB1D581F9730E400D84847 /* LoggedInRouter.swift in Sources */,
 				E9CB1D5F1F9730EB00D84847 /* OffGameRouter.swift in Sources */,
+				E34E6D03250C4C63001DC023 /* SceneDelegate.swift in Sources */,
 				E9CB1D611F9730EF00D84847 /* RootBuilder.swift in Sources */,
 				E9CB1D671F9730F300D84847 /* TicTacToeBuilder.swift in Sources */,
 				E9CB1D6A1F9730F300D84847 /* TicTacToeViewController.swift in Sources */,
@@ -487,23 +487,7 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		E37156E62503DB6E00797747 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
-			requirement = {
-				branch = develop;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		E37156E72503DB6E00797747 /* SnapKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E37156E62503DB6E00797747 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
-		};
 		E37156F22503DBC400797747 /* RIBs */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RIBs;

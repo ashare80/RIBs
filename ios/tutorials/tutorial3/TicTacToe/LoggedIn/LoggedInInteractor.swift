@@ -16,9 +16,11 @@
 
 import RIBs
 
-enum PlayerType: Int {
+enum PlayerType: Int, Identifiable {
     case player1 = 1
     case player2
+    
+    var id: Int { rawValue }
 }
 
 protocol LoggedInRouting: Routing {

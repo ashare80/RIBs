@@ -16,7 +16,7 @@
 
 import RIBs
 
-protocol LoggedOutRouting: ViewableRouting {
+protocol LoggedOutRouting: PresentableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 

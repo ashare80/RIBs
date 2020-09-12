@@ -40,9 +40,9 @@ final class OffGameBuilder: Builder<OffGameDependency>, OffGameBuildable {
 
     func build(withListener listener: OffGameListener) -> OffGameRouting {
         _ = OffGameComponent(dependency: dependency)
-        let viewController = OffGameViewController()
-        let interactor = OffGameInteractor(presenter: viewController)
+        let presenter = OffGamePresenter()
+        let interactor = OffGameInteractor(presenter: presenter)
         interactor.listener = listener
-        return OffGameRouter(interactor: interactor, viewController: viewController)
+        return OffGameRouter(interactor: interactor, presenter: presenter)
     }
 }

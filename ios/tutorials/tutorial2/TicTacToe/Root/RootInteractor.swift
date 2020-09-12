@@ -16,13 +16,13 @@
 
 import RIBs
 
-protocol RootRouting: ViewableRouting {
+protocol RootRouting: PresentableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 
 protocol RootPresentable: Presentable {
     var listener: RootPresentableListener? { get set }
-    // TODO: Declare methods the interactor can invoke the presenter to present data.
+    func present(presenter: Presentable)
 }
 
 protocol RootListener: AnyObject {
@@ -39,7 +39,7 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     // in constructor.
     override init(presenter: RootPresentable) {
         super.init(presenter: presenter)
-        presenter.listener = self
+        self.presenter.listener = self
     }
 
     override func didBecomeActive() {

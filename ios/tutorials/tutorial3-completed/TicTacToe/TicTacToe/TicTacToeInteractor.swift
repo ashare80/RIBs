@@ -16,14 +16,14 @@
 
 import RIBs
 
-protocol TicTacToeRouting: ViewableRouting {
+protocol TicTacToeRouting: PresentableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 
 protocol TicTacToePresentable: Presentable {
     var listener: TicTacToePresentableListener? { get set }
     func setCell(atRow row: Int, col: Int, withPlayerType playerType: PlayerType)
-    func announce(winner: PlayerType?, withCompletionHandler handler: @escaping () -> ())
+    func announce(winner: PlayerType?)
 }
 
 protocol TicTacToeListener: AnyObject {
@@ -31,7 +31,7 @@ protocol TicTacToeListener: AnyObject {
 }
 
 final class TicTacToeInteractor: PresentableInteractor<TicTacToePresentable>, TicTacToeInteractable, TicTacToePresentableListener {
-
+    
     weak var router: TicTacToeRouting?
 
     weak var listener: TicTacToeListener?
@@ -66,10 +66,12 @@ final class TicTacToeInteractor: PresentableInteractor<TicTacToePresentable>, Ti
         presenter.setCell(atRow: row, col: col, withPlayerType: currentPlayer)
 
         if let winner = checkWinner() {
-            presenter.announce(winner: winner) {
-                self.listener?.gameDidEnd(withWinner: winner)
-            }
+            presenter.announce(winner: winner)
         }
+    }
+    
+    func closeGame() {
+        self.listener?.gameDidEnd(withWinner: checkWinner())
     }
 
     // MARK: - Private

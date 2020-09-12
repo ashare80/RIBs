@@ -16,7 +16,7 @@
 
 import RIBs
 
-protocol TicTacToeRouting: ViewableRouting {
+protocol TicTacToeRouting: PresentableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 
@@ -40,7 +40,7 @@ final class TicTacToeInteractor: PresentableInteractor<TicTacToePresentable>, Ti
     // in constructor.
     override init(presenter: TicTacToePresentable) {
         super.init(presenter: presenter)
-        presenter.listener = self
+        self.presenter.listener = self
     }
 
     override func didBecomeActive() {
@@ -146,9 +146,12 @@ final class TicTacToeInteractor: PresentableInteractor<TicTacToePresentable>, Ti
     }
 }
 
-enum PlayerType: Int {
+enum PlayerType: Int, Identifiable {
     case red = 1
     case blue
+
+    /// The stable identity of the entity associated with `self`.
+    var id: Int { rawValue }
 }
 
 struct GameConstants {

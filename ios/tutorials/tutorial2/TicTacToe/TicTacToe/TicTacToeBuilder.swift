@@ -21,10 +21,7 @@ protocol TicTacToeDependency: Dependency {
     // created by this RIB.
 }
 
-final class TicTacToeComponent: Component<TicTacToeDependency> {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
-}
+final class TicTacToeComponent: Component<TicTacToeDependency> {}
 
 // MARK: - Builder
 
@@ -40,9 +37,9 @@ final class TicTacToeBuilder: Builder<TicTacToeDependency>, TicTacToeBuildable {
 
     func build(withListener listener: TicTacToeListener) -> TicTacToeRouting {
         _ = TicTacToeComponent(dependency: dependency)
-        let viewController = TicTacToeViewController()
-        let interactor = TicTacToeInteractor(presenter: viewController)
+        let presenter = TicTacToePresenter()
+        let interactor = TicTacToeInteractor(presenter: presenter)
         interactor.listener = listener
-        return TicTacToeRouter(interactor: interactor, viewController: viewController)
+        return TicTacToeRouter(interactor: interactor, presenter: presenter)
     }
 }

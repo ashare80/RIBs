@@ -21,18 +21,18 @@ protocol LoggedInInteractable: Interactable, OffGameListener, TicTacToeListener 
     var listener: LoggedInListener? { get set }
 }
 
-protocol LoggedInViewControllable: ViewControllable {
-    func present(viewController: ViewControllable)
-    func dismiss(viewController: ViewControllable)
+protocol LoggedInPresentable: Presentable {
+    func present(presenter: Presentable)
+    func dismiss(presenter: Presentable)
 }
 
 final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
 
     init(interactor: LoggedInInteractable,
-         viewController: LoggedInViewControllable,
+         presenter: LoggedInPresentable,
          offGameBuilder: OffGameBuildable,
          ticTacToeBuilder: TicTacToeBuildable) {
-        self.viewController = viewController
+        self.presenter = presenter
         self.offGameBuilder = offGameBuilder
         self.ticTacToeBuilder = ticTacToeBuilder
         super.init(interactor: interactor)
@@ -48,7 +48,7 @@ final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
 
     func cleanupViews() {
         if let currentChild = currentChild {
-            viewController.dismiss(viewController: currentChild.viewControllable)
+            presenter.dismiss(presenter: currentChild.presentable)
         }
     }
 
@@ -58,7 +58,7 @@ final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
         let ticTacToe = ticTacToeBuilder.build(withListener: interactor)
         currentChild = ticTacToe
         attachChild(ticTacToe)
-        viewController.present(viewController: ticTacToe.viewControllable)
+        presenter.present(presenter: ticTacToe.presentable)
     }
 
     func routeToOffGame() {
@@ -68,24 +68,23 @@ final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
 
     // MARK: - Private
 
-    private let viewController: LoggedInViewControllable
+    private let presenter: LoggedInPresentable
     private let offGameBuilder: OffGameBuildable
     private let ticTacToeBuilder: TicTacToeBuildable
 
-    private var currentChild: ViewableRouting?
+    private var currentChild: PresentableRouting?
 
     private func attachOffGame() {
         let offGame = offGameBuilder.build(withListener: interactor)
         self.currentChild = offGame
         attachChild(offGame)
-        offGame.viewControllable.uiviewController.modalPresentationStyle = .fullScreen
-        viewController.present(viewController: offGame.viewControllable)
+        presenter.present(presenter: offGame.presentable)
     }
 
     private func detachCurrentChild() {
         if let currentChild = currentChild {
             detachChild(currentChild)
-            viewController.dismiss(viewController: currentChild.viewControllable)
+            presenter.dismiss(presenter: currentChild.presentable)
         }
     }
 }

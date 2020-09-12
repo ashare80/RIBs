@@ -21,20 +21,21 @@ protocol RootInteractable: Interactable, LoggedOutListener, LoggedInListener {
     var listener: RootListener? { get set }
 }
 
-protocol RootViewControllable: ViewControllable {
-    func present(viewController: ViewControllable)
-    func dismiss(viewController: ViewControllable)
+protocol RootPresentable: Presentable {
+    var listener: RootPresentableListener? { get set }
+    func present(presenter: Presentable)
+    func dismiss(presenter: Presentable)
 }
 
-final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, RootRouting {
+final class RootRouter: LaunchRouter<RootInteractable, RootPresentable>, RootRouting {
 
     init(interactor: RootInteractable,
-         viewController: RootViewControllable,
+         presenter: RootPresentable,
          loggedOutBuilder: LoggedOutBuildable,
          loggedInBuilder: LoggedInBuildable) {
         self.loggedOutBuilder = loggedOutBuilder
         self.loggedInBuilder = loggedInBuilder
-        super.init(interactor: interactor, viewController: viewController)
+        super.init(interactor: interactor, presenter: presenter)
         interactor.router = self
     }
 
@@ -48,11 +49,13 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         // Detach logged out.
         if let loggedOut = self.loggedOut {
             detachChild(loggedOut)
-            viewController.dismiss(viewController: loggedOut.viewControllable)
+            presenter.dismiss(presenter: loggedOut.presentable)
             self.loggedOut = nil
         }
 
-        let loggedIn = loggedInBuilder.build(withListener: interactor, player1Name: player1Name, player2Name: player2Name)
+        let loggedIn = loggedInBuilder.build(withListener: interactor,
+                                             player1Name: player1Name,
+                                             player2Name: player2Name)
         attachChild(loggedIn)
     }
 
@@ -61,13 +64,12 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
     private let loggedOutBuilder: LoggedOutBuildable
     private let loggedInBuilder: LoggedInBuildable
 
-    private var loggedOut: ViewableRouting?
+    private var loggedOut: PresentableRouting?
 
     private func routeToLoggedOut() {
         let loggedOut = loggedOutBuilder.build(withListener: interactor)
         self.loggedOut = loggedOut
         attachChild(loggedOut)
-        loggedOut.viewControllable.uiviewController.modalPresentationStyle = .fullScreen
-        viewController.present(viewController: loggedOut.viewControllable)
+        presenter.present(presenter: loggedOut.presentable)
     }
 }

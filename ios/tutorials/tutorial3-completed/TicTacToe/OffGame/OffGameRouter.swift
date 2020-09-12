@@ -21,15 +21,11 @@ protocol OffGameInteractable: Interactable {
     var listener: OffGameListener? { get set }
 }
 
-protocol OffGameViewControllable: ViewControllable {
-    // TODO: Declare methods the router invokes to manipulate the view hierarchy.
-}
-
-final class OffGameRouter: ViewableRouter<OffGameInteractable, OffGameViewControllable>, OffGameRouting {
+final class OffGameRouter: PresentableRouter<OffGameInteractable, OffGamePresentable>, OffGameRouting {
 
     // TODO: Constructor inject child builder protocols to allow building children.
-    override init(interactor: OffGameInteractable, viewController: OffGameViewControllable) {
-        super.init(interactor: interactor, viewController: viewController)
+    override init(interactor: OffGameInteractable, presenter: OffGamePresentable) {
+        super.init(interactor: interactor, presenter: presenter)
         interactor.router = self
     }
 }

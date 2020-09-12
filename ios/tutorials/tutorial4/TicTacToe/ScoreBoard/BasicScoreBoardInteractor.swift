@@ -16,7 +16,7 @@
 
 import RIBs
 
-public protocol BasicScoreBoardRouting: ViewableRouting {
+public protocol BasicScoreBoardRouting: PresentableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 

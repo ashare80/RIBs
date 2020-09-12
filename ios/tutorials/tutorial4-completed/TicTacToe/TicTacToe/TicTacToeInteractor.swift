@@ -16,14 +16,14 @@
 
 import RIBs
 
-public protocol TicTacToeRouting: ViewableRouting {
+public protocol TicTacToeRouting: PresentableRouting {
     // TODO: Delcare methods the interactor can invoke to manage sub-tree via the router.
 }
 
 protocol TicTacToePresentable: Presentable {
     var listener: TicTacToePresentableListener? { get set }
     func setCell(atRow row: Int, col: Int, withPlayerType playerType: PlayerType)
-    func announce(winner: PlayerType?, withCompletionHandler handler: @escaping () -> ())
+    func announce(winner: PlayerType?)
 }
 
 public protocol TicTacToeListener: AnyObject {
@@ -67,14 +67,21 @@ final class TicTacToeInteractor: PresentableInteractor<TicTacToePresentable>, Ti
 
         let endGame = checkEndGame()
         if endGame.didEnd {
+            self.endGame = endGame
+            
             if let winner = endGame.winner {
                 mutableScoreStream.updateScore(with: winner)
             }
 
-            presenter.announce(winner: endGame.winner) {
-                self.listener?.ticTacToeDidEnd(with: endGame.winner)
-            }
+            presenter.announce(winner: endGame.winner)
         }
+    }
+    
+    var endGame: (winner: PlayerType?, didEnd: Bool)?
+
+    func closeGame() {
+        guard let endGame = endGame else { return }
+        self.listener?.ticTacToeDidEnd(with: endGame.winner)
     }
 
     // MARK: - Private

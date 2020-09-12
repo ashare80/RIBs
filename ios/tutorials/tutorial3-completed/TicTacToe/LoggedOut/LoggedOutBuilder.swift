@@ -40,9 +40,9 @@ final class LoggedOutBuilder: Builder<LoggedOutDependency>, LoggedOutBuildable {
 
     func build(withListener listener: LoggedOutListener) -> LoggedOutRouting {
         _ = LoggedOutComponent(dependency: dependency)
-        let viewController = LoggedOutViewController()
-        let interactor = LoggedOutInteractor(presenter: viewController)
+        let presenter = LoggedOutPresenter()
+        let interactor = LoggedOutInteractor(presenter: presenter)
         interactor.listener = listener
-        return LoggedOutRouter(interactor: interactor, viewController: viewController)
+        return LoggedOutRouter(interactor: interactor, presenter: presenter)
     }
 }

@@ -23,12 +23,10 @@ protocol RootDependency: Dependency {
 
 final class RootComponent: Component<RootDependency> {
 
-    let rootViewController: RootViewController
-
-    init(dependency: RootDependency,
-         rootViewController: RootViewController) {
-        self.rootViewController = rootViewController
-        super.init(dependency: dependency)
+    var rootPresenter: RootPresenter {
+        shared {
+            RootPresenter()
+        }
     }
 }
 
@@ -45,15 +43,13 @@ final class RootBuilder: Builder<RootDependency>, RootBuildable {
     }
 
     func build() -> LaunchRouting {
-        let viewController = RootViewController()
-        let component = RootComponent(dependency: dependency,
-                                      rootViewController: viewController)
-        let interactor = RootInteractor(presenter: viewController)
+        let component = RootComponent(dependency: dependency)
+        let interactor = RootInteractor(presenter: component.rootPresenter)
 
         let loggedOutBuilder = LoggedOutBuilder(dependency: component)
         let loggedInBuilder = LoggedInBuilder(dependency: component)
         return RootRouter(interactor: interactor,
-                          viewController: viewController,
+                          presenter: component.rootPresenter,
                           loggedOutBuilder: loggedOutBuilder,
                           loggedInBuilder: loggedInBuilder)
     }

@@ -15,62 +15,32 @@
 //
 
 import RIBs
-import SnapKit
-import UIKit
+import SwiftUI
 
 protocol OffGamePresentableListener: AnyObject {
     func startGame()
 }
 
-final class OffGameViewController: UIViewController, OffGamePresentable, OffGameViewControllable {
-
+final class OffGamePresenter: Presenter<OffGameView>, ViewPresentable, OffGamePresentable {
     weak var listener: OffGamePresentableListener?
-
-    init() {
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("Method is not supported")
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        view.backgroundColor = UIColor.yellow
-        buildStartButton()
-    }
-
-    // MARK: - Private
-
-    private func buildStartButton() {
-        let startButton = UIButton()
-        view.addSubview(startButton)
-        startButton.snp.makeConstraints { (maker: ConstraintMaker) in
-            maker.center.equalTo(self.view.snp.center)
-            maker.leading.trailing.equalTo(self.view).inset(40)
-            maker.height.equalTo(100)
-        }
-        startButton.setTitle("Start Game", for: .normal)
-        startButton.setTitleColor(UIColor.white, for: .normal)
-        startButton.backgroundColor = UIColor.black
-        startButton.addTarget(self, action: #selector(startButtonDidTouchUpInside), for: .touchUpInside)
-    }
-    
-    @objc
-    private func startButtonDidTouchUpInside() {
-        listener?.startGame()
-    }
 }
 
-extension PlayerType {
-
-    var color: UIColor {
-        switch self {
-        case .player1:
-            return UIColor.red
-        case .player2:
-            return UIColor.blue
+struct OffGameView: PresenterView {
+    @ObservedObject var presenter: OffGamePresenter
+    
+    var body: some View {
+        VStack {
+            Button(action: {
+                self.presenter.listener?.startGame()
+            }, label: {
+                Text("Start Game")
+                    .padding(8)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.black)
+                    .foregroundColor(Color.white)
+            })
         }
+        .background(Color.white)
+        .padding(16)
     }
 }

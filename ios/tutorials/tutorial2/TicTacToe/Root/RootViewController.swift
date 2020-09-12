@@ -15,8 +15,7 @@
 //
 
 import RIBs
-import SnapKit
-import UIKit
+import SwiftUI
 
 protocol RootPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
@@ -24,27 +23,32 @@ protocol RootPresentableListener: AnyObject {
     // interactor class.
 }
 
-final class RootViewController: UIViewController, RootPresentable, RootViewControllable {
-
+final class RootPresenter: Presenter<RootView>, ViewPresentable, RootPresentable {
+    
+    @Published var presentedPresenter: Presentable?
+    
     weak var listener: RootPresentableListener?
-
-    init() {
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("Method is not supported")
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        view.backgroundColor = UIColor.white
-    }
-
-    // MARK: - RootViewControllable
-
-    func present(viewController: ViewControllable) {
-        present(viewController.uiviewController, animated: true, completion: nil)
+    
+    func present(presenter: Presentable) {
+        presentedPresenter = presenter
     }
 }
+
+struct RootView: PresenterView {
+    
+    @ObservedObject var presenter: RootPresenter
+    
+    var body: some View {
+        presenter.presentedPresenter?.viewable.asAnyView
+    }
+}
+
+// MARK: - Preview
+
+#if DEBUG
+struct RootView_Previews: PreviewProvider {
+    static var previews: some View {
+        RootView(presenter: RootPresenter())
+    }
+}
+#endif

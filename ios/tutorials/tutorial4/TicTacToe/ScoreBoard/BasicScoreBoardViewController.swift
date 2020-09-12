@@ -15,8 +15,7 @@
 //
 
 import RIBs
-import SnapKit
-import UIKit
+import SwiftUI
 
 protocol BasicScoreBoardPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
@@ -24,91 +23,49 @@ protocol BasicScoreBoardPresentableListener: AnyObject {
     // interactor class.
 }
 
-final class BasicScoreBoardViewController: UIViewController, BasicScoreBoardPresentable, BasicScoreBoardViewControllable {
+final class BasicScoreBoardPresenter: Presenter<BasicScoreBoardView>, ViewPresentable, BasicScoreBoardPresentable {
 
     weak var listener: BasicScoreBoardPresentableListener?
-
-    init(player1Name: String,
-         player2Name: String) {
+    
+    @Published var player1Text: String = ""
+    @Published var player2Text: String = ""
+    @Published var score: Score?
+    
+    private let player1Name: String
+    private let player2Name: String
+    
+    init(player1Name: String, player2Name: String) {
         self.player1Name = player1Name
         self.player2Name = player2Name
-        super.init(nibName: nil, bundle: nil)
+        super.init()
+        setText(player1Score: 0, player2Score: 0)
     }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("Method is not supported")
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        view.backgroundColor = UIColor.clear
-        buildPlayerLabels()
-    }
-
-    // MARK: - OffGamePresentable
+    
+    // MARK: - BasicScoreBoardPresentable
 
     func set(score: Score) {
         self.score = score
+        setText(player1Score: score.player1Score, player2Score: score.player2Score)
     }
-
-    // MARK: - Private
-
-    private let player1Name: String
-    private let player2Name: String
-
-    private var score: Score?
-
-    private var player1Label: UILabel?
-    private var player2Label: UILabel?
-
-    private func buildPlayerLabels() {
-        let labelBuilder: (UIColor) -> UILabel = { (color: UIColor) in
-            let label = UILabel()
-            label.font = UIFont.boldSystemFont(ofSize: 35)
-            label.backgroundColor = UIColor.clear
-            label.textColor = color
-            label.textAlignment = .center
-            return label
-        }
-
-        let player1Label = labelBuilder(PlayerType.player1.color)
-        self.player1Label = player1Label
-        view.addSubview(player1Label)
-        player1Label.snp.makeConstraints { (maker: ConstraintMaker) in
-            maker.top.leading.trailing.equalTo(self.view)
-            maker.height.equalTo(40)
-        }
-
-        let vsLabel = UILabel()
-        vsLabel.font = UIFont.systemFont(ofSize: 25)
-        vsLabel.backgroundColor = UIColor.clear
-        vsLabel.textColor = UIColor.darkGray
-        vsLabel.textAlignment = .center
-        vsLabel.text = "vs"
-        view.addSubview(vsLabel)
-        vsLabel.snp.makeConstraints { (maker: ConstraintMaker) in
-            maker.top.equalTo(player1Label.snp.bottom).offset(10)
-            maker.leading.trailing.equalTo(player1Label)
-            maker.height.equalTo(20)
-        }
-
-        let player2Label = labelBuilder(PlayerType.player2.color)
-        self.player2Label = player2Label
-        view.addSubview(player2Label)
-        player2Label.snp.makeConstraints { (maker: ConstraintMaker) in
-            maker.top.equalTo(vsLabel.snp.bottom).offset(10)
-            maker.height.leading.trailing.equalTo(player1Label)
-        }
-
-        updatePlayerLabels()
+    
+    private func setText(player1Score: Int, player2Score: Int) {
+        player1Text = "\(player1Name) (\(player1Score))"
+        player2Text = "\(player2Name) (\(player2Score))"
     }
+}
 
-    private func updatePlayerLabels() {
-        let player1Score = score?.player1Score ?? 0
-        player1Label?.text = "\(player1Name) (\(player1Score))"
 
-        let player2Score = score?.player2Score ?? 0
-        player2Label?.text = "\(player2Name) (\(player2Score))"
+struct BasicScoreBoardView: PresenterView {
+    @ObservedObject var presenter: BasicScoreBoardPresenter
+    
+    var body: some View {
+        VStack {
+            Text(presenter.player1Text)
+            .padding(8)
+            Text("vs")
+            .padding(8)
+            Text(presenter.player2Text)
+            .padding(8)
+        }
     }
 }

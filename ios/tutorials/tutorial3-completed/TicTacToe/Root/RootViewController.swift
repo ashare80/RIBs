@@ -15,8 +15,11 @@
 //
 
 import RIBs
-import SnapKit
-import UIKit
+import SwiftUI
+
+
+import RIBs
+import SwiftUI
 
 protocol RootPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
@@ -24,39 +27,47 @@ protocol RootPresentableListener: AnyObject {
     // interactor class.
 }
 
-final class RootViewController: UIViewController, RootPresentable, RootViewControllable {
-
+final class RootPresenter: Presenter<RootView>, ViewPresentable, RootPresentable {
+    
+    @Published var presentedPresenter: Presentable?
+    
     weak var listener: RootPresentableListener?
-
-    init() {
-        super.init(nibName: nil, bundle: nil)
+    
+    
+    // MARK: - RootPresentable
+    
+    func present(presenter: Presentable) {
+        presentedPresenter = presenter
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("Method is not supported")
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        view.backgroundColor = UIColor.white
-    }
-
-    // MARK: - RootViewControllable
-
-    func present(viewController: ViewControllable) {
-        present(viewController.uiviewController, animated: true, completion: nil)
-    }
-
-    func dismiss(viewController: ViewControllable) {
-        if presentedViewController === viewController.uiviewController {
-            dismiss(animated: true, completion: nil)
+    func dismiss(presenter: Presentable) {
+        if presentedPresenter === presenter {
+            presentedPresenter = nil
         }
     }
 }
 
-// MARK: LoggedInViewControllable
+// MARK: LoggedInPresentable
 
-extension RootViewController: LoggedInViewControllable {
+extension RootPresenter: LoggedInPresentable {
 
 }
+
+struct RootView: PresenterView {
+    
+    @ObservedObject var presenter: RootPresenter
+    
+    var body: some View {
+        presenter.presentedPresenter?.viewable.asAnyView
+    }
+}
+
+// MARK: - Preview
+
+#if DEBUG
+struct RootView_Previews: PreviewProvider {
+    static var previews: some View {
+        RootView(presenter: RootPresenter())
+    }
+}
+#endif

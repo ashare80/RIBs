@@ -51,11 +51,11 @@ final class TicTacToeBuilder: Builder<TicTacToeDependency>, TicTacToeBuildable {
 
     func build(withListener listener: TicTacToeListener) -> TicTacToeRouting {
         let component = TicTacToeComponent(dependency: dependency)
-        let viewController = TicTacToeViewController(player1Name: component.player1Name,
-                                                     player2Name: component.player2Name)
-        let interactor = TicTacToeInteractor(presenter: viewController,
+        let presenter = TicTacToePresenter(player1Name: component.player1Name,
+                                           player2Name: component.player2Name)
+        let interactor = TicTacToeInteractor(presenter: presenter,
                                              mutableScoreStream: component.mutableScoreStream)
         interactor.listener = listener
-        return TicTacToeRouter(interactor: interactor, viewController: viewController)
+        return TicTacToeRouter(interactor: interactor, presenter: presenter)
     }
 }

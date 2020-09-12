@@ -17,13 +17,13 @@
 import Foundation
 import RIBs
 
-public protocol RandomWinRouting: ViewableRouting {
+public protocol RandomWinRouting: PresentableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 
 protocol RandomWinPresentable: Presentable {
     var listener: RandomWinPresentableListener? { get set }
-    func announce(winner: PlayerType, withCompletionHandler handler: @escaping () -> ())
+    func announce(winner: PlayerType)
 }
 
 public protocol RandomWinListener: AnyObject {
@@ -54,14 +54,20 @@ final class RandomWinInteractor: PresentableInteractor<RandomWinPresentable>, Ra
     }
 
     // MARK: - RandomWinPresentableListener
+    
+    var winner: PlayerType?
 
     func determineWinner() {
         let random = arc4random_uniform(100)
-        let winner = random > 50 ? PlayerType.player1 : PlayerType.player2
-        presenter.announce(winner: winner) {
-            self.mutableScoreStream.updateScore(with: winner)
-            self.listener?.didRandomlyWin(with: winner)
-        }
+        let winner: PlayerType = random > 50 ? .player1 : .player2
+        self.winner = winner
+        presenter.announce(winner: winner)
+    }
+    
+    func closedAlert() {
+        guard let winner = winner else { return }
+        self.mutableScoreStream.updateScore(with: winner)
+        self.listener?.didRandomlyWin(with: winner)
     }
 
     // MARK: - Private

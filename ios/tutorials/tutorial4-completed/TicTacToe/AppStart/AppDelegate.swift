@@ -15,7 +15,7 @@
 //
 
 import RIBs
-import UIKit
+import SwiftUI
 
 /// Game app delegate.
 @UIApplicationMain
@@ -32,29 +32,12 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
     ///   the possible keys in this dictionary and how to handle them, see Launch Options Keys.
     /// - returns: false if the app cannot handle the URL resource or continue a user activity, otherwise return true.
     public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        self.window = window
+        
 
-        let result = RootBuilder(dependency: AppComponent()).build()
-        let launchRouter = result.launchRouter
-        self.launchRouter = launchRouter
-        urlHandler = result.urlHandler
-        launchRouter.launch(from: window)
-
-        return true
-    }
-
-    public func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        urlHandler?.handle(url)
         return true
     }
     
-    // MARK: - Private
-
-    private var launchRouter: LaunchRouting?
-    private var urlHandler: UrlHandler?
-}
-
-protocol UrlHandler: AnyObject {
-    func handle(_ url: URL)
+    public func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        return UISceneConfiguration(name: "default", sessionRole: connectingSceneSession.role)
+    }
 }

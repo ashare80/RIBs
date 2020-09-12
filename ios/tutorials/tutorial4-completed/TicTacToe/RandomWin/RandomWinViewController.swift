@@ -15,39 +15,33 @@
 //
 
 import RIBs
-import SnapKit
-import UIKit
+import SwiftUI
 
 protocol RandomWinPresentableListener: AnyObject {
     func determineWinner()
+    func closedAlert()
 }
 
-final class RandomWinViewController: UIViewController, RandomWinPresentable, RandomWinViewControllable {
+final class RandomWinPresenter: Presenter<RandomWinView>, ViewPresentable, RandomWinPresentable {
 
     weak var listener: RandomWinPresentableListener?
-
+    
+    @Published var winnerText: String?
+    
+    private let player1Name: String
+    private let player2Name: String
+    
     init(player1Name: String,
          player2Name: String) {
         self.player1Name = player1Name
         self.player2Name = player2Name
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("Method is not supported")
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        view.backgroundColor = UIColor.cyan
-        buildGoButton()
+        super.init()
     }
 
     // MARK: - RandomWinPresentable
 
-    func announce(winner: PlayerType, withCompletionHandler handler: @escaping () -> ()) {
-        let winnerString: String = {
+    func announce(winner: PlayerType) {
+        winnerText = {
             switch winner {
             case .player1:
                 return "\(player1Name) Won!"
@@ -55,35 +49,41 @@ final class RandomWinViewController: UIViewController, RandomWinPresentable, Ran
                 return "\(player2Name) Won!"
             }
         }()
-        let alert = UIAlertController(title: winnerString, message: nil, preferredStyle: .alert)
-        let closeAction = UIAlertAction(title: "That was random...", style: UIAlertAction.Style.default) { _ in
-            handler()
-        }
-        alert.addAction(closeAction)
-        present(alert, animated: true, completion: nil)
-    }
-
-    // MARK: - Private
-
-    private let player1Name: String
-    private let player2Name: String
-
-    private func buildGoButton() {
-        let button = UIButton()
-        button.setTitle("Magic", for: .normal)
-        button.backgroundColor = UIColor.purple
-        button.setTitleColor(UIColor.white, for: .normal)
-        view.addSubview(button)
-        button.snp.makeConstraints { (maker: ConstraintMaker) in
-            maker.center.equalTo(self.view.snp.center)
-            maker.leading.trailing.equalTo(self.view).inset(20)
-            maker.height.equalTo(100)
-        }
-        button.addTarget(self, action: #selector(goButtonDidTouchUpInside), for: .touchUpInside)
-    }
-    
-    @objc
-    func goButtonDidTouchUpInside() {
-        listener?.determineWinner()
     }
 }
+
+struct RandomWinView: PresenterView {
+    
+    @ObservedObject var presenter: RandomWinPresenter
+    
+    var body: some View {
+        VStack {
+            Button(action: {
+                self.presenter.listener?.determineWinner()
+            }, label: {
+                Text("Magic")
+                    .padding(8)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.black)
+                    .foregroundColor(Color.white)
+            })
+                .alert(item: $presenter.winnerText) { (text) -> Alert in
+                    Alert(title: Text(text), message: nil, dismissButton: .default(Text("That was random..."), action: {
+                        self.presenter.listener?.closedAlert()
+                    }))
+            }
+        }
+        .background(Color.white)
+        .padding(16)
+    }
+}
+
+// MARK: - Preview
+
+#if DEBUG
+struct RandomWinView_Previews: PreviewProvider {
+    static var previews: some View {
+        RandomWinView(presenter: RandomWinPresenter(player1Name: "player1Name", player2Name: "player2Name"))
+    }
+}
+#endif

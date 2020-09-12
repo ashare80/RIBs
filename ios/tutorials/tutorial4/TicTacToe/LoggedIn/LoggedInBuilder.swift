@@ -17,13 +17,13 @@
 import RIBs
 
 protocol LoggedInDependency: Dependency {
-    var loggedInViewController: LoggedInViewControllable { get }
+    var loggedInPresenter: LoggedInPresentable { get }
 }
 
 final class LoggedInComponent: Component<LoggedInDependency> {
 
-    fileprivate var loggedInViewController: LoggedInViewControllable {
-        return dependency.loggedInViewController
+    fileprivate var loggedInPresenter: LoggedInPresentable {
+        return dependency.loggedInPresenter
     }
 
     fileprivate var games: [Game] {
@@ -71,7 +71,7 @@ final class LoggedInBuilder: Builder<LoggedInDependency>, LoggedInBuildable {
 
         let offGameBuilder = OffGameBuilder(dependency: component)
         return LoggedInRouter(interactor: interactor,
-                              viewController: component.loggedInViewController,
+                              presenter: component.loggedInPresenter,
                               offGameBuilder: offGameBuilder)
     }
 }
