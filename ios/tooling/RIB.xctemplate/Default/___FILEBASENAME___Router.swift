@@ -7,7 +7,7 @@ protocol ___VARIABLE_productName___Interactable: Interactable {
     var listener: ___VARIABLE_productName___Listener? { get set }
 }
 
-protocol ___VARIABLE_productName___ViewControllable: ViewControllable {
+protocol ___VARIABLE_productName___Viewable: Viewable {
     // TODO: Declare methods the router invokes to manipulate the view hierarchy. Since
     // this RIB does not own its own view, this protocol is conformed to by one of this
     // RIB's ancestor RIBs' view.
@@ -16,8 +16,8 @@ protocol ___VARIABLE_productName___ViewControllable: ViewControllable {
 final class ___VARIABLE_productName___Router: Router<___VARIABLE_productName___Interactable>, ___VARIABLE_productName___Routing {
 
     // TODO: Constructor inject child builder protocols to allow building children.
-    init(interactor: ___VARIABLE_productName___Interactable, viewController: ___VARIABLE_productName___ViewControllable) {
-        self.viewController = viewController
+    init(interactor: ___VARIABLE_productName___Interactable, presenter: ___VARIABLE_productName___Viewable) {
+        self.view = view
         super.init(interactor: interactor)
         interactor.router = self
     }
@@ -29,5 +29,5 @@ final class ___VARIABLE_productName___Router: Router<___VARIABLE_productName___I
 
     // MARK: - Private
 
-    private let viewController: ___VARIABLE_productName___ViewControllable
+    private let presenter: ___VARIABLE_productName___Viewable
 }

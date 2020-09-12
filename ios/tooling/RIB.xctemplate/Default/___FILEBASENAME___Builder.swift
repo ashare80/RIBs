@@ -4,7 +4,7 @@ import RIBs
 
 protocol ___VARIABLE_productName___Dependency: Dependency {
     // TODO: Make sure to convert the variable into lower-camelcase.
-    var ___VARIABLE_productName___ViewController: ___VARIABLE_productName___ViewControllable { get }
+    var ___VARIABLE_productName___Presenter: ___VARIABLE_productName___Viewable { get }
     // TODO: Declare the set of dependencies required by this RIB, but won't be
     // created by this RIB.
 }
@@ -12,8 +12,8 @@ protocol ___VARIABLE_productName___Dependency: Dependency {
 final class ___VARIABLE_productName___Component: Component<___VARIABLE_productName___Dependency> {
 
     // TODO: Make sure to convert the variable into lower-camelcase.
-    fileprivate var ___VARIABLE_productName___ViewController: ___VARIABLE_productName___ViewControllable {
-        return dependency.___VARIABLE_productName___ViewController
+    fileprivate var ___VARIABLE_productName___Presenter: ___VARIABLE_productName___Viewable {
+        return dependency.___VARIABLE_productName___View
     }
 
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
@@ -35,6 +35,6 @@ final class ___VARIABLE_productName___Builder: Builder<___VARIABLE_productName__
         let component = ___VARIABLE_productName___Component(dependency: dependency)
         let interactor = ___VARIABLE_productName___Interactor()
         interactor.listener = listener
-        return ___VARIABLE_productName___Router(interactor: interactor, viewController: component.___VARIABLE_productName___ViewController)
+        return ___VARIABLE_productName___Router(interactor: interactor, presenter: component.___VARIABLE_productName___View)
     }
 }

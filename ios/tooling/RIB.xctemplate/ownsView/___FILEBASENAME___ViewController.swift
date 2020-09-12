@@ -1,7 +1,7 @@
 //___FILEHEADER___
 
 import RIBs
-import UIKit
+import SwiftUI
 
 protocol ___VARIABLE_productName___PresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
@@ -9,7 +9,7 @@ protocol ___VARIABLE_productName___PresentableListener: AnyObject {
     // interactor class.
 }
 
-final class ___VARIABLE_productName___ViewController: UIViewController, ___VARIABLE_productName___Presentable, ___VARIABLE_productName___ViewControllable {
+final class ___VARIABLE_productName___Presenter: Presenter, ___VARIABLE_productName___Presentable, ___VARIABLE_productName___Viewable {
 
     weak var listener: ___VARIABLE_productName___PresentableListener?
 }

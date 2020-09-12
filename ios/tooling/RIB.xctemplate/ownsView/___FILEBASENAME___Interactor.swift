@@ -2,7 +2,7 @@
 
 import RIBs
 
-protocol ___VARIABLE_productName___Routing: ViewableRouting {
+protocol ___VARIABLE_productName___Routing: PresentableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 
