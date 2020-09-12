@@ -36,6 +36,12 @@ public final class CompositeCancellable: Cancellable {
     }
 }
 
+extension Cancellable {
+    func store(in compositeCancellable: CompositeCancellable) {
+        compositeCancellable.insert(self)
+    }
+}
+
 extension Sequence where Element == Cancellable {
     func cancel() {
         for element in self {

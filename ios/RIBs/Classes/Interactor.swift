@@ -16,7 +16,6 @@
 
 import Foundation
 import Combine
-import UIKit
 
 /// Protocol defining the activeness of an interactor's scope.
 public protocol InteractorScope: AnyObject {
@@ -191,7 +190,7 @@ public extension Cancellable {
     ///
     /// - parameter interactor: The interactor to cancel the subscription based on.
     @discardableResult
-    func cancelOnDeactivate(interactor: Interactor) -> Cancellable {
+    func cancelOnDeactivate(interactor: Interactor) -> Self {
         if let activenessCancellable = interactor.activenessCancellable {
             activenessCancellable.insert(self)
         } else {

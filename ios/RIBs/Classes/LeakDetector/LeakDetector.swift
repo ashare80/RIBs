@@ -15,7 +15,7 @@
 //
 
 import Combine
-import UIKit
+import SwiftUI
 
 /// Leak detection status.
 public enum LeakDetectionStatus {
@@ -44,6 +44,11 @@ public protocol LeakDetectionHandle {
     func cancel()
 }
 
+public protocol ViewTracking: AnyObject {
+    /// Set to `true` `onAppear`, and `false` `onDisappear`.
+    var isDisplayed: Bool { get set }
+}
+
 /// An expectation based leak detector, that allows an object's owner to set an expectation that an owned object to be
 /// deallocated within a time frame.
 ///
@@ -63,9 +68,9 @@ public class LeakDetector {
         return expectationCount
             .map { expectationCount in
                 expectationCount > 0 ? LeakDetectionStatus.InProgress : LeakDetectionStatus.DidComplete
-            }
-    .removeDuplicates()
-    .eraseToAnyPublisher()
+        }
+        .removeDuplicates()
+        .eraseToAnyPublisher()
     }
 
     /// Sets up an expectation for the given object to be deallocated within the given time.
@@ -107,34 +112,33 @@ public class LeakDetector {
 
         return handle
     }
-
+    
     /// Sets up an expectation for the given view controller to disappear within the given time.
     ///
-    /// - parameter viewController: The `UIViewController` expected to disappear.
+    /// - parameter presenter: The `View` expected to disappear.
     /// - parameter inTime: The time the given view controller is expected to disappear.
     /// - returns: The handle that can be used to cancel the expectation.
     @discardableResult
-    public func expectViewControllerDisappear(viewController: UIViewController, inTime time: TimeInterval = LeakDefaultExpectationTime.viewDisappear) -> LeakDetectionHandle {
+    public func expectViewDisappear(tracker: ViewTracking, inTime time: TimeInterval = LeakDefaultExpectationTime.viewDisappear) -> LeakDetectionHandle {
         expectationCount.send(expectationCount.value + 1)
 
         let handle = LeakDetectionHandleImpl {
             self.expectationCount.send(self.expectationCount.value - 1)
         }
 
-        Executor.execute(withDelay: time) { [weak viewController] in
+        Executor.execute(withDelay: time) { [weak tracker] in
             // Retain the handle so we can check for the cancelled status. Also cannot use the cancellable
             // concurrency API since the returned handle must be retained to ensure closure is executed.
-            if let viewController = viewController, !handle.cancelled {
-                let viewDidDisappear = (!viewController.isViewLoaded || viewController.view.window == nil)
-                let message = "\(viewController) appearance has leaked. Either its parent router who does not own a view controller was detached, but failed to dismiss the leaked view controller; or the view controller is reused and re-added to window, yet the router is not re-attached but re-created. Objects are expected to be deallocated at this time: \(self.trackingObjects)"
+            if let tracker = tracker, !handle.cancelled {
+                let message = "\(tracker) appearance has leaked. Either its parent router who does not own a view controller was detached, but failed to dismiss the leaked view controller; or the view controller is reused and re-added to window, yet the router is not re-attached but re-created. Objects are expected to be deallocated at this time: \(self.trackingObjects)"
 
                 if self.disableLeakDetector {
-                    if !viewDidDisappear {
+                    if tracker.isDisplayed {
                         print("Leak detection is disabled. This should only be used for debugging purposes.")
                         print(message)
                     }
                 } else {
-                    assert(viewDidDisappear, message)
+                    assert(!tracker.isDisplayed, message)
                 }
             }
 

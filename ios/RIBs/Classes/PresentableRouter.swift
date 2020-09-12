@@ -15,17 +15,18 @@
 //
 
 import Combine
+import SwiftUI
 
 /// The base protocol for all routers that own their own view controllers.
-public protocol ViewableRouting: Routing {
-
+public protocol PresentableRouting: Routing {
+    
     // The following methods must be declared in the base protocol, since `Router` internally invokes these methods.
     // In order to unit test router with a mock child router, the mocked child router first needs to conform to the
     // custom subclass routing protocol, and also this base protocol to allow the `Router` implementation to execute
     // base class logic without error.
 
-    /// The base view controllable associated with this `Router`.
-    var viewControllable: ViewControllable { get }
+    /// The base view associated with this `Router`.
+    var presentable: Presentable { get }
 }
 
 /// The base class of all routers that owns view controllers, representing application states.
@@ -33,63 +34,64 @@ public protocol ViewableRouting: Routing {
 /// A `Router` acts on inputs from its corresponding interactor, to manipulate application state and view state,
 /// forming a tree of routers that drives the tree of view controllers. Router drives the lifecycle of its owned
 /// interactor. `Router`s should always use helper builders to instantiate children `Router`s.
-open class ViewableRouter<InteractorType, ViewControllerType>: Router<InteractorType>, ViewableRouting {
+open class PresentableRouter<InteractorType, PresenterType>: Router<InteractorType>, PresentableRouting {
 
-    /// The corresponding `ViewController` owned by this `Router`.
-    public let viewController: ViewControllerType
-
-    /// The base `ViewControllable` associated with this `Router`.
-    public let viewControllable: ViewControllable
+    /// The corresponding `Presenter` owned by this `Router`.
+    public let presenter: PresenterType
+    
+    /// The corresponding `Presentable` owned by this `Router`.
+    public let presentable: Presentable
 
     /// Initializer.
     ///
     /// - parameter interactor: The corresponding `Interactor` of this `Router`.
-    /// - parameter viewController: The corresponding `ViewController` of this `Router`.
-    public init(interactor: InteractorType, viewController: ViewControllerType) {
-        self.viewController = viewController
-        guard let viewControllable = viewController as? ViewControllable else {
-            fatalError("\(viewController) should conform to \(ViewControllable.self)")
+    /// - parameter presenter: The corresponding `Presenter` of this `Router`.
+    public init(interactor: InteractorType, presenter: PresenterType) {
+        self.presenter = presenter
+        guard let presentable = presenter as? Presentable else {
+            fatalError("\(presenter) should conform to \(Presentable.self)")
         }
-        self.viewControllable = viewControllable
-
+        self.presentable = presentable
         super.init(interactor: interactor)
     }
 
     // MARK: - Internal
 
     override func internalDidLoad() {
-        setupViewControllerLeakDetection()
+        setupViewLeakDetection()
 
         super.internalDidLoad()
     }
 
     // MARK: - Private
 
-    private var viewControllerDisappearExpectation: LeakDetectionHandle?
+    private var viewDisappearExpectation: LeakDetectionHandle?
 
-    private func setupViewControllerLeakDetection() {
+    private func setupViewLeakDetection() {
+        guard let viewTracker = presenter as? ViewTracking else {
+            print("\(presenter) does not conform to `ViewTracking` to expect view disappear.")
+            return
+        }
+        
         let disposable = interactable.isActiveStream
             // Do not retain self here to guarantee execution. Retaining self will cause the cancel bag to never be
             // cancelled, thus self is never deallocated. Also cannot just store the disposable and call cancel(),
             // since we want to keep the subscription alive until deallocation, in case the router is re-attached.
             // Using weak does require the router to be retained until its interactor is deactivated.
             .sink(receiveValue: { [weak self] (isActive: Bool) in
-                guard let strongSelf = self else {
-                    return
-                }
+                guard let self = self else { return }
 
-                strongSelf.viewControllerDisappearExpectation?.cancel()
-                strongSelf.viewControllerDisappearExpectation = nil
+                self.viewDisappearExpectation?.cancel()
+                self.viewDisappearExpectation = nil
 
                 if !isActive {
-                    let viewController = strongSelf.viewControllable.uiviewController
-                    strongSelf.viewControllerDisappearExpectation = LeakDetector.instance.expectViewControllerDisappear(viewController: viewController)
+                    self.viewDisappearExpectation = LeakDetector.instance.expectViewDisappear(tracker: viewTracker)
                 }
             })
         deinitCancellable.insert(disposable)
     }
-
+    
     deinit {
-        LeakDetector.instance.expectDeallocate(object: viewControllable.uiviewController, inTime: LeakDefaultExpectationTime.viewDisappear)
+        LeakDetector.instance.expectDeallocate(object: presenter as AnyObject, inTime: LeakDefaultExpectationTime.viewDisappear)
     }
 }

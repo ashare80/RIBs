@@ -184,7 +184,7 @@ public extension Cancellable {
     ///
     /// - parameter worker: The `Worker` to cancel the subscription based on.
     @discardableResult
-    func cancelOnStop(_ worker: Worker) -> Cancellable {
+    func cancelOnStop(_ worker: Worker) -> Self {
         if let compositeCancellable = worker.disposable {
             compositeCancellable.insert(self)
         } else {

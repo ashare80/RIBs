@@ -16,7 +16,7 @@
 
 import RIBs
 import Combine
-import UIKit
+import SwiftUI
 
 class WindowMock: UIWindow {
     
@@ -25,8 +25,8 @@ class WindowMock: UIWindow {
     }
     
     override var rootViewController: UIViewController? {
-        get { return internalRootViewController }
-        set { internalRootViewController = newValue }
+        get { return internalRootPresenter }
+        set { internalRootPresenter = newValue }
     }
     
     override func makeKeyAndVisible() {
@@ -36,11 +36,15 @@ class WindowMock: UIWindow {
     // MARK: - Private
     
     private var internalIsKeyWindow: Bool = false
-    private var internalRootViewController: UIViewController?
+    private var internalRootPresenter: UIViewController?
 }
 
-class ViewControllableMock: ViewControllable {
-    let uiviewController = UIViewController(nibName: nil, bundle: nil)
+struct ViewableMock: Viewable {
+    let asAnyView: AnyView = EmptyView().asAnyView
+}
+
+class PresentableMock: Presentable {
+    var view: Viewable = ViewableMock()
 }
 
 class InteractorMock: Interactable {

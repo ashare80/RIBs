@@ -35,8 +35,9 @@ public class Executor {
         let period: TimeInterval = .milliseconds(maxFrameDuration / 3)
         var lastRunLoopTime = Date().timeIntervalSinceReferenceDate
         var properFrameTime = 0.0
-        var cancellable: Cancellable?
-        cancellable = Timer.publish(every: period, on: RunLoop.main, in: RunLoop.Mode.default)
+        let compositeCancellable: CompositeCancellable = CompositeCancellable()
+        Timer.publish(every: period, on: RunLoop.main, in: .common)
+            .autoconnect()
             .sink(receiveValue: { _ in
                 let currentTime = Date().timeIntervalSinceReferenceDate
                 let trueElapsedTime = currentTime - lastRunLoopTime
@@ -47,10 +48,11 @@ public class Executor {
                 let boundedElapsedTime = min(trueElapsedTime, Double(maxFrameDuration) / 1000)
                 properFrameTime += boundedElapsedTime
                 if properFrameTime > delay {
-                    cancellable?.cancel()
+                    compositeCancellable.cancel()
                     logic()
                 }
             })
+            .store(in: compositeCancellable)
     }
 }
 
