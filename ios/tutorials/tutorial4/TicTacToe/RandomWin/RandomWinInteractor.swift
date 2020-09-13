@@ -55,17 +55,13 @@ final class RandomWinInteractor: PresentableInteractor<RandomWinPresentable>, Ra
 
     // MARK: - RandomWinPresentableListener
 
-    var winner: PlayerType?
-
     func determineWinner() {
         let random = arc4random_uniform(100)
         let winner: PlayerType = random > 50 ? .player1 : .player2
-        self.winner = winner
         presenter.announce(winner: winner)
     }
 
-    func closedAlert() {
-        guard let winner = winner else { return }
+    func closedAlert(winner: PlayerType) {
         mutableScoreStream.updateScore(with: winner)
         listener?.didRandomlyWin(with: winner)
     }

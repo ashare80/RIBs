@@ -67,3 +67,14 @@ struct BasicScoreBoardView: PresenterView {
         }
     }
 }
+
+// MARK: - Preview
+
+#if DEBUG
+    struct BasicScoreBoardView_Previews: PreviewProvider {
+        static var previews: some View {
+            BasicScoreBoardView(presenter: BasicScoreBoardPresenter(player1Name: "player1Name",
+                                                                    player2Name: "player2Name"))
+        }
+}
+#endif

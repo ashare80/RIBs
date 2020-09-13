@@ -19,13 +19,22 @@ import SwiftUI
 
 protocol RandomWinPresentableListener: AnyObject {
     func determineWinner()
-    func closedAlert()
+    func closedAlert(winner: PlayerType)
 }
 
 final class RandomWinPresenter: Presenter<RandomWinView>, ViewPresentable, RandomWinPresentable {
     weak var listener: RandomWinPresentableListener?
 
-    @Published var winnerText: String?
+    var winnerText: String {
+        guard let winner = winner else { return "" }
+        switch winner {
+        case .player1:
+            return "\(player1Name) Won!"
+        case .player2:
+            return "\(player2Name) Won!"
+        }
+    }
+    @Published var winner: PlayerType?
 
     private let player1Name: String
     private let player2Name: String
@@ -41,14 +50,7 @@ final class RandomWinPresenter: Presenter<RandomWinView>, ViewPresentable, Rando
     // MARK: - RandomWinPresentable
 
     func announce(winner: PlayerType) {
-        winnerText = {
-            switch winner {
-            case .player1:
-                return "\(player1Name) Won!"
-            case .player2:
-                return "\(player2Name) Won!"
-            }
-        }()
+        self.winner = winner
     }
 }
 
@@ -66,9 +68,9 @@ struct RandomWinView: PresenterView {
                     .background(Color.black)
                     .foregroundColor(Color.white)
             })
-                .alert(item: $presenter.winnerText) { (text) -> Alert in
-                    Alert(title: Text(text), message: nil, dismissButton: .default(Text("That was random..."), action: {
-                        self.presenter.listener?.closedAlert()
+                .alert(item: $presenter.winner) { (winner) -> Alert in
+                    Alert(title: Text(presenter.winnerText), message: nil, dismissButton: .default(Text("That was random..."), action: {
+                        self.presenter.listener?.closedAlert(winner: winner)
                     }))
                 }
         }

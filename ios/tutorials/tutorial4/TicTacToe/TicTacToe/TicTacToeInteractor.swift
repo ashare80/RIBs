@@ -67,8 +67,6 @@ final class TicTacToeInteractor: PresentableInteractor<TicTacToePresentable>, Ti
 
         let endGame = checkEndGame()
         if endGame.didEnd {
-            self.endGame = endGame
-
             if let winner = endGame.winner {
                 mutableScoreStream.updateScore(with: winner)
             }
@@ -77,11 +75,8 @@ final class TicTacToeInteractor: PresentableInteractor<TicTacToePresentable>, Ti
         }
     }
 
-    var endGame: (winner: PlayerType?, didEnd: Bool)?
-
-    func closeGame() {
-        guard let endGame = endGame else { return }
-        listener?.ticTacToeDidEnd(with: endGame.winner)
+    func closeGame(winner: PlayerType?) {
+        listener?.ticTacToeDidEnd(with: winner)
     }
 
     // MARK: - Private

@@ -19,10 +19,11 @@ import SwiftUI
 
 protocol TicTacToePresentableListener: AnyObject {
     func placeCurrentPlayerMark(atRow row: Int, col: Int)
-    func closeGame()
+    func closeGame(winner: PlayerType?)
 }
 
 final class TicTacToePresenter: Presenter<TicTacToeView>, ViewPresentable, TicTacToePresentable {
+    var winner: PlayerType?
     @Published var gameWinnerTitle: String?
     @Published var playerSelection: [Coordinate: PlayerType] = [:]
     weak var listener: TicTacToePresentableListener?
@@ -31,8 +32,7 @@ final class TicTacToePresenter: Presenter<TicTacToeView>, ViewPresentable, TicTa
     private let player2Name: String
 
     init(player1Name: String,
-         player2Name: String)
-    {
+         player2Name: String) {
         self.player1Name = player1Name
         self.player2Name = player2Name
     }
@@ -44,6 +44,7 @@ final class TicTacToePresenter: Presenter<TicTacToeView>, ViewPresentable, TicTa
     }
 
     func announce(winner: PlayerType?) {
+        self.winner = winner
         if let winner = winner {
             switch winner {
             case .player1:
@@ -83,7 +84,7 @@ struct TicTacToeView: PresenterView {
         }
         .alert(item: $presenter.gameWinnerTitle, content: { (title) -> Alert in
             Alert(title: Text(title), message: nil, dismissButton: .default(Text("Close Game"), action: {
-                self.presenter.listener?.closeGame()
+                self.presenter.listener?.closeGame(winner: self.presenter.winner)
             }))
         })
     }
