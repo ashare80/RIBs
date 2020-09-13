@@ -27,7 +27,6 @@ protocol LoggedInListener: AnyObject {
 }
 
 final class LoggedInInteractor: Interactor, LoggedInInteractable {
-
     weak var router: LoggedInRouting?
     weak var listener: LoggedInListener?
 
@@ -59,12 +58,11 @@ final class LoggedInInteractor: Interactor, LoggedInInteractable {
 
     // MARK: - TicTacToeListener
 
-    func gameDidEnd(with winner: PlayerType?) {
+    func gameDidEnd(with _: PlayerType?) {
         router?.routeToOffGame(with: games)
     }
 
     // MARK: - Private
 
     private var games = [Game]()
-
 }

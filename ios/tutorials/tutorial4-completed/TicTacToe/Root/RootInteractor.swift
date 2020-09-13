@@ -27,7 +27,6 @@ protocol RootListener: AnyObject {
 }
 
 final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable, RootPresentableListener, RootActionableItem, UrlHandler {
-
     weak var router: RootRouting?
 
     weak var listener: RootListener?
@@ -74,8 +73,8 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
             .filterNil()
             .map { (loggedInItem: LoggedInActionableItem) -> (LoggedInActionableItem, ()) in
                 (loggedInItem, ())
-        }
-        .eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
     }
 
     // MARK: - Private

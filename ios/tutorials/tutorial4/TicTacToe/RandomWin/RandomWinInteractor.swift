@@ -31,13 +31,13 @@ public protocol RandomWinListener: AnyObject {
 }
 
 final class RandomWinInteractor: PresentableInteractor<RandomWinPresentable>, RandomWinInteractable, RandomWinPresentableListener {
-
     weak var router: RandomWinRouting?
 
     weak var listener: RandomWinListener?
 
     init(presenter: RandomWinPresentable,
-         mutableScoreStream: MutableScoreStream) {
+         mutableScoreStream: MutableScoreStream)
+    {
         self.mutableScoreStream = mutableScoreStream
         super.init(presenter: presenter)
         presenter.listener = self
@@ -54,7 +54,7 @@ final class RandomWinInteractor: PresentableInteractor<RandomWinPresentable>, Ra
     }
 
     // MARK: - RandomWinPresentableListener
-    
+
     var winner: PlayerType?
 
     func determineWinner() {
@@ -63,11 +63,11 @@ final class RandomWinInteractor: PresentableInteractor<RandomWinPresentable>, Ra
         self.winner = winner
         presenter.announce(winner: winner)
     }
-    
+
     func closedAlert() {
         guard let winner = winner else { return }
-        self.mutableScoreStream.updateScore(with: winner)
-        self.listener?.didRandomlyWin(with: winner)
+        mutableScoreStream.updateScore(with: winner)
+        listener?.didRandomlyWin(with: winner)
     }
 
     // MARK: - Private

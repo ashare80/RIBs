@@ -30,7 +30,6 @@ protocol OffGameListener: AnyObject {
 }
 
 final class OffGameInteractor: PresentableInteractor<OffGamePresentable>, OffGameInteractable, OffGamePresentableListener {
-
     weak var router: OffGameRouting?
 
     weak var listener: OffGameListener?
@@ -38,7 +37,8 @@ final class OffGameInteractor: PresentableInteractor<OffGamePresentable>, OffGam
     // TODO: Add additional dependencies to constructor. Do not perform any logic
     // in constructor.
     init(presenter: OffGamePresentable,
-         scoreStream: ScoreStream) {
+         scoreStream: ScoreStream)
+    {
         self.scoreStream = scoreStream
         super.init(presenter: presenter)
         presenter.listener = self
@@ -62,7 +62,7 @@ final class OffGameInteractor: PresentableInteractor<OffGamePresentable>, OffGam
             })
             .cancelOnDeactivate(interactor: self)
     }
-    
+
     // MARK: - OffGamePresentableListener
 
     func startGame() {

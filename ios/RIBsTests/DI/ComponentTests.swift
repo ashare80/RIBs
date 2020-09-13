@@ -14,11 +14,10 @@
 //  limitations under the License.
 //
 
-import XCTest
 @testable import RIBs
+import XCTest
 
 final class ComponentTests: XCTestCase {
-
     // MARK: - Tests
 
     func test_shared() {
@@ -38,10 +37,9 @@ final class ComponentTests: XCTestCase {
 }
 
 private final class TestComponent: Component<EmptyComponent> {
-
     private(set) var callCount: Int = 0
     private(set) var expectedOptionalShare: ClassProtocol? = {
-        return ClassProtocolImpl()
+        ClassProtocolImpl()
     }()
 
     var share: NSObject {
@@ -58,10 +56,6 @@ private final class TestComponent: Component<EmptyComponent> {
     }
 }
 
-private protocol ClassProtocol: AnyObject {
+private protocol ClassProtocol: AnyObject {}
 
-}
-
-private final class ClassProtocolImpl: ClassProtocol {
-
-}
+private final class ClassProtocolImpl: ClassProtocol {}

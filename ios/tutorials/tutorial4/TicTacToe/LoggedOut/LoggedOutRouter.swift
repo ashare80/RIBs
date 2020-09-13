@@ -22,7 +22,6 @@ protocol LoggedOutInteractable: Interactable {
 }
 
 final class LoggedOutRouter: PresentableRouter<LoggedOutInteractable, LoggedOutPresentable>, LoggedOutRouting {
-
     // TODO: Constructor inject child builder protocols to allow building children.
     override init(interactor: LoggedOutInteractable, presenter: LoggedOutPresentable) {
         super.init(interactor: interactor, presenter: presenter)

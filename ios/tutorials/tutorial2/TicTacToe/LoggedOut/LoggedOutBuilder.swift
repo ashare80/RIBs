@@ -22,7 +22,6 @@ protocol LoggedOutDependency: Dependency {
 }
 
 final class LoggedOutComponent: Component<LoggedOutDependency> {
-
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
 
@@ -33,7 +32,6 @@ protocol LoggedOutBuildable: Buildable {
 }
 
 final class LoggedOutBuilder: Builder<LoggedOutDependency>, LoggedOutBuildable {
-
     override init(dependency: LoggedOutDependency) {
         super.init(dependency: dependency)
     }

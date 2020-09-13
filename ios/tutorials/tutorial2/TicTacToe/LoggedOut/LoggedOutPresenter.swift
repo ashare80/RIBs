@@ -22,12 +22,11 @@ protocol LoggedOutPresentableListener: AnyObject {
 }
 
 final class LoggedOutPresenter: Presenter<LoggedOutView>, ViewPresentable, LoggedOutPresentable {
-    
     weak var listener: LoggedOutPresentableListener?
-    
+
     @Published var player1: String = ""
     @Published var player2: String = ""
-    
+
     func loginButtonTouchUpInside() {
         listener?.login(withPlayer1Name: player1, player2Name: player2)
     }
@@ -35,7 +34,7 @@ final class LoggedOutPresenter: Presenter<LoggedOutView>, ViewPresentable, Logge
 
 struct LoggedOutView: PresenterView {
     @ObservedObject var presenter: LoggedOutPresenter
-    
+
     var body: some View {
         VStack {
             TextField("Player 1 name", text: $presenter.player1)
@@ -44,12 +43,12 @@ struct LoggedOutView: PresenterView {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             Button(action: presenter.loginButtonTouchUpInside,
                    label: {
-                    Text("Login")
-                        .padding(8)
-                        .frame(maxWidth: .infinity)
-                        .background(Color.black)
-                        .foregroundColor(Color.white)
-            })
+                       Text("Login")
+                           .padding(8)
+                           .frame(maxWidth: .infinity)
+                           .background(Color.black)
+                           .foregroundColor(Color.white)
+                   })
         }
         .background(Color.white)
         .padding(16)
@@ -59,10 +58,9 @@ struct LoggedOutView: PresenterView {
 // MARK: - Preview
 
 #if DEBUG
-struct LoggedOutView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoggedOutView(presenter: LoggedOutPresenter())
+    struct LoggedOutView_Previews: PreviewProvider {
+        static var previews: some View {
+            LoggedOutView(presenter: LoggedOutPresenter())
+        }
     }
-}
 #endif
-

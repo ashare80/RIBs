@@ -22,7 +22,6 @@ protocol OffGameInteractable: Interactable {
 }
 
 final class OffGameRouter: PresentableRouter<OffGameInteractable, OffGamePresentable>, OffGameRouting {
-
     // TODO: Constructor inject child builder protocols to allow building children.
     override init(interactor: OffGameInteractable, presenter: OffGamePresentable) {
         super.init(interactor: interactor, presenter: presenter)

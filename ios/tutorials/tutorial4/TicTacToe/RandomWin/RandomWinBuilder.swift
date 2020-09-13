@@ -23,7 +23,6 @@ public protocol RandomWinDependency: Dependency {
 }
 
 final class RandomWinComponent: Component<RandomWinDependency> {
-
     fileprivate var player1Name: String {
         return dependency.player1Name
     }
@@ -44,8 +43,7 @@ protocol RandomWinBuildable: Buildable {
 }
 
 public final class RandomWinBuilder: Builder<RandomWinDependency>, RandomWinBuildable {
-
-    public override init(dependency: RandomWinDependency) {
+    override public init(dependency: RandomWinDependency) {
         super.init(dependency: dependency)
     }
 

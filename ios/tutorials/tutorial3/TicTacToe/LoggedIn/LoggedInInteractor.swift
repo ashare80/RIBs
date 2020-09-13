@@ -19,7 +19,7 @@ import RIBs
 enum PlayerType: Int, Identifiable {
     case player1 = 1
     case player2
-    
+
     var id: Int { rawValue }
 }
 
@@ -34,7 +34,6 @@ protocol LoggedInListener: AnyObject {
 }
 
 final class LoggedInInteractor: Interactor, LoggedInInteractable {
-
     weak var router: LoggedInRouting?
     weak var listener: LoggedInListener?
 

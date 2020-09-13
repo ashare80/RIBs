@@ -18,7 +18,6 @@
 import XCTest
 
 final class FoundationExtensionsTests: XCTestCase {
-
     // MARK: - Tests
 
     func test_removeElementByReference() {
@@ -41,16 +40,15 @@ final class FoundationExtensionsTests: XCTestCase {
 }
 
 extension XCTestCase {
-    func expectAssertionFailure(_ execute: () -> ()) {
-
+    func expectAssertionFailure(_ execute: () -> Void) {
         let expect = expectation(description: "Did not assert")
 
         assertionFailureClosure = {
-            (_, _, _) in
+            _, _, _ in
             expect.fulfill()
         }
 
-        execute();
+        execute()
 
         waitForExpectations(timeout: 0.0, handler: nil)
 

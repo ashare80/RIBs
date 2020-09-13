@@ -22,9 +22,8 @@ protocol OffGamePresentableListener: AnyObject {
 }
 
 final class OffGamePresenter: Presenter<OffGameView>, ViewPresentable, OffGamePresentable {
-
     weak var listener: OffGamePresentableListener?
-    
+
     @Published var scoreBoardPresenter: Presentable?
 
     init(games: [Game]) {
@@ -43,11 +42,11 @@ final class OffGamePresenter: Presenter<OffGameView>, ViewPresentable, OffGamePr
 
 struct OffGameView: PresenterView {
     @ObservedObject var presenter: OffGamePresenter
-    
+
     var body: some View {
         VStack {
             presenter.scoreBoardPresenter?.viewable.asAnyView
-            ForEach(0..<presenter.games.count) { index in
+            ForEach(0 ..< presenter.games.count) { index in
                 Button(action: {
                     self.presenter.listener?.start(self.presenter.games[index])
                 }, label: {
@@ -57,7 +56,7 @@ struct OffGameView: PresenterView {
                         .background(Color.black)
                         .foregroundColor(Color.white)
                 })
-                .padding(8)
+                    .padding(8)
             }
         }
         .background(Color.white)

@@ -24,20 +24,18 @@ protocol RootPresentableListener: AnyObject {
 }
 
 final class RootPresenter: Presenter<RootView>, ViewPresentable, RootPresentable {
-    
     @Published var presentedPresenter: Presentable?
-    
+
     weak var listener: RootPresentableListener?
-    
+
     func present(presenter: Presentable) {
         presentedPresenter = presenter
     }
 }
 
 struct RootView: PresenterView {
-    
     @ObservedObject var presenter: RootPresenter
-    
+
     var body: some View {
         presenter.presentedPresenter?.viewable.asAnyView
     }

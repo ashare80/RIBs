@@ -27,7 +27,7 @@ final class OffGamePresenter: Presenter<OffGameView>, ViewPresentable, OffGamePr
 
 struct OffGameView: PresenterView {
     @ObservedObject var presenter: OffGamePresenter
-    
+
     var body: some View {
         VStack {
             Button(action: {

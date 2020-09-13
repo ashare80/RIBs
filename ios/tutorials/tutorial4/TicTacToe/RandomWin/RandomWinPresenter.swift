@@ -23,16 +23,16 @@ protocol RandomWinPresentableListener: AnyObject {
 }
 
 final class RandomWinPresenter: Presenter<RandomWinView>, ViewPresentable, RandomWinPresentable {
-
     weak var listener: RandomWinPresentableListener?
-    
+
     @Published var winnerText: String?
-    
+
     private let player1Name: String
     private let player2Name: String
-    
+
     init(player1Name: String,
-         player2Name: String) {
+         player2Name: String)
+    {
         self.player1Name = player1Name
         self.player2Name = player2Name
         super.init()
@@ -53,9 +53,8 @@ final class RandomWinPresenter: Presenter<RandomWinView>, ViewPresentable, Rando
 }
 
 struct RandomWinView: PresenterView {
-    
     @ObservedObject var presenter: RandomWinPresenter
-    
+
     var body: some View {
         VStack {
             Button(action: {
@@ -71,7 +70,7 @@ struct RandomWinView: PresenterView {
                     Alert(title: Text(text), message: nil, dismissButton: .default(Text("That was random..."), action: {
                         self.presenter.listener?.closedAlert()
                     }))
-            }
+                }
         }
         .background(Color.white)
         .padding(16)
@@ -81,9 +80,9 @@ struct RandomWinView: PresenterView {
 // MARK: - Preview
 
 #if DEBUG
-struct RandomWinView_Previews: PreviewProvider {
-    static var previews: some View {
-        RandomWinView(presenter: RandomWinPresenter(player1Name: "player1Name", player2Name: "player2Name"))
+    struct RandomWinView_Previews: PreviewProvider {
+        static var previews: some View {
+            RandomWinView(presenter: RandomWinPresenter(player1Name: "player1Name", player2Name: "player2Name"))
+        }
     }
-}
 #endif

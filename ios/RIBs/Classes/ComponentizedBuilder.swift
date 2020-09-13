@@ -32,7 +32,6 @@ import Foundation
 /// and dynamic dependency.
 /// - SeeAlso: SimpleComponentizedBuilder
 open class ComponentizedBuilder<Component, Router, DynamicBuildDependency, DynamicComponentDependency>: Buildable {
-
     // Builder should not directly retain an instance of the component.
     // That would make the component's lifecycle longer than the built
     // RIB. Instead, whenever a new instance of the RIB is built, a new
@@ -86,7 +85,7 @@ open class ComponentizedBuilder<Component, Router, DynamicBuildDependency, Dynam
     /// - parameter component: The corresponding DI component to use.
     /// - parameter dynamicBuildDependency: The given dynamic dependency.
     /// - returns: The router of the RIB.
-    open func build(with component: Component, _ dynamicBuildDependency: DynamicBuildDependency) -> Router {
+    open func build(with _: Component, _: DynamicBuildDependency) -> Router {
         fatalError("This method should be oevrriden by the subclass.")
     }
 
@@ -104,8 +103,7 @@ open class ComponentizedBuilder<Component, Router, DynamicBuildDependency, Dynam
 /// requires dynamic dependency, please refer to `DynamicComponentizedBuilder`.
 /// If both require dynamic dependencies, please use `ComponentizedBuilder`.
 /// - SeeAlso: ComponentizedBuilder
-open class SimpleComponentizedBuilder<Component, Router>: ComponentizedBuilder<Component, Router, (), ()> {
-
+open class SimpleComponentizedBuilder<Component, Router>: ComponentizedBuilder<Component, Router, Void, Void> {
     /// Initializer.
     ///
     /// - parameter componentBuilder: The closure to instantiate a new
@@ -115,13 +113,13 @@ open class SimpleComponentizedBuilder<Component, Router>: ComponentizedBuilder<C
             super.init(componentBuilder: componentBuilder)
         }
     #else
-        public override init(componentBuilder: @escaping () -> Component) {
+        override public init(componentBuilder: @escaping () -> Component) {
             super.init(componentBuilder: componentBuilder)
         }
     #endif
 
     /// This method should not be directly invoked.
-    public final override func build(with component: Component, _ dynamicDependency: ()) -> Router {
+    override public final func build(with component: Component, _: ()) -> Router {
         return build(with: component)
     }
 
@@ -132,7 +130,7 @@ open class SimpleComponentizedBuilder<Component, Router>: ComponentizedBuilder<C
     /// consumers of this builder should invoke `build(with dynamicDependency:)`.
     /// - parameter component: The corresponding DI component to use.
     /// - returns: The router of the RIB.
-    open func build(with component: Component) -> Router {
+    open func build(with _: Component) -> Router {
         fatalError("This method should be oevrriden by the subclass.")
     }
 

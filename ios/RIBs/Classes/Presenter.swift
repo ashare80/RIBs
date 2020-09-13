@@ -14,22 +14,21 @@
 //  limitations under the License.
 //
 
+import Combine
 import Foundation
 import SwiftUI
-import Combine
 
 /// The base protocol for all `Presenter`s.
 public protocol Presentable: AnyObject {
-    
     /// Type erased view for public use.
     var viewable: Viewable { get }
 }
 
 /// Conformance by `Presenter` subclasses to provide a `ViewType` and be an `ObservableObject`.
-public protocol ViewPresentable: Presentable, ObservableObject  {
+public protocol ViewPresentable: Presentable, ObservableObject {
     /// View type confroming to `View`.
     associatedtype ViewType: View
-    
+
     /// Typed view for internal reference.
     var view: ViewType { get }
 }
@@ -39,13 +38,12 @@ public protocol ViewPresentable: Presentable, ObservableObject  {
 /// its listener.
 open class Presenter<View>: BasePresenter {
     public typealias ViewType = View
-    
+
     override public init() { super.init() }
 }
 
 /// Base class of `Presenter` for a concrete type.
 open class BasePresenter: ViewTracking {
-    
     /// Set to `true` `onAppear`, and `false` `onDisappear`.
     public var isDisplayed: Bool = false {
         didSet {
@@ -57,26 +55,26 @@ open class BasePresenter: ViewTracking {
             }
         }
     }
-    
-    let deinitCancellable: CompositeCancellable = CompositeCancellable()
-    
+
+    let deinitCancellable = CompositeCancellable()
+
     var viewAppearanceCancellable: CompositeCancellable?
-    
+
     deinit {
         deinitCancellable.cancel()
     }
-    
+
     /// Called when `viewTracker.isDisplayed` is `true`.
-    open func onViewAppear() { }
-    
+    open func onViewAppear() {}
+
     /// Called when `viewTracker.isDisplayed` is `false`.
-    open func onViewDisappear() { }
-    
+    open func onViewDisappear() {}
+
     func internalOnViewAppear() {
         viewAppearanceCancellable = CompositeCancellable()
         onViewAppear()
     }
-    
+
     func internalOnViewDisappear() {
         viewAppearanceCancellable?.cancel()
         viewAppearanceCancellable = nil
@@ -99,7 +97,6 @@ extension ViewPresentable where Self: ViewTracking {
 
 /// `Presenter` related `Cancellable` extensions.
 extension Cancellable {
-
     /// Cancels the subscription based on the appearance of the given `Presenter`'s `View `. The subscription is cancelled
     /// when the view disappears.
     ///
@@ -119,7 +116,7 @@ extension Cancellable {
         }
         return self
     }
-    
+
     /// Cancels the subscription when `Presenter` is released.
     @discardableResult
     public func cancelOnDeinit(presenter: BasePresenter) -> Self {

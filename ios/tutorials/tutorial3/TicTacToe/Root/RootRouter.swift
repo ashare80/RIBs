@@ -28,11 +28,11 @@ protocol RootPresentable: Presentable {
 }
 
 final class RootRouter: LaunchRouter<RootInteractable, RootPresentable>, RootRouting {
-
     init(interactor: RootInteractable,
          presenter: RootPresentable,
          loggedOutBuilder: LoggedOutBuildable,
-         loggedInBuilder: LoggedInBuildable) {
+         loggedInBuilder: LoggedInBuildable)
+    {
         self.loggedOutBuilder = loggedOutBuilder
         self.loggedInBuilder = loggedInBuilder
         super.init(interactor: interactor, presenter: presenter)
@@ -45,7 +45,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootPresentable>, RootRou
         routeToLoggedOut()
     }
 
-    func routeToLoggedIn(withPlayer1Name player1Name: String, player2Name: String) {
+    func routeToLoggedIn(withPlayer1Name _: String, player2Name _: String) {
         // Detach logged out.
         if let loggedOut = self.loggedOut {
             detachChild(loggedOut)

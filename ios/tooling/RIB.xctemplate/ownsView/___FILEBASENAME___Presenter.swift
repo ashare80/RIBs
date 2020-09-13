@@ -1,4 +1,4 @@
-//___FILEHEADER___
+// ___FILEHEADER___
 
 import RIBs
 import SwiftUI
@@ -10,6 +10,5 @@ protocol ___VARIABLE_productName___PresentableListener: AnyObject {
 }
 
 final class ___VARIABLE_productName___Presenter: Presenter, ___VARIABLE_productName___Presentable, ___VARIABLE_productName___Viewable {
-
     weak var listener: ___VARIABLE_productName___PresentableListener?
 }

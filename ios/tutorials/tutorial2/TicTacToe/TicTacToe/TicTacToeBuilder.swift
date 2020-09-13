@@ -30,7 +30,6 @@ protocol TicTacToeBuildable: Buildable {
 }
 
 final class TicTacToeBuilder: Builder<TicTacToeDependency>, TicTacToeBuildable {
-
     override init(dependency: TicTacToeDependency) {
         super.init(dependency: dependency)
     }

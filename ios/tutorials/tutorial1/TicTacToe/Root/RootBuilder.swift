@@ -22,7 +22,6 @@ protocol RootDependency: Dependency {
 }
 
 final class RootComponent: Component<RootDependency> {
-
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
 
@@ -33,7 +32,6 @@ protocol RootBuildable: Buildable {
 }
 
 final class RootBuilder: Builder<RootDependency>, RootBuildable {
-
     override init(dependency: RootDependency) {
         super.init(dependency: dependency)
     }

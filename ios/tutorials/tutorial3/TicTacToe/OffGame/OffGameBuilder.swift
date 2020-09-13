@@ -22,7 +22,6 @@ protocol OffGameDependency: Dependency {
 }
 
 final class OffGameComponent: Component<OffGameDependency> {
-
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
 
@@ -33,7 +32,6 @@ protocol OffGameBuildable: Buildable {
 }
 
 final class OffGameBuilder: Builder<OffGameDependency>, OffGameBuildable {
-
     override init(dependency: OffGameDependency) {
         super.init(dependency: dependency)
     }

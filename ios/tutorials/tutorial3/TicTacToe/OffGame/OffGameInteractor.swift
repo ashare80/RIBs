@@ -30,7 +30,6 @@ protocol OffGameListener: AnyObject {
 }
 
 final class OffGameInteractor: PresentableInteractor<OffGamePresentable>, OffGameInteractable, OffGamePresentableListener {
-
     weak var router: OffGameRouting?
 
     weak var listener: OffGameListener?

@@ -1,4 +1,4 @@
-//___FILEHEADER___
+// ___FILEHEADER___
 
 import RIBs
 
@@ -14,10 +14,9 @@ protocol ___VARIABLE_productName___Viewable: Viewable {
 }
 
 final class ___VARIABLE_productName___Router: Router<___VARIABLE_productName___Interactable>, ___VARIABLE_productName___Routing {
-
     // TODO: Constructor inject child builder protocols to allow building children.
-    init(interactor: ___VARIABLE_productName___Interactable, presenter: ___VARIABLE_productName___Viewable) {
-        self.view = view
+    init(interactor: ___VARIABLE_productName___Interactable, presenter _: ___VARIABLE_productName___Viewable) {
+        view = view
         super.init(interactor: interactor)
         interactor.router = self
     }

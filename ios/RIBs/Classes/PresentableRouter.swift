@@ -19,7 +19,6 @@ import SwiftUI
 
 /// The base protocol for all routers that own their own view controllers.
 public protocol PresentableRouting: Routing {
-    
     // The following methods must be declared in the base protocol, since `Router` internally invokes these methods.
     // In order to unit test router with a mock child router, the mocked child router first needs to conform to the
     // custom subclass routing protocol, and also this base protocol to allow the `Router` implementation to execute
@@ -35,10 +34,9 @@ public protocol PresentableRouting: Routing {
 /// forming a tree of routers that drives the tree of view controllers. Router drives the lifecycle of its owned
 /// interactor. `Router`s should always use helper builders to instantiate children `Router`s.
 open class PresentableRouter<InteractorType, PresenterType>: Router<InteractorType>, PresentableRouting {
-
     /// The corresponding `Presenter` owned by this `Router`.
     public let presenter: PresenterType
-    
+
     /// The corresponding `Presentable` owned by this `Router`.
     public let presentable: Presentable
 
@@ -72,7 +70,7 @@ open class PresentableRouter<InteractorType, PresenterType>: Router<InteractorTy
             print("\(presenter) does not conform to `ViewTracking` to expect view disappear.")
             return
         }
-        
+
         let disposable = interactable.isActiveStream
             // Do not retain self here to guarantee execution. Retaining self will cause the cancel bag to never be
             // cancelled, thus self is never deallocated. Also cannot just store the disposable and call cancel(),
@@ -90,7 +88,7 @@ open class PresentableRouter<InteractorType, PresenterType>: Router<InteractorTy
             })
         deinitCancellable.insert(disposable)
     }
-    
+
     deinit {
         LeakDetector.instance.expectDeallocate(object: presenter as AnyObject, inTime: LeakDefaultExpectationTime.viewDisappear)
     }

@@ -21,7 +21,6 @@ import Combine
 /// `Worker`s are always bound to an `Interactor`. A `Worker` can only start if its bound `Interactor` is active.
 /// It is stopped when its bound interactor is deactivated.
 public protocol Working: AnyObject {
-
     /// Starts the `Worker`.
     ///
     /// If the bound `InteractorScope` is active, this method starts the `Worker` immediately. Otherwise the `Worker`
@@ -47,7 +46,6 @@ public protocol Working: AnyObject {
 
 /// The base `Worker` implementation.
 open class Worker: Working {
-
     /// Indicates if the `Worker` is started.
     public final var isStarted: Bool {
         return isStartedSubject.value
@@ -57,7 +55,7 @@ open class Worker: Working {
     public final var isStartedStream: AnyPublisher<Bool, Never> {
         return isStartedSubject
             .removeDuplicates()
-        .eraseToAnyPublisher()
+            .eraseToAnyPublisher()
     }
 
     /// Initializer.
@@ -93,9 +91,7 @@ open class Worker: Working {
     /// starts. The default implementation does nothing.
     ///
     /// - parameter interactorScope: The interactor scope this `Worker` is bound to.
-    open func didStart(_ interactorScope: InteractorScope) {
-
-    }
+    open func didStart(_: InteractorScope) {}
 
     /// Stops the worker.
     ///
@@ -172,7 +168,6 @@ open class Worker: Working {
 
 /// Worker related `Cancellable` extensions.
 public extension Cancellable {
-
     /// Cancels the subscription based on the lifecycle of the given `Worker`. The subscription is cancelled when the
     /// `Worker` is stopped.
     ///
@@ -195,8 +190,7 @@ public extension Cancellable {
     }
 }
 
-fileprivate class WeakInteractorScope: InteractorScope {
-
+private class WeakInteractorScope: InteractorScope {
     weak var sourceScope: InteractorScope?
 
     var isActive: Bool {

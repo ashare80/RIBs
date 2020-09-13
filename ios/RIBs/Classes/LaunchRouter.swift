@@ -18,7 +18,6 @@ import SwiftUI
 
 /// The root `Router` of an application.
 public protocol LaunchRouting: PresentableRouting {
-
     /// Launches the router tree.
     ///
     /// - parameter window: The application window to launch from.
@@ -27,12 +26,11 @@ public protocol LaunchRouting: PresentableRouting {
 
 /// The application root router base class, that acts as the root of the router tree.
 open class LaunchRouter<InteractorType, PresenterType>: PresentableRouter<InteractorType, PresenterType>, LaunchRouting {
-
     /// Initializer.
     ///
     /// - parameter interactor: The corresponding `Interactor` of this `Router`.
     /// - parameter presenter: The corresponding `View` of this `Router`.
-    public override init(interactor: InteractorType, presenter: PresenterType) {
+    override public init(interactor: InteractorType, presenter: PresenterType) {
         super.init(interactor: interactor, presenter: presenter)
     }
 

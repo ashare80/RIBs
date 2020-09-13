@@ -14,22 +14,20 @@
 //  limitations under the License.
 //
 
-@testable import TicTacToe
 import Combine
 import RIBs
 import SwiftUI
+@testable import TicTacToe
 
 // MARK: - LoggedInBuildableMock class
 
 /// A LoggedInBuildableMock class used for testing.
 class LoggedInBuildableMock: LoggedInBuildable {
-
     // Function Handlers
     var buildHandler: ((_ listener: LoggedInListener) -> LoggedInRouting)?
     var buildCallCount: Int = 0
 
-    init() {
-    }
+    init() {}
 
     func build(withListener listener: LoggedInListener) -> LoggedInRouting {
         buildCallCount += 1
@@ -51,22 +49,21 @@ class LoggedInInteractableMock: LoggedInInteractable {
     var listenerSetCallCount = 0
     var isActive: Bool = false { didSet { isActiveSetCallCount += 1 } }
     var isActiveSetCallCount = 0
-    var isActiveStreamSubject: PassthroughSubject<Bool, Never> = PassthroughSubject<Bool, Never>() { didSet { isActiveStreamSubjectSetCallCount += 1 } }
+    var isActiveStreamSubject = PassthroughSubject<Bool, Never>() { didSet { isActiveStreamSubjectSetCallCount += 1 } }
     var isActiveStreamSubjectSetCallCount = 0
     var isActiveStream: AnyPublisher<Bool, Never> { return isActiveStreamSubject.eraseToAnyPublisher() }
 
     // Function Handlers
-    var activateHandler: (() -> ())?
+    var activateHandler: (() -> Void)?
     var activateCallCount: Int = 0
-    var deactivateHandler: (() -> ())?
+    var deactivateHandler: (() -> Void)?
     var deactivateCallCount: Int = 0
-    var startTicTacToeHandler: (() -> ())?
+    var startTicTacToeHandler: (() -> Void)?
     var startTicTacToeCallCount: Int = 0
-    var gameDidEndHandler: (() -> ())?
+    var gameDidEndHandler: (() -> Void)?
     var gameDidEndCallCount: Int = 0
 
-    init() {
-    }
+    init() {}
 
     func activate() {
         activateCallCount += 1
@@ -104,24 +101,24 @@ class LoggedInRoutingMock: LoggedInRouting {
     // Variables
     var interactable: Interactable { didSet { interactableSetCallCount += 1 } }
     var interactableSetCallCount = 0
-    var children: [Routing] = [Routing]() { didSet { childrenSetCallCount += 1 } }
+    var children = [Routing]() { didSet { childrenSetCallCount += 1 } }
     var childrenSetCallCount = 0
-    var lifecycleSubject: PassthroughSubject<RouterLifecycle, Never> = PassthroughSubject<RouterLifecycle, Never>() { didSet { lifecycleSubjectSetCallCount += 1 } }
+    var lifecycleSubject = PassthroughSubject<RouterLifecycle, Never>() { didSet { lifecycleSubjectSetCallCount += 1 } }
     var lifecycleSubjectSetCallCount = 0
     var lifecycle: AnyPublisher<RouterLifecycle, Never> { return lifecycleSubject.eraseToAnyPublisher() }
 
     // Function Handlers
-    var cleanupViewsHandler: (() -> ())?
+    var cleanupViewsHandler: (() -> Void)?
     var cleanupViewsCallCount: Int = 0
-    var routeToTicTacToeHandler: (() -> ())?
+    var routeToTicTacToeHandler: (() -> Void)?
     var routeToTicTacToeCallCount: Int = 0
-    var routeToOffGameHandler: (() -> ())?
+    var routeToOffGameHandler: (() -> Void)?
     var routeToOffGameCallCount: Int = 0
-    var loadHandler: (() -> ())?
+    var loadHandler: (() -> Void)?
     var loadCallCount: Int = 0
-    var attachChildHandler: ((_ child: Routing) -> ())?
+    var attachChildHandler: ((_ child: Routing) -> Void)?
     var attachChildCallCount: Int = 0
-    var detachChildHandler: ((_ child: Routing) -> ())?
+    var detachChildHandler: ((_ child: Routing) -> Void)?
     var detachChildCallCount: Int = 0
 
     init(interactable: Interactable) {
@@ -175,13 +172,11 @@ class LoggedInRoutingMock: LoggedInRouting {
 
 /// A LoggedOutBuildableMock class used for testing.
 class LoggedOutBuildableMock: LoggedOutBuildable {
-
     // Function Handlers
     var buildHandler: ((_ listener: LoggedOutListener) -> LoggedOutRouting)?
     var buildCallCount: Int = 0
 
-    init() {
-    }
+    init() {}
 
     func build(withListener listener: LoggedOutListener) -> LoggedOutRouting {
         buildCallCount += 1
@@ -203,20 +198,19 @@ class RootInteractableMock: RootInteractable {
     var listenerSetCallCount = 0
     var isActive: Bool = false { didSet { isActiveSetCallCount += 1 } }
     var isActiveSetCallCount = 0
-    var isActiveStreamSubject: PassthroughSubject<Bool, Never> = PassthroughSubject<Bool, Never>() { didSet { isActiveStreamSubjectSetCallCount += 1 } }
+    var isActiveStreamSubject = PassthroughSubject<Bool, Never>() { didSet { isActiveStreamSubjectSetCallCount += 1 } }
     var isActiveStreamSubjectSetCallCount = 0
     var isActiveStream: AnyPublisher<Bool, Never> { return isActiveStreamSubject.eraseToAnyPublisher() }
 
     // Function Handlers
-    var activateHandler: (() -> ())?
+    var activateHandler: (() -> Void)?
     var activateCallCount: Int = 0
-    var deactivateHandler: (() -> ())?
+    var deactivateHandler: (() -> Void)?
     var deactivateCallCount: Int = 0
-    var didLoginHandler: ((_ player1Name: String, _ player2Name: String) -> ())?
+    var didLoginHandler: ((_ player1Name: String, _ player2Name: String) -> Void)?
     var didLoginCallCount: Int = 0
 
-    init() {
-    }
+    init() {}
 
     func activate() {
         activateCallCount += 1
@@ -253,22 +247,21 @@ class RootPresentableMock: RootPresentable {
     var viewSetCallCount = 0
 
     // Function Handlers
-    var presentHandler: ((_ presenter: Presentable) -> ())?
+    var presentHandler: ((_ presenter: Presentable) -> Void)?
     var presentCallCount: Int = 0
-    var dismissHandler: ((_ presenter: Presentable) -> ())?
+    var dismissHandler: ((_ presenter: Presentable) -> Void)?
     var dismissCallCount: Int = 0
 
-    init() {
-    }
+    init() {}
 
-    func present(presenter: Presentable) {
+    func present(presenter _: Presentable) {
         presentCallCount += 1
         if let presentHandler = presentHandler {
             return presentHandler(view)
         }
     }
 
-    func dismiss(presenter: Presentable) {
+    func dismiss(presenter _: Presentable) {
         dismissCallCount += 1
         if let dismissHandler = dismissHandler {
             return dismissHandler(view)

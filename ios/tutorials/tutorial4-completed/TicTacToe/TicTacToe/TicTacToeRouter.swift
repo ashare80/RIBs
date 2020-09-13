@@ -22,7 +22,6 @@ protocol TicTacToeInteractable: Interactable {
 }
 
 final class TicTacToeRouter: PresentableRouter<TicTacToeInteractable, TicTacToePresentable>, TicTacToeRouting {
-
     // TODO: Constructor inject child builder protocols to allow building children.
     override init(interactor: TicTacToeInteractable, presenter: TicTacToePresentable) {
         super.init(interactor: interactor, presenter: presenter)

@@ -1,4 +1,4 @@
-//___FILEHEADER___
+// ___FILEHEADER___
 
 import RIBs
 
@@ -8,7 +8,6 @@ protocol ___VARIABLE_productName___Dependency: Dependency {
 }
 
 final class ___VARIABLE_productName___Component: Component<___VARIABLE_productName___Dependency> {
-
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
 
@@ -19,7 +18,6 @@ protocol ___VARIABLE_productName___Buildable: Buildable {
 }
 
 final class ___VARIABLE_productName___Builder: Builder<___VARIABLE_productName___Dependency>, ___VARIABLE_productName___Buildable {
-
     override init(dependency: ___VARIABLE_productName___Dependency) {
         super.init(dependency: dependency)
     }

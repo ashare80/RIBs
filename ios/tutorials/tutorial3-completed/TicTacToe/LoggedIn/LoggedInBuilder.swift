@@ -21,7 +21,6 @@ protocol LoggedInDependency: Dependency {
 }
 
 final class LoggedInComponent: Component<LoggedInDependency> {
-
     fileprivate var loggedInPresenter: LoggedInPresentable {
         return dependency.loggedInPresenter
     }
@@ -38,7 +37,6 @@ final class LoggedInComponent: Component<LoggedInDependency> {
         self.player2Name = player2Name
         super.init(dependency: dependency)
     }
-
 }
 
 // MARK: - Builder
@@ -48,7 +46,6 @@ protocol LoggedInBuildable: Buildable {
 }
 
 final class LoggedInBuilder: Builder<LoggedInDependency>, LoggedInBuildable {
-
     override init(dependency: LoggedInDependency) {
         super.init(dependency: dependency)
     }

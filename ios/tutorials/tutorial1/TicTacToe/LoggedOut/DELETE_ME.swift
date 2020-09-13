@@ -27,8 +27,7 @@ protocol LoggedOutBuildable {
 
 final class LoggedOutInteractor: Interactor {}
 
-final class LoggedOutPresenter: Presenter<LoggedOutView>, ViewPresentable {
-}
+final class LoggedOutPresenter: Presenter<LoggedOutView>, ViewPresentable {}
 
 struct LoggedOutView: PresenterView {
     @ObservedObject var presenter: LoggedOutPresenter
@@ -36,8 +35,8 @@ struct LoggedOutView: PresenterView {
 }
 
 final class LoggedOutBuilder: LoggedOutBuildable {
-    init(dependency: Any) {}
-    func build(withListener: LoggedOutListener) -> PresentableRouting {
+    init(dependency _: Any) {}
+    func build(withListener _: LoggedOutListener) -> PresentableRouting {
         return PresentableRouter<Interactable, Presentable>(interactor: LoggedOutInteractor(), presenter: LoggedOutPresenter())
     }
 }

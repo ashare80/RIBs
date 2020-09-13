@@ -18,14 +18,13 @@
 import XCTest
 
 class ComponentizedBuilderTests: XCTestCase {
-
     func test_componentForCurrentPass_builderReturnsSameInstance_verifyAssertion() {
         let component = MockComponent()
         let sameInstanceBuilder = MockComponentizedBuilder {
-            return component
+            component
         }
-        sameInstanceBuilder.buildHandler = { component, _ in
-            return MockSimpleRouter()
+        sameInstanceBuilder.buildHandler = { _, _ in
+            MockSimpleRouter()
         }
 
         let _: MockSimpleRouter = sameInstanceBuilder.build(withDynamicBuildDependency: (), dynamicComponentDependency: ())
@@ -37,10 +36,10 @@ class ComponentizedBuilderTests: XCTestCase {
 
     func test_componentForCurrentPass_builderReturnsNewInstance_verifyNoAssertion() {
         let sameInstanceBuilder = MockComponentizedBuilder {
-            return MockComponent()
+            MockComponent()
         }
-        sameInstanceBuilder.buildHandler = { component, _ in
-            return MockSimpleRouter()
+        sameInstanceBuilder.buildHandler = { _, _ in
+            MockSimpleRouter()
         }
 
         let _: MockSimpleRouter = sameInstanceBuilder.build(withDynamicBuildDependency: (), dynamicComponentDependency: ())
@@ -53,8 +52,7 @@ private class MockComponent {}
 
 private class MockSimpleRouter {}
 
-private class MockComponentizedBuilder: ComponentizedBuilder<MockComponent, MockSimpleRouter, (), ()> {
-
+private class MockComponentizedBuilder: ComponentizedBuilder<MockComponent, MockSimpleRouter, Void, Void> {
     fileprivate var buildHandler: ((MockComponent, ()) -> MockSimpleRouter)?
 
     override func build(with component: MockComponent, _ dynamicBuildDependency: ()) -> MockSimpleRouter {

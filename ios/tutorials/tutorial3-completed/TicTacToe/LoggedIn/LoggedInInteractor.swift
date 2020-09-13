@@ -32,7 +32,6 @@ protocol LoggedInListener: AnyObject {
 }
 
 final class LoggedInInteractor: Interactor, LoggedInInteractable {
-
     weak var router: LoggedInRouting?
     weak var listener: LoggedInListener?
 
@@ -70,5 +69,4 @@ final class LoggedInInteractor: Interactor, LoggedInInteractable {
     }
 
     private let mutableScoreStream: MutableScoreStream
-
 }

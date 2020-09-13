@@ -22,7 +22,6 @@ protocol BasicScoreBoardInteractable: Interactable {
 }
 
 final class BasicScoreBoardRouter: PresentableRouter<BasicScoreBoardInteractable, BasicScoreBoardPresentable>, BasicScoreBoardRouting {
-
     // TODO: Constructor inject child builder protocols to allow building children.
     override init(interactor: BasicScoreBoardInteractable, presenter: BasicScoreBoardPresentable) {
         super.init(interactor: interactor, presenter: presenter)

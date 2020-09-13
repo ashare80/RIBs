@@ -17,7 +17,6 @@
 import RIBs
 
 class RandomWinAdapter: Game, GameBuildable, RandomWinListener {
-
     let id = "randomwin"
     let name = "Random Win"
     var builder: GameBuildable {

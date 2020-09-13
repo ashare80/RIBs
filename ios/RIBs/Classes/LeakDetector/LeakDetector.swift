@@ -19,7 +19,6 @@ import SwiftUI
 
 /// Leak detection status.
 public enum LeakDetectionStatus {
-
     /// Leak detection is in progress.
     case InProgress
 
@@ -29,7 +28,6 @@ public enum LeakDetectionStatus {
 
 /// The default time values used for leak detection expectations.
 public struct LeakDefaultExpectationTime {
-
     /// The object deallocation time.
     public static let deallocation = 1.0
 
@@ -39,7 +37,6 @@ public struct LeakDefaultExpectationTime {
 
 /// The handle for a scheduled leak detection.
 public protocol LeakDetectionHandle {
-
     /// Cancel the scheduled detection.
     func cancel()
 }
@@ -56,7 +53,6 @@ public protocol ViewTracking: AnyObject {
 /// itself is deallocated. If the interactor does not deallocate in time, a runtime assert is triggered, along with
 /// critical logging.
 public class LeakDetector {
-
     /// The singleton instance.
     public static let instance = LeakDetector()
 
@@ -68,9 +64,9 @@ public class LeakDetector {
         return expectationCount
             .map { expectationCount in
                 expectationCount > 0 ? LeakDetectionStatus.InProgress : LeakDetectionStatus.DidComplete
-        }
-        .removeDuplicates()
-        .eraseToAnyPublisher()
+            }
+            .removeDuplicates()
+            .eraseToAnyPublisher()
     }
 
     /// Sets up an expectation for the given object to be deallocated within the given time.
@@ -112,7 +108,7 @@ public class LeakDetector {
 
         return handle
     }
-    
+
     /// Sets up an expectation for the given view controller to disappear within the given time.
     ///
     /// - parameter presenter: The `View` expected to disappear.
@@ -177,16 +173,15 @@ public class LeakDetector {
     private init() {}
 }
 
-fileprivate class LeakDetectionHandleImpl: LeakDetectionHandle {
-
+private class LeakDetectionHandleImpl: LeakDetectionHandle {
     var cancelled: Bool {
         return cancelledRelay.value
     }
 
     let cancelledRelay = CurrentValueSubject<Bool, Never>(false)
-    let cancelClosure: (() -> ())?
+    let cancelClosure: (() -> Void)?
 
-    init(cancelClosure: (() -> ())? = nil) {
+    init(cancelClosure: (() -> Void)? = nil) {
         self.cancelClosure = cancelClosure
     }
 

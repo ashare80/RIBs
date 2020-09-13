@@ -6,29 +6,28 @@
 //  Copyright © 2020 Uber. All rights reserved.
 //
 
-import SwiftUI
 import RIBs
+import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    
     private var launchRouter: LaunchRouting?
     private var urlHandler: UrlHandler?
-    
+
     var window: UIWindow?
-    
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+
+    func scene(_ scene: UIScene, willConnectTo _: UISceneSession, options _: UIScene.ConnectionOptions) {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             self.window = window
-            
+
             let result = RootBuilder(dependency: AppComponent()).build()
-            self.launchRouter = result.launchRouter
-            self.urlHandler = result.urlHandler
+            launchRouter = result.launchRouter
+            urlHandler = result.urlHandler
             result.launchRouter.launch(from: window)
         }
     }
-    
-    public func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+
+    public func application(_: UIApplication, open url: URL, sourceApplication _: String?, annotation _: Any) -> Bool {
         urlHandler?.handle(url)
         return true
     }

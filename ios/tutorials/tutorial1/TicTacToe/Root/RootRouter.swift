@@ -22,10 +22,10 @@ protocol RootInteractable: Interactable, LoggedOutListener {
 }
 
 final class RootRouter: LaunchRouter<RootInteractable, RootPresentable>, RootRouting {
-
     init(interactor: RootInteractable,
          presenter: RootPresentable,
-         loggedOutBuilder: LoggedOutBuildable) {
+         loggedOutBuilder: LoggedOutBuildable)
+    {
         self.loggedOutBuilder = loggedOutBuilder
         super.init(interactor: interactor, presenter: presenter)
         interactor.router = self

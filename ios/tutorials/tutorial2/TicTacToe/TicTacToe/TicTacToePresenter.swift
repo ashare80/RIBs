@@ -40,12 +40,12 @@ final class TicTacToePresenter: Presenter<TicTacToeView>, ViewPresentable, TicTa
 
 struct TicTacToeView: PresenterView {
     @ObservedObject var presenter: TicTacToePresenter
-    
+
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            ForEach(0..<GameConstants.rowCount) { y in
+            ForEach(0 ..< GameConstants.rowCount) { y in
                 HStack(alignment: .center, spacing: 0) {
-                    ForEach(0..<GameConstants.colCount) { x in
+                    ForEach(0 ..< GameConstants.colCount) { x in
                         Button(action: {
                             self.presenter.listener?.placeCurrentPlayerMark(atRow: y, col: x)
                         }) {
@@ -102,9 +102,9 @@ extension PlayerType {
 // MARK: - Preview
 
 #if DEBUG
-struct TicTacToeView_Previews: PreviewProvider {
-    static var previews: some View {
-        TicTacToeView(presenter: TicTacToePresenter())
+    struct TicTacToeView_Previews: PreviewProvider {
+        static var previews: some View {
+            TicTacToeView(presenter: TicTacToePresenter())
+        }
     }
-}
 #endif

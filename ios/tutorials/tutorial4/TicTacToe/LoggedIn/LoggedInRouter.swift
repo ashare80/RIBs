@@ -27,10 +27,10 @@ protocol LoggedInPresentable: Presentable {
 }
 
 final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
-
     init(interactor: LoggedInInteractable,
          presenter: LoggedInPresentable,
-         offGameBuilder: OffGameBuildable) {
+         offGameBuilder: OffGameBuildable)
+    {
         self.presenter = presenter
         self.offGameBuilder = offGameBuilder
         super.init(interactor: interactor)
@@ -54,7 +54,7 @@ final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
         detachCurrentChild()
 
         let game = gameBuilder.build(withListener: interactor)
-        self.currentChild = game
+        currentChild = game
         attachChild(game)
         presenter.present(presenter: game.presentable)
     }
@@ -68,7 +68,7 @@ final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
 
     private func attachOffGame(with games: [Game]) {
         let offGame = offGameBuilder.build(withListener: interactor, games: games)
-        self.currentChild = offGame
+        currentChild = offGame
         attachChild(offGame)
         presenter.present(presenter: offGame.presentable)
     }

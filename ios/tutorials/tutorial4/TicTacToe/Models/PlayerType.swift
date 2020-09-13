@@ -19,6 +19,6 @@ import SwiftUI
 public enum PlayerType: Int, Identifiable {
     case player1 = 1
     case player2
-    
+
     public var id: Int { rawValue }
 }

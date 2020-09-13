@@ -14,12 +14,11 @@
 //  limitations under the License.
 //
 
-import XCTest
 import Combine
 @testable import RIBs
+import XCTest
 
 final class WorkerTests: XCTestCase {
-
     private var worker: TestWorker!
     private var interactor: InteractorMock!
     private var cancellables: [AnyCancellable] = []
@@ -106,7 +105,6 @@ final class WorkerTests: XCTestCase {
 }
 
 private final class TestWorker: Worker {
-
     private(set) var didStartCallCount: Int = 0
     private(set) var didStopCallCount: Int = 0
 

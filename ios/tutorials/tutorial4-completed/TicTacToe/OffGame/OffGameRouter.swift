@@ -22,10 +22,10 @@ protocol OffGameInteractable: Interactable, BasicScoreBoardListener {
 }
 
 final class OffGameRouter: PresentableRouter<OffGameInteractable, OffGamePresentable>, OffGameRouting {
-
     init(interactor: OffGameInteractable,
          presenter: OffGamePresentable,
-         scoreBoardBuilder: BasicScoreBoardBuildable) {
+         scoreBoardBuilder: BasicScoreBoardBuildable)
+    {
         self.scoreBoardBuilder = scoreBoardBuilder
         super.init(interactor: interactor, presenter: presenter)
         interactor.router = self

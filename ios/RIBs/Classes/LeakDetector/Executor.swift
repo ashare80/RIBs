@@ -14,12 +14,11 @@
 //  limitations under the License.
 //
 
+import Combine
 import Dispatch
 import Foundation
-import Combine
 
 public class Executor {
-
     /// Execute the given logic after the given delay assuming the given maximum frame duration.
     ///
     /// This allows excluding the time elapsed due to breakpoint pauses.
@@ -31,18 +30,18 @@ public class Executor {
     ///   pauses.
     /// - parameter maxFrameDuration: The maximum duration a single frame should take. Defaults to 33ms.
     /// - parameter logic: The closure logic to perform.
-    public static func execute(withDelay delay: TimeInterval, maxFrameDuration: Int = 33, logic: @escaping () -> ()) {
+    public static func execute(withDelay delay: TimeInterval, maxFrameDuration: Int = 33, logic: @escaping () -> Void) {
         let period: TimeInterval = .milliseconds(maxFrameDuration / 3)
         var lastRunLoopTime = Date().timeIntervalSinceReferenceDate
         var properFrameTime = 0.0
-        let compositeCancellable: CompositeCancellable = CompositeCancellable()
+        let compositeCancellable = CompositeCancellable()
         Timer.publish(every: period, on: RunLoop.main, in: .common)
             .autoconnect()
             .sink(receiveValue: { _ in
                 let currentTime = Date().timeIntervalSinceReferenceDate
                 let trueElapsedTime = currentTime - lastRunLoopTime
                 lastRunLoopTime = currentTime
-                
+
                 // If we did drop frame, we under-count the frame duration, which is fine. It
                 // just means the logic is performed slightly later.
                 let boundedElapsedTime = min(trueElapsedTime, Double(maxFrameDuration) / 1000)

@@ -22,7 +22,6 @@ protocol RandomWinInteractable: Interactable {
 }
 
 final class RandomWinRouter: PresentableRouter<RandomWinInteractable, RandomWinPresentable>, RandomWinRouting {
-
     // TODO: Constructor inject child builder protocols to allow building children.
     override init(interactor: RandomWinInteractable, presenter: RandomWinPresentable) {
         super.init(interactor: interactor, presenter: presenter)

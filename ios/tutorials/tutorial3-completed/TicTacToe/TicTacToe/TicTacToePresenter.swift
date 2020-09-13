@@ -26,12 +26,13 @@ final class TicTacToePresenter: Presenter<TicTacToeView>, ViewPresentable, TicTa
     @Published var gameWinnerTitle: String?
     @Published var playerSelection: [Coordinate: PlayerType] = [:]
     weak var listener: TicTacToePresentableListener?
-    
+
     private let player1Name: String
     private let player2Name: String
-    
+
     init(player1Name: String,
-         player2Name: String) {
+         player2Name: String)
+    {
         self.player1Name = player1Name
         self.player2Name = player2Name
     }
@@ -41,7 +42,7 @@ final class TicTacToePresenter: Presenter<TicTacToeView>, ViewPresentable, TicTa
     func setCell(atRow row: Int, col: Int, withPlayerType playerType: PlayerType) {
         playerSelection[Coordinate(x: col, y: row)] = playerType
     }
-    
+
     func announce(winner: PlayerType?) {
         if let winner = winner {
             switch winner {
@@ -62,12 +63,12 @@ extension String: Identifiable {
 
 struct TicTacToeView: PresenterView {
     @ObservedObject var presenter: TicTacToePresenter
-    
+
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            ForEach(0..<GameConstants.rowCount) { y in
+            ForEach(0 ..< GameConstants.rowCount) { y in
                 HStack(alignment: .center, spacing: 0) {
-                    ForEach(0..<GameConstants.colCount) { x in
+                    ForEach(0 ..< GameConstants.colCount) { x in
                         Button(action: {
                             self.presenter.listener?.placeCurrentPlayerMark(atRow: y, col: x)
                         }) {
@@ -122,10 +123,10 @@ extension PlayerType {
 // MARK: - Preview
 
 #if DEBUG
-struct TicTacToeView_Previews: PreviewProvider {
-    static var previews: some View {
-        TicTacToeView(presenter: TicTacToePresenter(player1Name: "player1Name",
-                                                    player2Name: "player2Name"))
+    struct TicTacToeView_Previews: PreviewProvider {
+        static var previews: some View {
+            TicTacToeView(presenter: TicTacToePresenter(player1Name: "player1Name",
+                                                        player2Name: "player2Name"))
+        }
     }
-}
 #endif

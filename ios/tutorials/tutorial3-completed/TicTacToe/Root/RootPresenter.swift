@@ -17,7 +17,6 @@
 import RIBs
 import SwiftUI
 
-
 import RIBs
 import SwiftUI
 
@@ -28,14 +27,12 @@ protocol RootPresentableListener: AnyObject {
 }
 
 final class RootPresenter: Presenter<RootView>, ViewPresentable, RootPresentable {
-    
     @Published var presentedPresenter: Presentable?
-    
+
     weak var listener: RootPresentableListener?
-    
-    
+
     // MARK: - RootPresentable
-    
+
     func present(presenter: Presentable) {
         presentedPresenter = presenter
     }
@@ -49,14 +46,11 @@ final class RootPresenter: Presenter<RootView>, ViewPresentable, RootPresentable
 
 // MARK: LoggedInPresentable
 
-extension RootPresenter: LoggedInPresentable {
-
-}
+extension RootPresenter: LoggedInPresentable {}
 
 struct RootView: PresenterView {
-    
     @ObservedObject var presenter: RootPresenter
-    
+
     var body: some View {
         presenter.presentedPresenter?.viewable.asAnyView
     }
@@ -65,9 +59,9 @@ struct RootView: PresenterView {
 // MARK: - Preview
 
 #if DEBUG
-struct RootView_Previews: PreviewProvider {
-    static var previews: some View {
-        RootView(presenter: RootPresenter())
+    struct RootView_Previews: PreviewProvider {
+        static var previews: some View {
+            RootView(presenter: RootPresenter())
+        }
     }
-}
 #endif

@@ -21,7 +21,6 @@ protocol LoggedInDependency: Dependency {
 }
 
 final class LoggedInComponent: Component<LoggedInDependency> {
-
     fileprivate var loggedInPresenter: LoggedInPresentable {
         return dependency.loggedInPresenter
     }
@@ -57,7 +56,6 @@ protocol LoggedInBuildable: Buildable {
 }
 
 final class LoggedInBuilder: Builder<LoggedInDependency>, LoggedInBuildable {
-
     override init(dependency: LoggedInDependency) {
         super.init(dependency: dependency)
     }

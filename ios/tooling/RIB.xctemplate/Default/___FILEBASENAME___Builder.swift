@@ -1,4 +1,4 @@
-//___FILEHEADER___
+// ___FILEHEADER___
 
 import RIBs
 
@@ -10,7 +10,6 @@ protocol ___VARIABLE_productName___Dependency: Dependency {
 }
 
 final class ___VARIABLE_productName___Component: Component<___VARIABLE_productName___Dependency> {
-
     // TODO: Make sure to convert the variable into lower-camelcase.
     fileprivate var ___VARIABLE_productName___Presenter: ___VARIABLE_productName___Viewable {
         return dependency.___VARIABLE_productName___View
@@ -26,7 +25,6 @@ protocol ___VARIABLE_productName___Buildable: Buildable {
 }
 
 final class ___VARIABLE_productName___Builder: Builder<___VARIABLE_productName___Dependency>, ___VARIABLE_productName___Buildable {
-
     override init(dependency: ___VARIABLE_productName___Dependency) {
         super.init(dependency: dependency)
     }

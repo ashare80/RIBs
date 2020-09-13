@@ -22,7 +22,6 @@ protocol RootDependency: Dependency {
 }
 
 final class RootComponent: Component<RootDependency> {
-
     var rootPresenter: RootPresenter {
         shared {
             RootPresenter()
@@ -37,7 +36,6 @@ protocol RootBuildable: Buildable {
 }
 
 final class RootBuilder: Builder<RootDependency>, RootBuildable {
-
     override init(dependency: RootDependency) {
         super.init(dependency: dependency)
     }

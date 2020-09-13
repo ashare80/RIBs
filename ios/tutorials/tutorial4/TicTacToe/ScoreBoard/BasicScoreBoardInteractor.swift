@@ -30,13 +30,13 @@ public protocol BasicScoreBoardListener: AnyObject {
 }
 
 final class BasicScoreBoardInteractor: PresentableInteractor<BasicScoreBoardPresentable>, BasicScoreBoardInteractable, BasicScoreBoardPresentableListener {
-
     weak var router: BasicScoreBoardRouting?
 
     weak var listener: BasicScoreBoardListener?
 
     init(presenter: BasicScoreBoardPresentable,
-         scoreStream: ScoreStream) {
+         scoreStream: ScoreStream)
+    {
         self.scoreStream = scoreStream
         super.init(presenter: presenter)
         presenter.listener = self

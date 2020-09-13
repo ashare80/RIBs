@@ -31,13 +31,13 @@ public protocol TicTacToeListener: AnyObject {
 }
 
 final class TicTacToeInteractor: PresentableInteractor<TicTacToePresentable>, TicTacToeInteractable, TicTacToePresentableListener {
-
     weak var router: TicTacToeRouting?
 
     weak var listener: TicTacToeListener?
 
     init(presenter: TicTacToePresentable,
-         mutableScoreStream: MutableScoreStream) {
+         mutableScoreStream: MutableScoreStream)
+    {
         self.mutableScoreStream = mutableScoreStream
         super.init(presenter: presenter)
         presenter.listener = self
@@ -68,7 +68,7 @@ final class TicTacToeInteractor: PresentableInteractor<TicTacToePresentable>, Ti
         let endGame = checkEndGame()
         if endGame.didEnd {
             self.endGame = endGame
-            
+
             if let winner = endGame.winner {
                 mutableScoreStream.updateScore(with: winner)
             }
@@ -76,12 +76,12 @@ final class TicTacToeInteractor: PresentableInteractor<TicTacToePresentable>, Ti
             presenter.announce(winner: endGame.winner)
         }
     }
-    
+
     var endGame: (winner: PlayerType?, didEnd: Bool)?
 
     func closeGame() {
         guard let endGame = endGame else { return }
-        self.listener?.ticTacToeDidEnd(with: endGame.winner)
+        listener?.ticTacToeDidEnd(with: endGame.winner)
     }
 
     // MARK: - Private
@@ -92,7 +92,7 @@ final class TicTacToeInteractor: PresentableInteractor<TicTacToePresentable>, Ti
     private var board = [[PlayerType?]]()
 
     private func initBoard() {
-        for _ in 0..<GameConstants.rowCount {
+        for _ in 0 ..< GameConstants.rowCount {
             board.append([nil, nil, nil])
         }
     }
@@ -118,12 +118,12 @@ final class TicTacToeInteractor: PresentableInteractor<TicTacToePresentable>, Ti
 
     private func checkWinner() -> PlayerType? {
         // Rows.
-        for row in 0..<GameConstants.rowCount {
+        for row in 0 ..< GameConstants.rowCount {
             guard let assumedWinner = board[row][0] else {
                 continue
             }
             var winner: PlayerType? = assumedWinner
-            for col in 1..<GameConstants.colCount {
+            for col in 1 ..< GameConstants.colCount {
                 if assumedWinner.rawValue != board[row][col]?.rawValue {
                     winner = nil
                     break
@@ -135,12 +135,12 @@ final class TicTacToeInteractor: PresentableInteractor<TicTacToePresentable>, Ti
         }
 
         // Cols.
-        for col in 0..<GameConstants.colCount {
+        for col in 0 ..< GameConstants.colCount {
             guard let assumedWinner = board[0][col] else {
                 continue
             }
             var winner: PlayerType? = assumedWinner
-            for row in 1..<GameConstants.rowCount {
+            for row in 1 ..< GameConstants.rowCount {
                 if assumedWinner.rawValue != board[row][col]?.rawValue {
                     winner = nil
                     break
@@ -156,13 +156,13 @@ final class TicTacToeInteractor: PresentableInteractor<TicTacToePresentable>, Ti
             return nil
         }
         if let p00 = board[0][0], let p22 = board[2][2] {
-            if p00.rawValue == p11.rawValue && p11.rawValue == p22.rawValue {
+            if p00.rawValue == p11.rawValue, p11.rawValue == p22.rawValue {
                 return p11
             }
         }
 
         if let p02 = board[0][2], let p20 = board[2][0] {
-            if p02.rawValue == p11.rawValue && p11.rawValue == p20.rawValue {
+            if p02.rawValue == p11.rawValue, p11.rawValue == p20.rawValue {
                 return p11
             }
         }
@@ -171,8 +171,8 @@ final class TicTacToeInteractor: PresentableInteractor<TicTacToePresentable>, Ti
     }
 
     private func checkDraw() -> Bool {
-        for row in 0..<GameConstants.rowCount {
-            for col in 0..<GameConstants.colCount {
+        for row in 0 ..< GameConstants.rowCount {
+            for col in 0 ..< GameConstants.colCount {
                 if board[row][col] == nil {
                     return false
                 }

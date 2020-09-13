@@ -22,7 +22,6 @@ protocol TicTacToeDependency: Dependency {
 }
 
 final class TicTacToeComponent: Component<TicTacToeDependency> {
-
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
 
@@ -33,7 +32,6 @@ protocol TicTacToeBuildable: Buildable {
 }
 
 final class TicTacToeBuilder: Builder<TicTacToeDependency>, TicTacToeBuildable {
-
     override init(dependency: TicTacToeDependency) {
         super.init(dependency: dependency)
     }

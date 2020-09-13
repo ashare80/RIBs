@@ -50,7 +50,7 @@ final class OffGameBuilder: Builder<OffGameDependency>, OffGameBuildable {
     func build(withListener listener: OffGameListener) -> OffGameRouting {
         let component = OffGameComponent(dependency: dependency)
         let presenter = OffGamePresenter(player1Name: component.player1Name,
-                                                   player2Name: component.player2Name)
+                                         player2Name: component.player2Name)
         let interactor = OffGameInteractor(presenter: presenter,
                                            scoreStream: component.scoreStream)
         interactor.listener = listener

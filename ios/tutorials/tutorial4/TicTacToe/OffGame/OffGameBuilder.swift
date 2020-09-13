@@ -23,7 +23,6 @@ public protocol OffGameDependency: Dependency {
 }
 
 final class OffGameComponent: Component<OffGameDependency>, BasicScoreBoardDependency {
-
     var player1Name: String {
         return dependency.player1Name
     }
@@ -44,7 +43,6 @@ protocol OffGameBuildable: Buildable {
 }
 
 final class OffGameBuilder: Builder<OffGameDependency>, OffGameBuildable {
-
     override init(dependency: OffGameDependency) {
         super.init(dependency: dependency)
     }

@@ -24,14 +24,13 @@ public class LaunchGameWorkflow: Workflow<RootActionableItem> {
 
         let gameId = parseGameId(from: url)
 
-        self
-            .onStep { (rootItem: RootActionableItem) -> AnyPublisher<(LoggedInActionableItem, ()), Never> in
-                rootItem.waitForLogin()
-            }
-            .onStep { (loggedInItem: LoggedInActionableItem, _) -> AnyPublisher<(LoggedInActionableItem, ()), Never> in
-                loggedInItem.launchGame(with: gameId)
-            }
-            .commit()
+        onStep { (rootItem: RootActionableItem) -> AnyPublisher<(LoggedInActionableItem, ()), Never> in
+            rootItem.waitForLogin()
+        }
+        .onStep { (loggedInItem: LoggedInActionableItem, _) -> AnyPublisher<(LoggedInActionableItem, ()), Never> in
+            loggedInItem.launchGame(with: gameId)
+        }
+        .commit()
     }
 
     private func parseGameId(from url: URL) -> String? {
@@ -46,4 +45,3 @@ public class LaunchGameWorkflow: Workflow<RootActionableItem> {
         return nil
     }
 }
-

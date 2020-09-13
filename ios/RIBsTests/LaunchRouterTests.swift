@@ -19,11 +19,10 @@ import SwiftUI
 import XCTest
 
 final class LaunchRouterTests: XCTestCase {
-
     private var launchRouter: LaunchRouting!
 
-    private var interactor: InteractableMock = InteractableMock()
-    private var presenter: PresentableMock = PresentableMock()
+    private var interactor = InteractableMock()
+    private var presenter = PresentableMock()
 
     // MARK: - Setup
 
