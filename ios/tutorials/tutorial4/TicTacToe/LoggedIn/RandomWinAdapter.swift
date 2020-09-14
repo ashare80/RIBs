@@ -17,7 +17,6 @@
 import RIBs
 
 class RandomWinAdapter: Game, GameBuildable, RandomWinListener {
-
     let id = "randomwin"
     let name = "Random Win"
     var builder: GameBuildable {
@@ -32,7 +31,7 @@ class RandomWinAdapter: Game, GameBuildable, RandomWinListener {
         randomWinBuilder = RandomWinBuilder(dependency: dependency)
     }
 
-    func build(withListener listener: GameListener) -> ViewableRouting {
+    func build(withListener listener: GameListener) -> PresentableRouting {
         self.listener = listener
         return randomWinBuilder.build(withListener: self)
     }

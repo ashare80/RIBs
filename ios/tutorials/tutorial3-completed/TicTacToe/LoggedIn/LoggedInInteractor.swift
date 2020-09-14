@@ -16,7 +16,7 @@
 
 import RIBs
 
-enum PlayerType: Int {
+public enum PlayerType: Int {
     case player1 = 1
     case player2
 }
@@ -32,7 +32,6 @@ protocol LoggedInListener: AnyObject {
 }
 
 final class LoggedInInteractor: Interactor, LoggedInInteractable {
-
     weak var router: LoggedInRouting?
     weak var listener: LoggedInListener?
 
@@ -64,11 +63,10 @@ final class LoggedInInteractor: Interactor, LoggedInInteractable {
 
     func gameDidEnd(withWinner winner: PlayerType?) {
         if let winner = winner {
-            mutableScoreStream.updateScore(withWinner: winner)
+            mutableScoreStream.updateScore(with: winner)
         }
         router?.routeToOffGame()
     }
 
     private let mutableScoreStream: MutableScoreStream
-
 }

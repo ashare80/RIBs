@@ -24,7 +24,6 @@ import Combine
 ///
 /// A workflow should always start at the root of the tree.
 open class Workflow<ActionableItemType> {
-
     /// Called when the last step publisher is completed.
     ///
     /// Subclasses should override this method if they want to execute logic at this point in the `Workflow` lifecycle.
@@ -45,7 +44,7 @@ open class Workflow<ActionableItemType> {
     ///
     /// Subclasses should override this method if they want to execute logic at this point in the `Workflow` lifecycle.
     /// The default implementation does nothing.
-    open func didReceiveError(_ error: Error) {
+    open func didReceiveError(_: Error) {
         // No-op
     }
 
@@ -99,7 +98,6 @@ open class Workflow<ActionableItemType> {
 }
 
 extension Workflow where ActionableItemType == Void {
-    
     public final func sink() -> Cancellable {
         return sink(())
     }
@@ -112,7 +110,6 @@ extension Workflow where ActionableItemType == Void {
 ///
 /// Steps are asynchronous by nature.
 open class Step<WorkflowActionableItemType, ActionableItemType, ValueType, Failure: Error> {
-
     private let workflow: Workflow<WorkflowActionableItemType>
     private var publisher: AnyPublisher<(ActionableItemType, ValueType), Failure>
 
@@ -128,37 +125,37 @@ open class Step<WorkflowActionableItemType, ActionableItemType, ValueType, Failu
     public final func onStep<NextActionableItemType, NextValueType, NextFailure: Error>(_ onStep: @escaping (ActionableItemType, ValueType) -> AnyPublisher<(NextActionableItemType, NextValueType), NextFailure>, mapError: @escaping (Failure) -> NextFailure) -> Step<WorkflowActionableItemType, NextActionableItemType, NextValueType, NextFailure> {
         let confinedNextStep =
             publisher
-            .map { (actionableItem, value) -> AnyPublisher<(Bool, ActionableItemType, ValueType), Failure> in
-                // We cannot use generic constraint here since Swift requires constraints be
-                // satisfied by concrete types, preventing using protocol as actionable type.
-                if let interactor = actionableItem as? Interactable {
-                    return interactor
-                        .isActiveStream
-                        .map({ (isActive: Bool) -> (Bool, ActionableItemType, ValueType) in
-                            (isActive, actionableItem, value)
-                        })
-                    .mapError()
-                        .eraseToAnyPublisher()
-                } else {
-                    return Just((true, actionableItem, value)).mapError().eraseToAnyPublisher()
+                .map { (actionableItem, value) -> AnyPublisher<(Bool, ActionableItemType, ValueType), Failure> in
+                    // We cannot use generic constraint here since Swift requires constraints be
+                    // satisfied by concrete types, preventing using protocol as actionable type.
+                    if let interactor = actionableItem as? Interactable {
+                        return interactor
+                            .isActiveStream
+                            .map { (isActive: Bool) -> (Bool, ActionableItemType, ValueType) in
+                                (isActive, actionableItem, value)
+                            }
+                            .mapError()
+                            .eraseToAnyPublisher()
+                    } else {
+                        return Just((true, actionableItem, value)).mapError().eraseToAnyPublisher()
+                    }
                 }
-            }
-            .switchToLatest()
-            .filter { (isActive: Bool, _, _) -> Bool in
-                isActive
-            }
-            .first()
-            .map { (_, actionableItem: ActionableItemType, value: ValueType) -> AnyPublisher<(NextActionableItemType, NextValueType), NextFailure> in
-                onStep(actionableItem, value)
-            }
-            .mapError(mapError)
-            .switchToLatest()
-            .first()
-            .share()
+                .switchToLatest()
+                .filter { (isActive: Bool, _, _) -> Bool in
+                    isActive
+                }
+                .first()
+                .map { (_, actionableItem: ActionableItemType, value: ValueType) -> AnyPublisher<(NextActionableItemType, NextValueType), NextFailure> in
+                    onStep(actionableItem, value)
+                }
+                .mapError(mapError)
+                .switchToLatest()
+                .first()
+                .share()
 
         return Step<WorkflowActionableItemType, NextActionableItemType, NextValueType, NextFailure>(workflow: workflow, publisher: confinedNextStep)
     }
-    
+
     public final func onStep<NextActionableItemType, NextValueType>(_ transform: @escaping (ActionableItemType, ValueType) -> AnyPublisher<(NextActionableItemType, NextValueType), Failure>) -> Step<WorkflowActionableItemType, NextActionableItemType, NextValueType, Failure> {
         return onStep(transform) { error -> Failure in error }
     }
@@ -167,7 +164,7 @@ open class Step<WorkflowActionableItemType, ActionableItemType, ValueType, Failu
     ///
     /// - parameter onError: The closure to execute when an error occurs.
     /// - returns: This step.
-    public final func onError(_ onError: @escaping ((Failure) -> ())) -> Step<WorkflowActionableItemType, ActionableItemType, ValueType, Failure> {
+    public final func onError(_ onError: @escaping ((Failure) -> Void)) -> Step<WorkflowActionableItemType, ActionableItemType, ValueType, Failure> {
         publisher = publisher
             .handleEvents(receiveFailure: onError)
             .eraseToAnyPublisher()
@@ -197,17 +194,16 @@ open class Step<WorkflowActionableItemType, ActionableItemType, ValueType, Failu
 
 extension Step where Failure == Never {
     public final func onStep<NextActionableItemType, NextValueType, NextFailure>(_ transform: @escaping (ActionableItemType, ValueType) -> AnyPublisher<(NextActionableItemType, NextValueType), NextFailure>) -> Step<WorkflowActionableItemType, NextActionableItemType, NextValueType, NextFailure> {
-        return onStep(transform) { error -> NextFailure in }
+        return onStep(transform) { _ -> NextFailure in }
     }
-    
+
     public final func onStep<NextActionableItemType, NextValueType>(_ transform: @escaping (ActionableItemType, ValueType) -> AnyPublisher<(NextActionableItemType, NextValueType), Never>) -> Step<WorkflowActionableItemType, NextActionableItemType, NextValueType, Never> {
-        return onStep(transform) { error -> Never in }
+        return onStep(transform) { _ -> Never in }
     }
 }
 
 /// `Workflow` related obervable extensions.
 public extension Publisher {
-
     /// Fork the step from this obervable.
     ///
     /// - parameter workflow: The workflow this step belongs to.
@@ -221,7 +217,6 @@ public extension Publisher {
 
 /// `Workflow` related `Cancellable` extensions.
 public extension Cancellable {
-
     /// Cancel the subscription when the given `Workflow` is cancelled.
     ///
     /// When using this composition, the subscription closure may freely retain the workflow itself, since the

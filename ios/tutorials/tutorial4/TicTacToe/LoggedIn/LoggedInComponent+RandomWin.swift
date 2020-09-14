@@ -16,5 +16,4 @@
 
 import RIBs
 
-extension LoggedInComponent: RandomWinDependency {
-}
+extension LoggedInComponent: RandomWinDependency {}

@@ -14,18 +14,11 @@
 //  limitations under the License.
 //
 
-import UIKit
+import SwiftUI
 
-public enum PlayerType: Int {
+public enum PlayerType: Int, Identifiable {
     case player1 = 1
     case player2
 
-    var color: UIColor {
-        switch self {
-        case .player1:
-            return UIColor.red
-        case .player2:
-            return UIColor.blue
-        }
-    }
+    public var id: Int { rawValue }
 }

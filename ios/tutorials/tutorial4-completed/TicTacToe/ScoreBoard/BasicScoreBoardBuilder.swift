@@ -23,7 +23,6 @@ public protocol BasicScoreBoardDependency: Dependency {
 }
 
 final class BasicScoreBoardComponent: Component<BasicScoreBoardDependency> {
-
     fileprivate var player1Name: String {
         return dependency.player1Name
     }
@@ -44,18 +43,17 @@ protocol BasicScoreBoardBuildable: Buildable {
 }
 
 public final class BasicScoreBoardBuilder: Builder<BasicScoreBoardDependency>, BasicScoreBoardBuildable {
-
-    public override init(dependency: BasicScoreBoardDependency) {
+    override public init(dependency: BasicScoreBoardDependency) {
         super.init(dependency: dependency)
     }
 
     public func build(withListener listener: BasicScoreBoardListener) -> BasicScoreBoardRouting {
         let component = BasicScoreBoardComponent(dependency: dependency)
-        let viewController = BasicScoreBoardViewController(player1Name: component.player1Name,
-                                                           player2Name: component.player2Name)
-        let interactor = BasicScoreBoardInteractor(presenter: viewController,
+        let presenter = BasicScoreBoardPresenter(player1Name: component.player1Name,
+                                                 player2Name: component.player2Name)
+        let interactor = BasicScoreBoardInteractor(presenter: presenter,
                                                    scoreStream: component.scoreStream)
         interactor.listener = listener
-        return BasicScoreBoardRouter(interactor: interactor, viewController: viewController)
+        return BasicScoreBoardRouter(interactor: interactor, presenter: presenter)
     }
 }

@@ -16,13 +16,13 @@
 
 import RIBs
 
-protocol OffGameRouting: ViewableRouting {
+protocol OffGameRouting: PresentableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 
 protocol OffGamePresentable: Presentable {
     var listener: OffGamePresentableListener? { get set }
-    // TODO: Declare methods the interactor can invoke the presenter to present data.
+    func show(scoreBoardPresenter: Presentable)
 }
 
 protocol OffGameListener: AnyObject {
@@ -30,7 +30,6 @@ protocol OffGameListener: AnyObject {
 }
 
 final class OffGameInteractor: PresentableInteractor<OffGamePresentable>, OffGameInteractable, OffGamePresentableListener {
-
     weak var router: OffGameRouting?
 
     weak var listener: OffGameListener?

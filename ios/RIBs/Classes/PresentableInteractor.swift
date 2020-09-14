@@ -18,7 +18,6 @@ import Foundation
 
 /// Base class of an `Interactor` that actually has an associated `Presenter` and `View`.
 open class PresentableInteractor<PresenterType>: Interactor {
-
     /// The `Presenter` associated with this `Interactor`.
     public let presenter: PresenterType
 
@@ -34,6 +33,6 @@ open class PresentableInteractor<PresenterType>: Interactor {
     // MARK: - Private
 
     deinit {
-        LeakDetector.instance.expectDeallocate(object: presenter as AnyObject)
+        LeakDetector.instance.expectDeallocate(object: presenter as AnyObject, inTime: LeakDefaultExpectationTime.viewDisappear)
     }
 }

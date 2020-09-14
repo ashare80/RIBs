@@ -15,11 +15,10 @@
 //
 
 import Combine
-import XCTest
 @testable import RIBs
+import XCTest
 
 final class RouterTests: XCTestCase {
-
     private var router: Router<Interactable>!
     private var lifecycleCancellable: Cancellable!
 

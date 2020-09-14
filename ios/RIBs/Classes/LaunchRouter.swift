@@ -14,11 +14,10 @@
 //  limitations under the License.
 //
 
-import UIKit
+import SwiftUI
 
 /// The root `Router` of an application.
-public protocol LaunchRouting: ViewableRouting {
-
+public protocol LaunchRouting: PresentableRouting {
     /// Launches the router tree.
     ///
     /// - parameter window: The application window to launch from.
@@ -26,21 +25,20 @@ public protocol LaunchRouting: ViewableRouting {
 }
 
 /// The application root router base class, that acts as the root of the router tree.
-open class LaunchRouter<InteractorType, ViewControllerType>: ViewableRouter<InteractorType, ViewControllerType>, LaunchRouting {
-
+open class LaunchRouter<InteractorType, PresenterType>: PresentableRouter<InteractorType, PresenterType>, LaunchRouting {
     /// Initializer.
     ///
     /// - parameter interactor: The corresponding `Interactor` of this `Router`.
-    /// - parameter viewController: The corresponding `ViewController` of this `Router`.
-    public override init(interactor: InteractorType, viewController: ViewControllerType) {
-        super.init(interactor: interactor, viewController: viewController)
+    /// - parameter presenter: The corresponding `View` of this `Router`.
+    override public init(interactor: InteractorType, presenter: PresenterType) {
+        super.init(interactor: interactor, presenter: presenter)
     }
 
     /// Launches the router tree.
     ///
     /// - parameter window: The window to launch the router tree in.
     public final func launch(from window: UIWindow) {
-        window.rootViewController = viewControllable.uiviewController
+        window.rootViewController = UIHostingController(rootView: presentable.viewable.asAnyView)
         window.makeKeyAndVisible()
 
         interactable.activate()

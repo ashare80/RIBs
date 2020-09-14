@@ -15,12 +15,11 @@
 //
 
 import RIBs
-import UIKit
+import SwiftUI
 
 /// Game app delegate.
 @UIApplicationMain
 public class AppDelegate: UIResponder, UIApplicationDelegate {
-
     /// The window.
     public var window: UIWindow?
 
@@ -31,30 +30,11 @@ public class AppDelegate: UIResponder, UIApplicationDelegate {
     ///   this dictionary may be empty in situations where the user launched the app directly. For information about
     ///   the possible keys in this dictionary and how to handle them, see Launch Options Keys.
     /// - returns: false if the app cannot handle the URL resource or continue a user activity, otherwise return true.
-    public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        self.window = window
-
-        let result = RootBuilder(dependency: AppComponent()).build()
-        let launchRouter = result.launchRouter
-        self.launchRouter = launchRouter
-        urlHandler = result.urlHandler
-        launchRouter.launch(from: window)
-
+    public func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         return true
     }
 
-    public func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        urlHandler?.handle(url)
-        return true
+    public func application(_: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options _: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        return UISceneConfiguration(name: "default", sessionRole: connectingSceneSession.role)
     }
-    
-    // MARK: - Private
-
-    private var launchRouter: LaunchRouting?
-    private var urlHandler: UrlHandler?
-}
-
-protocol UrlHandler: AnyObject {
-    func handle(_ url: URL)
 }

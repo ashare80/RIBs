@@ -21,16 +21,17 @@ protocol LoggedInInteractable: Interactable, OffGameListener, GameListener {
     var listener: LoggedInListener? { get set }
 }
 
-protocol LoggedInViewControllable: ViewControllable {
-    func replaceModal(viewController: ViewControllable?)
+protocol LoggedInPresentable: Presentable {
+    func present(presenter: Presentable)
+    func dismiss(presenter: Presentable)
 }
 
 final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
-
     init(interactor: LoggedInInteractable,
-         viewController: LoggedInViewControllable,
-         offGameBuilder: OffGameBuildable) {
-        self.viewController = viewController
+         presenter: LoggedInPresentable,
+         offGameBuilder: OffGameBuildable)
+    {
+        self.presenter = presenter
         self.offGameBuilder = offGameBuilder
         super.init(interactor: interactor)
         interactor.router = self
@@ -39,8 +40,8 @@ final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
     // MARK: - LoggedInRouting
 
     func cleanupViews() {
-        if currentChild != nil {
-            viewController.replaceModal(viewController: nil)
+        if let currentChild = currentChild {
+            presenter.dismiss(presenter: currentChild.presentable)
         }
     }
 
@@ -53,29 +54,29 @@ final class LoggedInRouter: Router<LoggedInInteractable>, LoggedInRouting {
         detachCurrentChild()
 
         let game = gameBuilder.build(withListener: interactor)
-        self.currentChild = game
+        currentChild = game
         attachChild(game)
-        viewController.replaceModal(viewController: game.viewControllable)
+        presenter.present(presenter: game.presentable)
     }
 
     // MARK: - Private
 
-    private let viewController: LoggedInViewControllable
+    private let presenter: LoggedInPresentable
     private let offGameBuilder: OffGameBuildable
 
-    private var currentChild: ViewableRouting?
+    private var currentChild: PresentableRouting?
 
     private func attachOffGame(with games: [Game]) {
         let offGame = offGameBuilder.build(withListener: interactor, games: games)
-        self.currentChild = offGame
+        currentChild = offGame
         attachChild(offGame)
-        viewController.replaceModal(viewController: offGame.viewControllable)
+        presenter.present(presenter: offGame.presentable)
     }
 
     private func detachCurrentChild() {
         if let currentChild = currentChild {
             detachChild(currentChild)
-            viewController.replaceModal(viewController: nil)
+            presenter.dismiss(presenter: currentChild.presentable)
         }
     }
 }

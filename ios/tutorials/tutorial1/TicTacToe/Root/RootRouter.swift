@@ -21,17 +21,13 @@ protocol RootInteractable: Interactable, LoggedOutListener {
     var listener: RootListener? { get set }
 }
 
-protocol RootViewControllable: ViewControllable {
-    func present(viewController: ViewControllable)
-}
-
-final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, RootRouting {
-
+final class RootRouter: LaunchRouter<RootInteractable, RootPresentable>, RootRouting {
     init(interactor: RootInteractable,
-         viewController: RootViewControllable,
-         loggedOutBuilder: LoggedOutBuildable) {
+         presenter: RootPresentable,
+         loggedOutBuilder: LoggedOutBuildable)
+    {
         self.loggedOutBuilder = loggedOutBuilder
-        super.init(interactor: interactor, viewController: viewController)
+        super.init(interactor: interactor, presenter: presenter)
         interactor.router = self
     }
 
@@ -41,12 +37,12 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         let loggedOut = loggedOutBuilder.build(withListener: interactor)
         self.loggedOut = loggedOut
         attachChild(loggedOut)
-        viewController.present(viewController: loggedOut.viewControllable)
+        presenter.present(presenter: loggedOut.presentable)
     }
 
     // MARK: - Private
 
     private let loggedOutBuilder: LoggedOutBuildable
 
-    private var loggedOut: ViewableRouting?
+    private var loggedOut: PresentableRouting?
 }

@@ -1,24 +1,24 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Adam Share on 9/8/20.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 public final class CompositeCancellable: Cancellable {
     public var count: Int {
         lock.lock(); defer { lock.unlock() }
         return values.count
     }
-    
+
     private(set) var cancelled: Bool = false
-    
-    private let lock: NSRecursiveLock = NSRecursiveLock()
+
+    private let lock = NSRecursiveLock()
     private var values: [Cancellable] = []
-    
+
     public func insert(_ cancellable: Cancellable) {
         lock.lock(); defer { lock.unlock() }
         guard !cancelled else {
@@ -27,12 +27,18 @@ public final class CompositeCancellable: Cancellable {
         }
         values.append(cancellable)
     }
-    
+
     public func cancel() {
         lock.lock(); defer { lock.unlock() }
         guard !cancelled else { return }
         cancelled = true
         values.cancel()
+    }
+}
+
+extension Cancellable {
+    func store(in compositeCancellable: CompositeCancellable) {
+        compositeCancellable.insert(self)
     }
 }
 
@@ -51,7 +57,6 @@ extension Publisher where Failure == Never {
 }
 
 extension Publisher {
-
     /// Performs the specified closures when publisher events occur.
     ///
     /// - Parameters:
@@ -67,10 +72,11 @@ extension Publisher {
                              receiveFailure: ((Self.Failure) -> Void)? = nil,
                              receiveFinished: (() -> Void)? = nil,
                              receiveCancel: (() -> Void)? = nil,
-                             receiveRequest: ((Subscribers.Demand) -> Void)? = nil) -> Publishers.HandleEvents<Self> {
+                             receiveRequest: ((Subscribers.Demand) -> Void)? = nil) -> Publishers.HandleEvents<Self>
+    {
         return handleEvents(receiveSubscription: receiveSubscription,
                             receiveOutput: receiveOutput,
-                            receiveCompletion: { (completion) in
+                            receiveCompletion: { completion in
                                 receiveCompletion?(completion)
                                 switch completion {
                                 case let .failure(error):
@@ -78,11 +84,11 @@ extension Publisher {
                                 case .finished:
                                     receiveFinished?()
                                 }
-        },
+                            },
                             receiveCancel: receiveCancel,
                             receiveRequest: receiveRequest)
     }
-    
+
     /// Attaches a subscriber with closure-based behavior.
     ///
     /// - Parameters:
@@ -96,8 +102,9 @@ extension Publisher {
                      receiveCompletion: ((Subscribers.Completion<Self.Failure>) -> Void)? = nil,
                      receiveFailure: ((Self.Failure) -> Void)? = nil,
                      receiveFinished: (() -> Void)? = nil,
-                     receiveCancel: (() -> Void)? = nil) -> AnyCancellable {
-        let cancellable = sink(receiveCompletion: { (completion) in
+                     receiveCancel: (() -> Void)? = nil) -> AnyCancellable
+    {
+        let cancellable = sink(receiveCompletion: { completion in
             receiveCompletion?(completion)
             switch completion {
             case let .failure(error):
@@ -105,10 +112,10 @@ extension Publisher {
             case .finished:
                 receiveFinished?()
             }
-        }, receiveValue: { (value) in
+        }, receiveValue: { value in
             receiveValue?(value)
         })
-        
+
         return AnyCancellable {
             cancellable.cancel()
             receiveCancel?()

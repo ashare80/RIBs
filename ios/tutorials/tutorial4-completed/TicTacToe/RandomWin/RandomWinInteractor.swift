@@ -17,13 +17,13 @@
 import Foundation
 import RIBs
 
-public protocol RandomWinRouting: ViewableRouting {
+public protocol RandomWinRouting: PresentableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 
 protocol RandomWinPresentable: Presentable {
     var listener: RandomWinPresentableListener? { get set }
-    func announce(winner: PlayerType, withCompletionHandler handler: @escaping () -> ())
+    func announce(winner: PlayerType)
 }
 
 public protocol RandomWinListener: AnyObject {
@@ -31,13 +31,13 @@ public protocol RandomWinListener: AnyObject {
 }
 
 final class RandomWinInteractor: PresentableInteractor<RandomWinPresentable>, RandomWinInteractable, RandomWinPresentableListener {
-
     weak var router: RandomWinRouting?
 
     weak var listener: RandomWinListener?
 
     init(presenter: RandomWinPresentable,
-         mutableScoreStream: MutableScoreStream) {
+         mutableScoreStream: MutableScoreStream)
+    {
         self.mutableScoreStream = mutableScoreStream
         super.init(presenter: presenter)
         presenter.listener = self
@@ -57,11 +57,13 @@ final class RandomWinInteractor: PresentableInteractor<RandomWinPresentable>, Ra
 
     func determineWinner() {
         let random = arc4random_uniform(100)
-        let winner = random > 50 ? PlayerType.player1 : PlayerType.player2
-        presenter.announce(winner: winner) {
-            self.mutableScoreStream.updateScore(with: winner)
-            self.listener?.didRandomlyWin(with: winner)
-        }
+        let winner: PlayerType = random > 50 ? .player1 : .player2
+        presenter.announce(winner: winner)
+    }
+
+    func closedAlert(winner: PlayerType) {
+        mutableScoreStream.updateScore(with: winner)
+        listener?.didRandomlyWin(with: winner)
     }
 
     // MARK: - Private

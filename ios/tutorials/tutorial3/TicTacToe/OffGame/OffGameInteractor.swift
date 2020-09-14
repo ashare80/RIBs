@@ -16,7 +16,7 @@
 
 import RIBs
 
-protocol OffGameRouting: ViewableRouting {
+protocol OffGameRouting: PresentableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 
@@ -30,7 +30,6 @@ protocol OffGameListener: AnyObject {
 }
 
 final class OffGameInteractor: PresentableInteractor<OffGamePresentable>, OffGameInteractable, OffGamePresentableListener {
-
     weak var router: OffGameRouting?
 
     weak var listener: OffGameListener?

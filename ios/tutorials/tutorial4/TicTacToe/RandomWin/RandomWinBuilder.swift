@@ -23,7 +23,6 @@ public protocol RandomWinDependency: Dependency {
 }
 
 final class RandomWinComponent: Component<RandomWinDependency> {
-
     fileprivate var player1Name: String {
         return dependency.player1Name
     }
@@ -44,18 +43,17 @@ protocol RandomWinBuildable: Buildable {
 }
 
 public final class RandomWinBuilder: Builder<RandomWinDependency>, RandomWinBuildable {
-
-    public override init(dependency: RandomWinDependency) {
+    override public init(dependency: RandomWinDependency) {
         super.init(dependency: dependency)
     }
 
     public func build(withListener listener: RandomWinListener) -> RandomWinRouting {
         let component = RandomWinComponent(dependency: dependency)
-        let viewController = RandomWinViewController(player1Name: component.player1Name,
-                                                     player2Name: component.player2Name)
-        let interactor = RandomWinInteractor(presenter: viewController,
+        let presenter = RandomWinPresenter(player1Name: component.player1Name,
+                                           player2Name: component.player2Name)
+        let interactor = RandomWinInteractor(presenter: presenter,
                                              mutableScoreStream: component.mutableScoreStream)
         interactor.listener = listener
-        return RandomWinRouter(interactor: interactor, viewController: viewController)
+        return RandomWinRouter(interactor: interactor, presenter: presenter)
     }
 }

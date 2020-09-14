@@ -14,12 +14,11 @@
 //  limitations under the License.
 //
 
-import XCTest
 import Combine
 @testable import RIBs
+import XCTest
 
 final class WorkerflowTests: XCTestCase {
-
     func test_nestedStepsDoNotRepeat() {
         var outerStep1RunCount = 0
         var outerStep2RunCount = 0
@@ -33,7 +32,7 @@ final class WorkerflowTests: XCTestCase {
 
         let workflow = Workflow<String>()
         _ = workflow
-            .onStep { (mock) -> AnyPublisher<((), ()), Never> in
+            .onStep { (_) -> AnyPublisher<((), ()), Never> in
                 outerStep1RunCount += 1
 
                 return emptyPublisher
@@ -46,21 +45,21 @@ final class WorkerflowTests: XCTestCase {
             .onStep { (_, _) -> AnyPublisher<((), ()), Never> in
                 outerStep3RunCount += 1
 
-                let innerStep: Step<String, (), (), Never>? = emptyPublisher.fork(workflow)
+                let innerStep: Step<String, Void, Void, Never>? = emptyPublisher.fork(workflow)
 
                 innerStep?
-                    .onStep({ (_, _) -> AnyPublisher<((), ()), Never> in
+                    .onStep { (_, _) -> AnyPublisher<((), ()), Never> in
                         innerStep1RunCount += 1
                         return emptyPublisher
-                    })
-                    .onStep({ (_, _) -> AnyPublisher<((), ()), Never> in
+                    }
+                    .onStep { (_, _) -> AnyPublisher<((), ()), Never> in
                         innerStep2RunCount += 1
                         return emptyPublisher
-                    })
-                    .onStep({ (_, _) -> AnyPublisher<((), ()), Never> in
+                    }
+                    .onStep { (_, _) -> AnyPublisher<((), ()), Never> in
                         innerStep3RunCount += 1
                         return emptyPublisher
-                    })
+                    }
                     .commit()
 
                 return emptyPublisher
@@ -83,16 +82,16 @@ final class WorkerflowTests: XCTestCase {
         let emptyPublisher = Just(((), ())).eraseToAnyPublisher()
         _ = workflow
             .onStep { _ -> AnyPublisher<((), ()), Never> in
-                return emptyPublisher
+                emptyPublisher
             }
             .onStep { _, _ -> AnyPublisher<((), ()), Never> in
-                return emptyPublisher
+                emptyPublisher
             }
             .onStep { _, _ -> AnyPublisher<((), ()), WorkflowTestError> in
-                return Fail<(Void, Void), WorkflowTestError>(error: WorkflowTestError.error).eraseToAnyPublisher()
+                Fail<(Void, Void), WorkflowTestError>(error: WorkflowTestError.error).eraseToAnyPublisher()
             }
             .onStep { _, _ -> AnyPublisher<((), ()), WorkflowTestError> in
-                return Just(((), ())).mapError().eraseToAnyPublisher()
+                Just(((), ())).mapError().eraseToAnyPublisher()
             }
             .commit()
             .sink()
@@ -108,13 +107,13 @@ final class WorkerflowTests: XCTestCase {
         let emptyPublisher = Just(((), ())).eraseToAnyPublisher()
         _ = workflow
             .onStep { _ -> AnyPublisher<((), ()), Never> in
-                return emptyPublisher
+                emptyPublisher
             }
             .onStep { _, _ -> AnyPublisher<((), ()), Never> in
-                return emptyPublisher
+                emptyPublisher
             }
             .onStep { _, _ -> AnyPublisher<((), ()), Never> in
-                return emptyPublisher
+                emptyPublisher
             }
             .commit()
             .sink(())
@@ -130,19 +129,19 @@ final class WorkerflowTests: XCTestCase {
         let emptyPublisher = Just(((), ())).eraseToAnyPublisher()
         _ = workflow
             .onStep { _ -> AnyPublisher<((), ()), Never> in
-                return emptyPublisher
+                emptyPublisher
             }
             .onStep { _, _ -> AnyPublisher<((), ()), Never> in
-                return emptyPublisher
+                emptyPublisher
             }
             .onStep { _, _ -> AnyPublisher<((), ()), Never> in
-                return emptyPublisher
+                emptyPublisher
             }
             .onStep { _, _ -> AnyPublisher<((), ()), Never> in
-                let forkedStep: Step<(), (), (), Never>? = emptyPublisher.fork(workflow)
+                let forkedStep: Step<Void, Void, Void, Never>? = emptyPublisher.fork(workflow)
                 forkedStep?
                     .onStep { _, _ -> AnyPublisher<((), ()), Never> in
-                        return emptyPublisher
+                        emptyPublisher
                     }
                     .commit()
                 return emptyPublisher
@@ -164,19 +163,19 @@ final class WorkerflowTests: XCTestCase {
             .onStep { _ -> AnyPublisher<((), ()), Never> in
                 rootCallCount += 1
                 return emptyPublisher
-        }
+            }
 
-        let firstFork: Step<(), (), (), Never>? = rootStep.eraseToAnyPublisher().fork(workflow)
+        let firstFork: Step<Void, Void, Void, Never>? = rootStep.eraseToAnyPublisher().fork(workflow)
         _ = firstFork?
             .onStep { (_, _) -> AnyPublisher<((), ()), Never> in
-                return Just(((), ())).eraseToAnyPublisher()
+                Just(((), ())).eraseToAnyPublisher()
             }
             .commit()
 
-        let secondFork: Step<(), (), (), Never>? = rootStep.eraseToAnyPublisher().fork(workflow)
+        let secondFork: Step<Void, Void, Void, Never>? = rootStep.eraseToAnyPublisher().fork(workflow)
         _ = secondFork?
             .onStep { (_, _) -> AnyPublisher<((), ()), Never> in
-                return Just(((), ())).eraseToAnyPublisher()
+                Just(((), ())).eraseToAnyPublisher()
             }
             .commit()
 
@@ -192,7 +191,7 @@ private enum WorkflowTestError: Error {
     case error
 }
 
-private class TestWorkflow: Workflow<()> {
+private class TestWorkflow: Workflow<Void> {
     var completeCallCount = 0
     var errorCallCount = 0
     var forkCallCount = 0
@@ -205,7 +204,7 @@ private class TestWorkflow: Workflow<()> {
         forkCallCount += 1
     }
 
-    override func didReceiveError(_ error: Error) {
+    override func didReceiveError(_: Error) {
         errorCallCount += 1
     }
 }

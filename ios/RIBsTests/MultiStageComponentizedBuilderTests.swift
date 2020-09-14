@@ -18,14 +18,13 @@
 import XCTest
 
 class MultiStageComponentizedBuilderTests: XCTestCase {
-
     private var builder: MockMultiStageComponentizedBuilder!
 
     override func setUp() {
         super.setUp()
 
         builder = MockMultiStageComponentizedBuilder {
-            return MockComponent()
+            MockComponent()
         }
     }
 
@@ -38,7 +37,7 @@ class MultiStageComponentizedBuilderTests: XCTestCase {
     }
 
     func test_componentForCurrentPass_multiplePasses_verifyDifferentInstances() {
-        builder.finalStageBuildHandler = { component, dynamicDep in
+        builder.finalStageBuildHandler = { _, dynamicDep in
             XCTAssertEqual(dynamicDep, 92393)
             return MockSimpleRouter()
         }
@@ -55,9 +54,9 @@ class MultiStageComponentizedBuilderTests: XCTestCase {
     func test_componentForCurrentPass_builderReturnsSameInstance_verifyAssertion() {
         let component = MockComponent()
         let sameInstanceBuilder = MockMultiStageComponentizedBuilder {
-            return component
+            component
         }
-        sameInstanceBuilder.finalStageBuildHandler = { component, dynamicDep in
+        sameInstanceBuilder.finalStageBuildHandler = { _, dynamicDep in
             XCTAssertEqual(dynamicDep, 92393)
             return MockSimpleRouter()
         }
@@ -79,7 +78,6 @@ private class MockComponent {}
 private class MockSimpleRouter {}
 
 private class MockMultiStageComponentizedBuilder: MultiStageComponentizedBuilder<MockComponent, MockSimpleRouter, Int> {
-
     fileprivate var finalStageBuildHandler: ((MockComponent, Int) -> MockSimpleRouter)?
 
     override func finalStageBuild(with component: MockComponent, _ dynamicDependency: Int) -> MockSimpleRouter {

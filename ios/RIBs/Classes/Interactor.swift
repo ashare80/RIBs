@@ -14,13 +14,11 @@
 //  limitations under the License.
 //
 
-import Foundation
 import Combine
-import UIKit
+import Foundation
 
 /// Protocol defining the activeness of an interactor's scope.
 public protocol InteractorScope: AnyObject {
-
     // The following properties must be declared in the base protocol, since `Router` internally invokes these methods.
     // In order to unit test router with a mock interactor, the mocked interactor first needs to conform to the custom
     // subclass interactor protocol, and also this base protocol to allow the `Router` implementation to execute base
@@ -38,7 +36,6 @@ public protocol InteractorScope: AnyObject {
 
 /// The base protocol for all interactors.
 public protocol Interactable: InteractorScope {
-
     // The following methods must be declared in the base protocol, since `Router` internally invokes these methods.
     // In order to unit test router with a mock interactor, the mocked interactor first needs to conform to the custom
     // subclass interactor protocol, and also this base protocol to allow the `Router` implementation to execute base
@@ -65,7 +62,6 @@ public protocol Interactable: InteractorScope {
 ///
 /// An `Interactor` should only perform its business logic when it's currently active.
 open class Interactor: Interactable {
-
     /// Indicates if the interactor is active.
     public final var isActive: Bool {
         return isActiveSubject.value
@@ -145,7 +141,6 @@ open class Interactor: Interactable {
 
 /// Interactor related `Publisher` extensions.
 public extension Publisher {
-
     /// Confines the publisher's subscription to the given interactor scope. The subscription is only triggered
     /// after the interactor scope is active and before the interactor scope resigns active. This composition
     /// delays the subscription but does not cancel the subscription, when the interactor scope becomes inactive.
@@ -161,12 +156,12 @@ public extension Publisher {
 
     func confineTo(_ interactorScope: InteractorScope) -> AnyPublisher<Output, Failure> {
         combineLatest(interactorScope.isActiveStream.mapError()) { value, isActive -> (Output, Bool) in
-            return (value, isActive)
+            (value, isActive)
         }
-        .filter { value, isActive in
+        .filter { _, isActive in
             isActive
         }
-        .map { value, isActive -> Output in
+        .map { value, _ -> Output in
             value
         }
         .eraseToAnyPublisher()
@@ -175,7 +170,6 @@ public extension Publisher {
 
 /// Interactor related `Cancellable` extensions.
 public extension Cancellable {
-
     /// Cancels the subscription based on the lifecycle of the given `Interactor`. The subscription is cancelled
     /// when the interactor is deactivated.
     ///
@@ -191,7 +185,7 @@ public extension Cancellable {
     ///
     /// - parameter interactor: The interactor to cancel the subscription based on.
     @discardableResult
-    func cancelOnDeactivate(interactor: Interactor) -> Cancellable {
+    func cancelOnDeactivate(interactor: Interactor) -> Self {
         if let activenessCancellable = interactor.activenessCancellable {
             activenessCancellable.insert(self)
         } else {
@@ -201,4 +195,3 @@ public extension Cancellable {
         return self
     }
 }
-

@@ -30,7 +30,7 @@ class TicTacToeAdapter: Game, GameBuildable, TicTacToeListener {
         ticTacToeBuilder = TicTacToeBuilder(dependency: dependency)
     }
 
-    func build(withListener listener: GameListener) -> ViewableRouting {
+    func build(withListener listener: GameListener) -> PresentableRouting {
         gameListener = listener
         return ticTacToeBuilder.build(withListener: self)
     }

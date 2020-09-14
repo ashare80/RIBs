@@ -14,6 +14,7 @@
 //  limitations under the License.
 //
 
+import Foundation
 import RIBs
 
 protocol RootInteractable: Interactable, LoggedOutListener {
@@ -21,17 +22,13 @@ protocol RootInteractable: Interactable, LoggedOutListener {
     var listener: RootListener? { get set }
 }
 
-protocol RootViewControllable: ViewControllable {
-    func present(viewController: ViewControllable)
-}
-
-final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, RootRouting {
-
+final class RootRouter: LaunchRouter<RootInteractable, RootPresentable>, RootRouting {
     init(interactor: RootInteractable,
-         viewController: RootViewControllable,
-         loggedOutBuilder: LoggedOutBuildable) {
+         presenter: RootPresentable,
+         loggedOutBuilder: LoggedOutBuildable)
+    {
         self.loggedOutBuilder = loggedOutBuilder
-        super.init(interactor: interactor, viewController: viewController)
+        super.init(interactor: interactor, presenter: presenter)
         interactor.router = self
     }
 
@@ -45,13 +42,12 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
 
     private let loggedOutBuilder: LoggedOutBuildable
 
-    private var loggedOut: ViewableRouting?
+    private var loggedOut: PresentableRouting?
 
     private func routeToLoggedOut() {
         let loggedOut = loggedOutBuilder.build(withListener: interactor)
         self.loggedOut = loggedOut
         attachChild(loggedOut)
-        loggedOut.viewControllable.uiviewController.modalPresentationStyle = .fullScreen
-        viewController.present(viewController: loggedOut.viewControllable)
+        presenter.present(presenter: loggedOut.presentable)
     }
 }

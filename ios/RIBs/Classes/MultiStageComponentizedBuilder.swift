@@ -24,7 +24,6 @@ import Foundation
 ///
 /// - SeeAlso: SimpleMultiStageComponentizedBuilder
 open class MultiStageComponentizedBuilder<Component, Router, DynamicBuildDependency>: Buildable {
-
     // Builder should not directly retain an instance of the component.
     // That would make the component's lifecycle longer than the built
     // RIB. Instead, whenever a new instance of the RIB is built, a new
@@ -87,7 +86,7 @@ open class MultiStageComponentizedBuilder<Component, Router, DynamicBuildDepende
     /// - parameter component: The corresponding DI component to use.
     /// - parameter dynamicDependency: The given dynamic dependency.
     /// - returns: The router of the RIB.
-    open func finalStageBuild(with component: Component, _ dynamicDependency: DynamicBuildDependency) -> Router {
+    open func finalStageBuild(with _: Component, _: DynamicBuildDependency) -> Router {
         fatalError("This method should be oevrriden by the subclass.")
     }
 
@@ -105,18 +104,17 @@ open class MultiStageComponentizedBuilder<Component, Router, DynamicBuildDepende
 /// refer to `MultiStageComponentizedBuilder`.
 ///
 /// - SeeAlso: MultiStageComponentizedBuilder
-open class SimpleMultiStageComponentizedBuilder<Component, Router>: MultiStageComponentizedBuilder<Component, Router, ()> {
-
+open class SimpleMultiStageComponentizedBuilder<Component, Router>: MultiStageComponentizedBuilder<Component, Router, Void> {
     /// Initializer.
     ///
     /// - parameter componentBuilder: The closure to instantiate a new
     /// instance of the DI component that should be paired with this RIB.
-    public override init(componentBuilder: @escaping () -> Component) {
+    override public init(componentBuilder: @escaping () -> Component) {
         super.init(componentBuilder: componentBuilder)
     }
 
     /// This method should not be directly invoked.
-    public final override func finalStageBuild(with component: Component, _ dynamicDependency: ()) -> Router {
+    override public final func finalStageBuild(with component: Component, _: ()) -> Router {
         return finalStageBuild(with: component)
     }
 
@@ -127,7 +125,7 @@ open class SimpleMultiStageComponentizedBuilder<Component, Router>: MultiStageCo
     /// consumers of this builder should invoke `finalStageBuild()`.
     /// - parameter component: The corresponding DI component to use.
     /// - returns: The router of the RIB.
-    open func finalStageBuild(with component: Component) -> Router {
+    open func finalStageBuild(with _: Component) -> Router {
         fatalError("This method should be oevrriden by the subclass.")
     }
 

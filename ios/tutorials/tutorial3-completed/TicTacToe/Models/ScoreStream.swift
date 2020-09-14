@@ -16,34 +16,29 @@
 
 import Combine
 
-struct Score {
-    let player1Score: Int
-    let player2Score: Int
-
-    static func equals(lhs: Score, rhs: Score) -> Bool {
-        return lhs.player1Score == rhs.player1Score && lhs.player2Score == rhs.player2Score
-    }
+public struct Score: Equatable {
+    public let player1Score: Int
+    public let player2Score: Int
 }
 
-protocol ScoreStream: AnyObject {
+public protocol ScoreStream: AnyObject {
     var score: AnyPublisher<Score, Never> { get }
 }
 
-protocol MutableScoreStream: ScoreStream {
-    func updateScore(withWinner winner: PlayerType)
+public protocol MutableScoreStream: ScoreStream {
+    func updateScore(with winner: PlayerType)
 }
 
-class ScoreStreamImpl: MutableScoreStream {
+public class ScoreStreamImpl: MutableScoreStream {
+    public init() {}
 
-    var score: AnyPublisher<Score, Never> {
+    public var score: AnyPublisher<Score, Never> {
         return variable
-            .asPublisher()
-            .distinctUntilChanged { (lhs: Score, rhs: Score) -> Bool in
-                Score.equals(lhs: lhs, rhs: rhs)
-            }
+            .removeDuplicates()
+            .eraseToAnyPublisher()
     }
 
-    func updateScore(withWinner winner: PlayerType) {
+    public func updateScore(with winner: PlayerType) {
         let newScore: Score = {
             let currentScore = variable.value
             switch winner {
@@ -53,11 +48,10 @@ class ScoreStreamImpl: MutableScoreStream {
                 return Score(player1Score: currentScore.player1Score, player2Score: currentScore.player2Score + 1)
             }
         }()
-        
-        variable.accept(newScore)
+        variable.send(newScore)
     }
-    
+
     // MARK: - Private
-    
-    private let variable = BehaviorRelay<Score>(value: Score(player1Score: 0, player2Score: 0))
+
+    private let variable = CurrentValueSubject<Score, Never>(Score(player1Score: 0, player2Score: 0))
 }

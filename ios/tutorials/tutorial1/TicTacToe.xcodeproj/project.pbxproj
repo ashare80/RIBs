@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		7EDD59501FA13579005EC8B2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EDD594F1FA13579005EC8B2 /* Default-568h@2x.png */; };
+		E30EC3BC250938B4004E5D18 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30EC3BB250938B4004E5D18 /* SceneDelegate.swift */; };
 		E37156A32503ABBA00797747 /* RIBs in Frameworks */ = {isa = PBXBuildFile; productRef = E37156A22503ABBA00797747 /* RIBs */; };
-		E3EB47E22503A7DC00B50167 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E3EB47E12503A7DC00B50167 /* SnapKit */; };
 		E9C3E1EA1FA1BD0400781364 /* DELETE_ME.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3E1E91FA1BD0400781364 /* DELETE_ME.swift */; };
 		E9CB1D521F97303800D84847 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D351F972FD500D84847 /* AppDelegate.swift */; };
 		E9CB1D531F97305A00D84847 /* AppComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D341F972FD500D84847 /* AppComponent.swift */; };
@@ -17,11 +17,12 @@
 		E9CB1D631F9730EF00D84847 /* RootComponent+LoggedOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D391F972FE400D84847 /* RootComponent+LoggedOut.swift */; };
 		E9CB1D641F9730EF00D84847 /* RootInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D3A1F972FE400D84847 /* RootInteractor.swift */; };
 		E9CB1D651F9730EF00D84847 /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D3B1F972FE400D84847 /* RootRouter.swift */; };
-		E9CB1D661F9730EF00D84847 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D3C1F972FE400D84847 /* RootViewController.swift */; };
+		E9CB1D661F9730EF00D84847 /* RootPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D3C1F972FE400D84847 /* RootPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7EDD594F1FA13579005EC8B2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		E30EC3BB250938B4004E5D18 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E37156A12503A8E100797747 /* RIBs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = RIBs; path = ../../..; sourceTree = "<group>"; };
 		E9894B4A1F972CC500688FCB /* TicTacToe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TicTacToe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9894B591F972CC500688FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -32,7 +33,7 @@
 		E9CB1D391F972FE400D84847 /* RootComponent+LoggedOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootComponent+LoggedOut.swift"; sourceTree = "<group>"; };
 		E9CB1D3A1F972FE400D84847 /* RootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractor.swift; sourceTree = "<group>"; };
 		E9CB1D3B1F972FE400D84847 /* RootRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
-		E9CB1D3C1F972FE400D84847 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		E9CB1D3C1F972FE400D84847 /* RootPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,7 +42,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E37156A32503ABBA00797747 /* RIBs in Frameworks */,
-				E3EB47E22503A7DC00B50167 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +91,7 @@
 			children = (
 				E9CB1D341F972FD500D84847 /* AppComponent.swift */,
 				E9CB1D351F972FD500D84847 /* AppDelegate.swift */,
+				E30EC3BB250938B4004E5D18 /* SceneDelegate.swift */,
 			);
 			path = AppStart;
 			sourceTree = "<group>";
@@ -102,7 +103,7 @@
 				E9CB1D391F972FE400D84847 /* RootComponent+LoggedOut.swift */,
 				E9CB1D3A1F972FE400D84847 /* RootInteractor.swift */,
 				E9CB1D3B1F972FE400D84847 /* RootRouter.swift */,
-				E9CB1D3C1F972FE400D84847 /* RootViewController.swift */,
+				E9CB1D3C1F972FE400D84847 /* RootPresenter.swift */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -139,7 +140,6 @@
 			);
 			name = TicTacToe;
 			packageProductDependencies = (
-				E3EB47E12503A7DC00B50167 /* SnapKit */,
 				E37156A22503ABBA00797747 /* RIBs */,
 			);
 			productName = TicTacToe;
@@ -158,6 +158,7 @@
 				TargetAttributes = {
 					E9894B491F972CC500688FCB = {
 						CreatedOnToolsVersion = 9.0;
+						LastSwiftMigration = 1150;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -172,7 +173,6 @@
 			);
 			mainGroup = E9894B411F972CC500688FCB;
 			packageReferences = (
-				E3EB47E02503A7DC00B50167 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = E9894B4B1F972CC500688FCB /* Products */;
 			projectDirPath = "";
@@ -201,11 +201,12 @@
 			files = (
 				E9CB1D521F97303800D84847 /* AppDelegate.swift in Sources */,
 				E9CB1D641F9730EF00D84847 /* RootInteractor.swift in Sources */,
+				E30EC3BC250938B4004E5D18 /* SceneDelegate.swift in Sources */,
 				E9CB1D631F9730EF00D84847 /* RootComponent+LoggedOut.swift in Sources */,
 				E9CB1D611F9730EF00D84847 /* RootBuilder.swift in Sources */,
 				E9CB1D531F97305A00D84847 /* AppComponent.swift in Sources */,
 				E9CB1D651F9730EF00D84847 /* RootRouter.swift in Sources */,
-				E9CB1D661F9730EF00D84847 /* RootViewController.swift in Sources */,
+				E9CB1D661F9730EF00D84847 /* RootPresenter.swift in Sources */,
 				E9C3E1EA1FA1BD0400781364 /* DELETE_ME.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -338,7 +339,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ubercab.TicTacToe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -354,7 +355,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ubercab.TicTacToe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -382,26 +383,10 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		E3EB47E02503A7DC00B50167 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
-			requirement = {
-				branch = develop;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
 		E37156A22503ABBA00797747 /* RIBs */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RIBs;
-		};
-		E3EB47E12503A7DC00B50167 /* SnapKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E3EB47E02503A7DC00B50167 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

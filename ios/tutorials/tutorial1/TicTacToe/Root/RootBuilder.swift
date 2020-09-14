@@ -22,7 +22,6 @@ protocol RootDependency: Dependency {
 }
 
 final class RootComponent: Component<RootDependency> {
-
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
 
@@ -33,19 +32,18 @@ protocol RootBuildable: Buildable {
 }
 
 final class RootBuilder: Builder<RootDependency>, RootBuildable {
-
     override init(dependency: RootDependency) {
         super.init(dependency: dependency)
     }
 
     func build() -> LaunchRouting {
         let component = RootComponent(dependency: dependency)
-        let viewController = RootViewController()
-        let interactor = RootInteractor(presenter: viewController)
+        let presenter = RootPresenter()
+        let interactor = RootInteractor(presenter: presenter)
 
         let loggedOutBuilder = LoggedOutBuilder(dependency: component)
         return RootRouter(interactor: interactor,
-                          viewController: viewController,
+                          presenter: presenter,
                           loggedOutBuilder: loggedOutBuilder)
     }
 }

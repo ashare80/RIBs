@@ -18,14 +18,12 @@ import Combine
 
 /// The lifecycle stages of a router scope.
 public enum RouterLifecycle {
-
     /// Router did load.
     case didLoad
 }
 
 /// The scope of a `Router`, defining various lifecycles of a `Router`.
 public protocol RouterScope: AnyObject {
-
     /// An publisher that emits values when the router scope reaches its corresponding life-cycle stages. This
     /// publisher completes when the router scope is deallocated.
     var lifecycle: AnyPublisher<RouterLifecycle, Never> { get }
@@ -33,7 +31,6 @@ public protocol RouterScope: AnyObject {
 
 /// The base protocol for all routers.
 public protocol Routing: RouterScope {
-
     // The following methods must be declared in the base protocol, since `Router` internally  invokes these methods.
     // In order to unit test router with a mock child router, the mocked child router first needs to conform to the
     // custom subclass routing protocol, and also this base protocol to allow the `Router` implementation to execute
@@ -74,7 +71,6 @@ public protocol Routing: RouterScope {
 ///
 /// Routers should always use helper builders to instantiate children routers.
 open class Router<InteractorType>: Routing {
-
     /// The corresponding `Interactor` owned by this `Router`.
     public let interactor: InteractorType
 
@@ -165,7 +161,6 @@ open class Router<InteractorType>: Routing {
     private var didLoadFlag: Bool = false
 
     private func bindSubtreeActiveState() {
-
         let disposable = interactable.isActiveStream
             // Do not retain self here to guarantee execution. Retaining self will cause the cancel bag
             // to never be cancelled, thus self is never deallocated. Also cannot just store the disposable
@@ -180,7 +175,6 @@ open class Router<InteractorType>: Routing {
     }
 
     private func setSubtreeActive(_ active: Bool) {
-
         if active {
             iterateSubtree(self) { router in
                 if !router.interactable.isActive {
@@ -196,7 +190,7 @@ open class Router<InteractorType>: Routing {
         }
     }
 
-    private func iterateSubtree(_ root: Routing, closure: (_ node: Routing) -> ()) {
+    private func iterateSubtree(_ root: Routing, closure: (_ node: Routing) -> Void) {
         closure(root)
 
         for child in root.children {
@@ -205,7 +199,6 @@ open class Router<InteractorType>: Routing {
     }
 
     private func detachAllChildren() {
-
         for child in children {
             detachChild(child)
         }

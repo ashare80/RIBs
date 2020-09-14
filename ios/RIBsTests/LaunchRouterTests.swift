@@ -15,23 +15,21 @@
 //
 
 @testable import RIBs
+import SwiftUI
 import XCTest
 
 final class LaunchRouterTests: XCTestCase {
-
     private var launchRouter: LaunchRouting!
 
-    private var interactor: InteractableMock!
-    private var viewController: ViewControllableMock!
+    private var interactor = InteractableMock()
+    private var presenter = PresentableMock()
 
     // MARK: - Setup
 
     override func setUp() {
         super.setUp()
 
-        interactor = InteractableMock()
-        viewController = ViewControllableMock()
-        launchRouter = LaunchRouter(interactor: interactor, viewController: viewController)
+        launchRouter = LaunchRouter(interactor: interactor, presenter: presenter)
     }
 
     // MARK: - Tests
@@ -40,7 +38,7 @@ final class LaunchRouterTests: XCTestCase {
         let window = WindowMock(frame: .zero)
         launchRouter.launch(from: window)
 
-        XCTAssert(window.rootViewController === viewController.uiviewController)
+        XCTAssertNoThrow((window.rootViewController as! UIHostingController).rootView as AnyView)
         XCTAssert(window.isKeyWindow)
     }
 }

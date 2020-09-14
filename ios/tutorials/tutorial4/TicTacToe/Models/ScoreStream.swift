@@ -30,9 +30,8 @@ public protocol MutableScoreStream: ScoreStream {
 }
 
 public class ScoreStreamImpl: MutableScoreStream {
-
     public init() {}
-    
+
     public var score: AnyPublisher<Score, Never> {
         return variable
             .removeDuplicates()

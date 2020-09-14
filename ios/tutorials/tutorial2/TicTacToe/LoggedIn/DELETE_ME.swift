@@ -22,7 +22,7 @@ protocol LoggedInDependency {}
 
 protocol OffGameDependency {}
 
-protocol LoggedInViewControllable {}
+protocol LoggedInPresentable {}
 
 protocol LoggedInBuildable {}
 
@@ -32,4 +32,4 @@ protocol LoggedInRouting {}
 
 protocol LoggedInInteractable {}
 
-extension RootViewController: LoggedInViewControllable {}
+extension RootPresenter: LoggedInPresentable {}

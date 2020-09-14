@@ -21,15 +21,10 @@ protocol RandomWinInteractable: Interactable {
     var listener: RandomWinListener? { get set }
 }
 
-protocol RandomWinViewControllable: ViewControllable {
-    // TODO: Declare methods the router invokes to manipulate the view hierarchy.
-}
-
-final class RandomWinRouter: ViewableRouter<RandomWinInteractable, RandomWinViewControllable>, RandomWinRouting {
-
+final class RandomWinRouter: PresentableRouter<RandomWinInteractable, RandomWinPresentable>, RandomWinRouting {
     // TODO: Constructor inject child builder protocols to allow building children.
-    override init(interactor: RandomWinInteractable, viewController: RandomWinViewControllable) {
-        super.init(interactor: interactor, viewController: viewController)
+    override init(interactor: RandomWinInteractable, presenter: RandomWinPresentable) {
+        super.init(interactor: interactor, presenter: presenter)
         interactor.router = self
     }
 }

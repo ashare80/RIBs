@@ -17,13 +17,12 @@
 import RIBs
 
 protocol LoggedInDependency: Dependency {
-    var loggedInViewController: LoggedInViewControllable { get }
+    var loggedInPresenter: LoggedInPresentable { get }
 }
 
 final class LoggedInComponent: Component<LoggedInDependency> {
-
-    fileprivate var loggedInViewController: LoggedInViewControllable {
-        return dependency.loggedInViewController
+    fileprivate var loggedInPresenter: LoggedInPresentable {
+        return dependency.loggedInPresenter
     }
 
     var mutableScoreStream: MutableScoreStream {
@@ -38,7 +37,6 @@ final class LoggedInComponent: Component<LoggedInDependency> {
         self.player2Name = player2Name
         super.init(dependency: dependency)
     }
-
 }
 
 // MARK: - Builder
@@ -48,7 +46,6 @@ protocol LoggedInBuildable: Buildable {
 }
 
 final class LoggedInBuilder: Builder<LoggedInDependency>, LoggedInBuildable {
-
     override init(dependency: LoggedInDependency) {
         super.init(dependency: dependency)
     }
@@ -63,7 +60,7 @@ final class LoggedInBuilder: Builder<LoggedInDependency>, LoggedInBuildable {
         let offGameBuilder = OffGameBuilder(dependency: component)
         let ticTacToeBuilder = TicTacToeBuilder(dependency: component)
         return LoggedInRouter(interactor: interactor,
-                              viewController: component.loggedInViewController,
+                              presenter: component.loggedInPresenter,
                               offGameBuilder: offGameBuilder,
                               ticTacToeBuilder: ticTacToeBuilder)
     }

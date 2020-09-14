@@ -22,13 +22,10 @@ protocol RootDependency: Dependency {
 }
 
 final class RootComponent: Component<RootDependency> {
-
-    let rootViewController: RootViewController
-
-    init(dependency: RootDependency,
-         rootViewController: RootViewController) {
-        self.rootViewController = rootViewController
-        super.init(dependency: dependency)
+    var rootPresenter: RootPresenter {
+        shared {
+            RootPresenter()
+        }
     }
 }
 
@@ -39,24 +36,19 @@ protocol RootBuildable: Buildable {
 }
 
 final class RootBuilder: Builder<RootDependency>, RootBuildable {
-
     override init(dependency: RootDependency) {
         super.init(dependency: dependency)
     }
 
     func build() -> (launchRouter: LaunchRouting, urlHandler: UrlHandler) {
-        let viewController = RootViewController()
-        let component = RootComponent(dependency: dependency,
-                                      rootViewController: viewController)
-        let interactor = RootInteractor(presenter: viewController)
+        let component = RootComponent(dependency: dependency)
+        let interactor = RootInteractor(presenter: component.rootPresenter)
 
         let loggedOutBuilder = LoggedOutBuilder(dependency: component)
         let loggedInBuilder = LoggedInBuilder(dependency: component)
-        let router = RootRouter(interactor: interactor,
-                                viewController: viewController,
-                                loggedOutBuilder: loggedOutBuilder,
-                                loggedInBuilder: loggedInBuilder)
-
-        return (router, interactor)
+        return (RootRouter(interactor: interactor,
+                           presenter: component.rootPresenter,
+                           loggedOutBuilder: loggedOutBuilder,
+                           loggedInBuilder: loggedInBuilder), interactor)
     }
 }

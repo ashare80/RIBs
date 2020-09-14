@@ -8,19 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		7EDD59501FA13579005EC8B2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EDD594F1FA13579005EC8B2 /* Default-568h@2x.png */; };
-		E37156C82503B1DD00797747 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E37156C72503B1DD00797747 /* SnapKit */; };
+		E34E6D05250D33EE001DC023 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E34E6D04250D33EE001DC023 /* SceneDelegate.swift */; };
 		E37156CA2503B1F800797747 /* RIBs in Frameworks */ = {isa = PBXBuildFile; productRef = E37156C92503B1F800797747 /* RIBs */; };
 		E90A68661FB7052F00D303EE /* Stub.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C86D9F1FA389F400B61DF6 /* Stub.swift */; };
 		E9C86DA01FA38A0A00B61DF6 /* RandomWinBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C86D9A1FA389EC00B61DF6 /* RandomWinBuilder.swift */; };
 		E9C86DA11FA38A0A00B61DF6 /* RandomWinInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C86D9B1FA389EC00B61DF6 /* RandomWinInteractor.swift */; };
 		E9C86DA21FA38A0A00B61DF6 /* RandomWinRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C86D9C1FA389EC00B61DF6 /* RandomWinRouter.swift */; };
-		E9C86DA31FA38A0A00B61DF6 /* RandomWinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C86D9D1FA389EC00B61DF6 /* RandomWinViewController.swift */; };
+		E9C86DA31FA38A0A00B61DF6 /* RandomWinPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C86D9D1FA389EC00B61DF6 /* RandomWinPresenter.swift */; };
 		E9C86DA81FA38AD600B61DF6 /* ScoreStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C86DA71FA38AD000B61DF6 /* ScoreStream.swift */; };
 		E9C86DA91FA38AEC00B61DF6 /* PlayerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C86DA61FA38AD000B61DF6 /* PlayerType.swift */; };
 		E9C86DB01FA38B7D00B61DF6 /* BasicScoreBoardBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C86D951FA389E000B61DF6 /* BasicScoreBoardBuilder.swift */; };
 		E9C86DB11FA38B7D00B61DF6 /* BasicScoreBoardInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C86D961FA389E000B61DF6 /* BasicScoreBoardInteractor.swift */; };
 		E9C86DB21FA38B7D00B61DF6 /* BasicScoreBoardRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C86D971FA389E000B61DF6 /* BasicScoreBoardRouter.swift */; };
-		E9C86DB31FA38B7D00B61DF6 /* BasicScoreBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C86D981FA389E000B61DF6 /* BasicScoreBoardViewController.swift */; };
+		E9C86DB31FA38B7D00B61DF6 /* BasicScoreBoardPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C86D981FA389E000B61DF6 /* BasicScoreBoardPresenter.swift */; };
 		E9C86DB91FA38D5400B61DF6 /* RootActionableItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C86DB81FA38D4700B61DF6 /* RootActionableItem.swift */; };
 		E9C86DBD1FA3AD6400B61DF6 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C86DBC1FA3AD6400B61DF6 /* Game.swift */; };
 		E9C86DBF1FA3AE3700B61DF6 /* RandomWinAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C86DBE1FA3AE3700B61DF6 /* RandomWinAdapter.swift */; };
@@ -36,36 +36,37 @@
 		E9CB1D591F9730E700D84847 /* LoggedOutBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D431F972FE400D84847 /* LoggedOutBuilder.swift */; };
 		E9CB1D5A1F9730E700D84847 /* LoggedOutInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D441F972FE400D84847 /* LoggedOutInteractor.swift */; };
 		E9CB1D5B1F9730E700D84847 /* LoggedOutRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D451F972FE400D84847 /* LoggedOutRouter.swift */; };
-		E9CB1D5C1F9730E700D84847 /* LoggedOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D461F972FE400D84847 /* LoggedOutViewController.swift */; };
+		E9CB1D5C1F9730E700D84847 /* LoggedOutPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D461F972FE400D84847 /* LoggedOutPresenter.swift */; };
 		E9CB1D5D1F9730EB00D84847 /* OffGameBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D4E1F972FE500D84847 /* OffGameBuilder.swift */; };
 		E9CB1D5E1F9730EB00D84847 /* OffGameInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D4F1F972FE500D84847 /* OffGameInteractor.swift */; };
 		E9CB1D5F1F9730EB00D84847 /* OffGameRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D501F972FE500D84847 /* OffGameRouter.swift */; };
-		E9CB1D601F9730EB00D84847 /* OffGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D511F972FE500D84847 /* OffGameViewController.swift */; };
+		E9CB1D601F9730EB00D84847 /* OffGamePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D511F972FE500D84847 /* OffGamePresenter.swift */; };
 		E9CB1D611F9730EF00D84847 /* RootBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D371F972FE400D84847 /* RootBuilder.swift */; };
 		E9CB1D621F9730EF00D84847 /* RootComponent+LoggedIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D381F972FE400D84847 /* RootComponent+LoggedIn.swift */; };
 		E9CB1D631F9730EF00D84847 /* RootComponent+LoggedOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D391F972FE400D84847 /* RootComponent+LoggedOut.swift */; };
 		E9CB1D641F9730EF00D84847 /* RootInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D3A1F972FE400D84847 /* RootInteractor.swift */; };
 		E9CB1D651F9730EF00D84847 /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D3B1F972FE400D84847 /* RootRouter.swift */; };
-		E9CB1D661F9730EF00D84847 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D3C1F972FE400D84847 /* RootViewController.swift */; };
+		E9CB1D661F9730EF00D84847 /* RootPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D3C1F972FE400D84847 /* RootPresenter.swift */; };
 		E9CB1D671F9730F300D84847 /* TicTacToeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D3E1F972FE400D84847 /* TicTacToeBuilder.swift */; };
 		E9CB1D681F9730F300D84847 /* TicTacToeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D3F1F972FE400D84847 /* TicTacToeInteractor.swift */; };
 		E9CB1D691F9730F300D84847 /* TicTacToeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D401F972FE400D84847 /* TicTacToeRouter.swift */; };
-		E9CB1D6A1F9730F300D84847 /* TicTacToeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D411F972FE400D84847 /* TicTacToeViewController.swift */; };
+		E9CB1D6A1F9730F300D84847 /* TicTacToePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CB1D411F972FE400D84847 /* TicTacToePresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7EDD594F1FA13579005EC8B2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		E34E6D04250D33EE001DC023 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E37156BE2503B15D00797747 /* RIBs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = RIBs; path = ../../..; sourceTree = "<group>"; };
 		E9894B4A1F972CC500688FCB /* TicTacToe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TicTacToe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9894B591F972CC500688FCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E9C86D951FA389E000B61DF6 /* BasicScoreBoardBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicScoreBoardBuilder.swift; sourceTree = "<group>"; };
 		E9C86D961FA389E000B61DF6 /* BasicScoreBoardInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicScoreBoardInteractor.swift; sourceTree = "<group>"; };
 		E9C86D971FA389E000B61DF6 /* BasicScoreBoardRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicScoreBoardRouter.swift; sourceTree = "<group>"; };
-		E9C86D981FA389E000B61DF6 /* BasicScoreBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicScoreBoardViewController.swift; sourceTree = "<group>"; };
+		E9C86D981FA389E000B61DF6 /* BasicScoreBoardPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicScoreBoardPresenter.swift; sourceTree = "<group>"; };
 		E9C86D9A1FA389EC00B61DF6 /* RandomWinBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomWinBuilder.swift; sourceTree = "<group>"; };
 		E9C86D9B1FA389EC00B61DF6 /* RandomWinInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomWinInteractor.swift; sourceTree = "<group>"; };
 		E9C86D9C1FA389EC00B61DF6 /* RandomWinRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomWinRouter.swift; sourceTree = "<group>"; };
-		E9C86D9D1FA389EC00B61DF6 /* RandomWinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomWinViewController.swift; sourceTree = "<group>"; };
+		E9C86D9D1FA389EC00B61DF6 /* RandomWinPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomWinPresenter.swift; sourceTree = "<group>"; };
 		E9C86D9F1FA389F400B61DF6 /* Stub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stub.swift; sourceTree = "<group>"; };
 		E9C86DA61FA38AD000B61DF6 /* PlayerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerType.swift; sourceTree = "<group>"; };
 		E9C86DA71FA38AD000B61DF6 /* ScoreStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreStream.swift; sourceTree = "<group>"; };
@@ -81,15 +82,15 @@
 		E9CB1D391F972FE400D84847 /* RootComponent+LoggedOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootComponent+LoggedOut.swift"; sourceTree = "<group>"; };
 		E9CB1D3A1F972FE400D84847 /* RootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractor.swift; sourceTree = "<group>"; };
 		E9CB1D3B1F972FE400D84847 /* RootRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
-		E9CB1D3C1F972FE400D84847 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		E9CB1D3C1F972FE400D84847 /* RootPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootPresenter.swift; sourceTree = "<group>"; };
 		E9CB1D3E1F972FE400D84847 /* TicTacToeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeBuilder.swift; sourceTree = "<group>"; };
 		E9CB1D3F1F972FE400D84847 /* TicTacToeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeInteractor.swift; sourceTree = "<group>"; };
 		E9CB1D401F972FE400D84847 /* TicTacToeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeRouter.swift; sourceTree = "<group>"; };
-		E9CB1D411F972FE400D84847 /* TicTacToeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeViewController.swift; sourceTree = "<group>"; };
+		E9CB1D411F972FE400D84847 /* TicTacToePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToePresenter.swift; sourceTree = "<group>"; };
 		E9CB1D431F972FE400D84847 /* LoggedOutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutBuilder.swift; sourceTree = "<group>"; };
 		E9CB1D441F972FE400D84847 /* LoggedOutInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutInteractor.swift; sourceTree = "<group>"; };
 		E9CB1D451F972FE400D84847 /* LoggedOutRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutRouter.swift; sourceTree = "<group>"; };
-		E9CB1D461F972FE400D84847 /* LoggedOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutViewController.swift; sourceTree = "<group>"; };
+		E9CB1D461F972FE400D84847 /* LoggedOutPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedOutPresenter.swift; sourceTree = "<group>"; };
 		E9CB1D481F972FE500D84847 /* LoggedInBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInBuilder.swift; sourceTree = "<group>"; };
 		E9CB1D491F972FE500D84847 /* LoggedInComponent+OffGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoggedInComponent+OffGame.swift"; sourceTree = "<group>"; };
 		E9CB1D4A1F972FE500D84847 /* LoggedInComponent+TicTacToe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoggedInComponent+TicTacToe.swift"; sourceTree = "<group>"; };
@@ -98,7 +99,7 @@
 		E9CB1D4E1F972FE500D84847 /* OffGameBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffGameBuilder.swift; sourceTree = "<group>"; };
 		E9CB1D4F1F972FE500D84847 /* OffGameInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffGameInteractor.swift; sourceTree = "<group>"; };
 		E9CB1D501F972FE500D84847 /* OffGameRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffGameRouter.swift; sourceTree = "<group>"; };
-		E9CB1D511F972FE500D84847 /* OffGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffGameViewController.swift; sourceTree = "<group>"; };
+		E9CB1D511F972FE500D84847 /* OffGamePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffGamePresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +108,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E37156CA2503B1F800797747 /* RIBs in Frameworks */,
-				E37156C82503B1DD00797747 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,7 +166,7 @@
 				E9C86D951FA389E000B61DF6 /* BasicScoreBoardBuilder.swift */,
 				E9C86D961FA389E000B61DF6 /* BasicScoreBoardInteractor.swift */,
 				E9C86D971FA389E000B61DF6 /* BasicScoreBoardRouter.swift */,
-				E9C86D981FA389E000B61DF6 /* BasicScoreBoardViewController.swift */,
+				E9C86D981FA389E000B61DF6 /* BasicScoreBoardPresenter.swift */,
 			);
 			path = ScoreBoard;
 			sourceTree = "<group>";
@@ -177,7 +177,7 @@
 				E9C86D9A1FA389EC00B61DF6 /* RandomWinBuilder.swift */,
 				E9C86D9B1FA389EC00B61DF6 /* RandomWinInteractor.swift */,
 				E9C86D9C1FA389EC00B61DF6 /* RandomWinRouter.swift */,
-				E9C86D9D1FA389EC00B61DF6 /* RandomWinViewController.swift */,
+				E9C86D9D1FA389EC00B61DF6 /* RandomWinPresenter.swift */,
 			);
 			path = RandomWin;
 			sourceTree = "<group>";
@@ -210,6 +210,7 @@
 		E9CB1D331F972FD500D84847 /* AppStart */ = {
 			isa = PBXGroup;
 			children = (
+				E34E6D04250D33EE001DC023 /* SceneDelegate.swift */,
 				E9CB1D341F972FD500D84847 /* AppComponent.swift */,
 				E9CB1D351F972FD500D84847 /* AppDelegate.swift */,
 			);
@@ -224,7 +225,7 @@
 				E9CB1D391F972FE400D84847 /* RootComponent+LoggedOut.swift */,
 				E9CB1D3A1F972FE400D84847 /* RootInteractor.swift */,
 				E9CB1D3B1F972FE400D84847 /* RootRouter.swift */,
-				E9CB1D3C1F972FE400D84847 /* RootViewController.swift */,
+				E9CB1D3C1F972FE400D84847 /* RootPresenter.swift */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -235,7 +236,7 @@
 				E9CB1D3E1F972FE400D84847 /* TicTacToeBuilder.swift */,
 				E9CB1D3F1F972FE400D84847 /* TicTacToeInteractor.swift */,
 				E9CB1D401F972FE400D84847 /* TicTacToeRouter.swift */,
-				E9CB1D411F972FE400D84847 /* TicTacToeViewController.swift */,
+				E9CB1D411F972FE400D84847 /* TicTacToePresenter.swift */,
 			);
 			path = TicTacToe;
 			sourceTree = "<group>";
@@ -246,7 +247,7 @@
 				E9CB1D431F972FE400D84847 /* LoggedOutBuilder.swift */,
 				E9CB1D441F972FE400D84847 /* LoggedOutInteractor.swift */,
 				E9CB1D451F972FE400D84847 /* LoggedOutRouter.swift */,
-				E9CB1D461F972FE400D84847 /* LoggedOutViewController.swift */,
+				E9CB1D461F972FE400D84847 /* LoggedOutPresenter.swift */,
 			);
 			path = LoggedOut;
 			sourceTree = "<group>";
@@ -273,7 +274,7 @@
 				E9CB1D4E1F972FE500D84847 /* OffGameBuilder.swift */,
 				E9CB1D4F1F972FE500D84847 /* OffGameInteractor.swift */,
 				E9CB1D501F972FE500D84847 /* OffGameRouter.swift */,
-				E9CB1D511F972FE500D84847 /* OffGameViewController.swift */,
+				E9CB1D511F972FE500D84847 /* OffGamePresenter.swift */,
 			);
 			path = OffGame;
 			sourceTree = "<group>";
@@ -302,7 +303,6 @@
 			);
 			name = TicTacToe;
 			packageProductDependencies = (
-				E37156C72503B1DD00797747 /* SnapKit */,
 				E37156C92503B1F800797747 /* RIBs */,
 			);
 			productName = TicTacToe;
@@ -336,7 +336,6 @@
 			);
 			mainGroup = E9894B411F972CC500688FCB;
 			packageReferences = (
-				E37156C62503B1DD00797747 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = E9894B4B1F972CC500688FCB /* Products */;
 			projectDirPath = "";
@@ -363,7 +362,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9C86DA31FA38A0A00B61DF6 /* RandomWinViewController.swift in Sources */,
+				E9C86DA31FA38A0A00B61DF6 /* RandomWinPresenter.swift in Sources */,
 				E9C86DA21FA38A0A00B61DF6 /* RandomWinRouter.swift in Sources */,
 				E9CB1D521F97303800D84847 /* AppDelegate.swift in Sources */,
 				E9CB1D681F9730F300D84847 /* TicTacToeInteractor.swift in Sources */,
@@ -381,8 +380,8 @@
 				E9CB1D5F1F9730EB00D84847 /* OffGameRouter.swift in Sources */,
 				E9CB1D611F9730EF00D84847 /* RootBuilder.swift in Sources */,
 				E9CB1D671F9730F300D84847 /* TicTacToeBuilder.swift in Sources */,
-				E9C86DB31FA38B7D00B61DF6 /* BasicScoreBoardViewController.swift in Sources */,
-				E9CB1D6A1F9730F300D84847 /* TicTacToeViewController.swift in Sources */,
+				E9C86DB31FA38B7D00B61DF6 /* BasicScoreBoardPresenter.swift in Sources */,
+				E9CB1D6A1F9730F300D84847 /* TicTacToePresenter.swift in Sources */,
 				E9C86DC11FA3AE6E00B61DF6 /* TicTacToeAdapter.swift in Sources */,
 				E9C86DBF1FA3AE3700B61DF6 /* RandomWinAdapter.swift in Sources */,
 				E9CB1D541F9730E400D84847 /* LoggedInBuilder.swift in Sources */,
@@ -390,20 +389,21 @@
 				E9C86DB91FA38D5400B61DF6 /* RootActionableItem.swift in Sources */,
 				E9CB1D531F97305A00D84847 /* AppComponent.swift in Sources */,
 				E9CB1D621F9730EF00D84847 /* RootComponent+LoggedIn.swift in Sources */,
-				E9CB1D5C1F9730E700D84847 /* LoggedOutViewController.swift in Sources */,
+				E9CB1D5C1F9730E700D84847 /* LoggedOutPresenter.swift in Sources */,
 				E9C86DA81FA38AD600B61DF6 /* ScoreStream.swift in Sources */,
+				E34E6D05250D33EE001DC023 /* SceneDelegate.swift in Sources */,
 				E9CB1D691F9730F300D84847 /* TicTacToeRouter.swift in Sources */,
 				E9C86DA01FA38A0A00B61DF6 /* RandomWinBuilder.swift in Sources */,
 				E9CB1D561F9730E400D84847 /* LoggedInComponent+TicTacToe.swift in Sources */,
 				E9CB1D651F9730EF00D84847 /* RootRouter.swift in Sources */,
-				E9CB1D661F9730EF00D84847 /* RootViewController.swift in Sources */,
+				E9CB1D661F9730EF00D84847 /* RootPresenter.swift in Sources */,
 				E9C86DB11FA38B7D00B61DF6 /* BasicScoreBoardInteractor.swift in Sources */,
 				E9C86DB21FA38B7D00B61DF6 /* BasicScoreBoardRouter.swift in Sources */,
 				E9C86DBD1FA3AD6400B61DF6 /* Game.swift in Sources */,
 				E9C86DA11FA38A0A00B61DF6 /* RandomWinInteractor.swift in Sources */,
 				E9CB1D5E1F9730EB00D84847 /* OffGameInteractor.swift in Sources */,
 				E9CB1D5A1F9730E700D84847 /* LoggedOutInteractor.swift in Sources */,
-				E9CB1D601F9730EB00D84847 /* OffGameViewController.swift in Sources */,
+				E9CB1D601F9730EB00D84847 /* OffGamePresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -579,23 +579,7 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		E37156C62503B1DD00797747 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
-			requirement = {
-				branch = develop;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		E37156C72503B1DD00797747 /* SnapKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E37156C62503B1DD00797747 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
-		};
 		E37156C92503B1F800797747 /* RIBs */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RIBs;

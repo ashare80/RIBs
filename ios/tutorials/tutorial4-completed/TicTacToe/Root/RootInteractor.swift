@@ -18,13 +18,8 @@ import Combine
 import Foundation
 import RIBs
 
-protocol RootRouting: ViewableRouting {
+protocol RootRouting: PresentableRouting {
     func routeToLoggedIn(withPlayer1Name player1Name: String, player2Name: String) -> LoggedInActionableItem
-}
-
-protocol RootPresentable: Presentable {
-    var listener: RootPresentableListener? { get set }
-    // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
 protocol RootListener: AnyObject {
@@ -32,7 +27,6 @@ protocol RootListener: AnyObject {
 }
 
 final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable, RootPresentableListener, RootActionableItem, UrlHandler {
-
     weak var router: RootRouting?
 
     weak var listener: RootListener?
@@ -79,8 +73,8 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
             .filterNil()
             .map { (loggedInItem: LoggedInActionableItem) -> (LoggedInActionableItem, ()) in
                 (loggedInItem, ())
-        }
-        .eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
     }
 
     // MARK: - Private
@@ -88,19 +82,19 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     private let loggedInActionableItemSubject = CurrentValueSubject<LoggedInActionableItem?, Never>(nil)
 }
 
-protocol OptionalType {
+public protocol OptionalType {
     associatedtype Wrapped
     var value: Wrapped? { get }
 }
 
 extension Optional: OptionalType {
-    var value: Wrapped? {
+    public var value: Wrapped? {
         return self
     }
 }
 
 extension Publisher where Output: OptionalType {
-    func filterNil() -> AnyPublisher<Output.Wrapped, Failure> {
+    public func filterNil() -> AnyPublisher<Output.Wrapped, Failure> {
         return map { (output) -> AnyPublisher<Output.Wrapped, Failure> in
             if let output = output.value {
                 return Just(output).mapError().eraseToAnyPublisher()

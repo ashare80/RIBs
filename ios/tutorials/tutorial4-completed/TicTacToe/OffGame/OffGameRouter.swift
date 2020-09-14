@@ -21,17 +21,13 @@ protocol OffGameInteractable: Interactable, BasicScoreBoardListener {
     var listener: OffGameListener? { get set }
 }
 
-protocol OffGameViewControllable: ViewControllable {
-    func show(scoreBoardView: ViewControllable)
-}
-
-final class OffGameRouter: ViewableRouter<OffGameInteractable, OffGameViewControllable>, OffGameRouting {
-
+final class OffGameRouter: PresentableRouter<OffGameInteractable, OffGamePresentable>, OffGameRouting {
     init(interactor: OffGameInteractable,
-         viewController: OffGameViewControllable,
-         scoreBoardBuilder: BasicScoreBoardBuildable) {
+         presenter: OffGamePresentable,
+         scoreBoardBuilder: BasicScoreBoardBuildable)
+    {
         self.scoreBoardBuilder = scoreBoardBuilder
-        super.init(interactor: interactor, viewController: viewController)
+        super.init(interactor: interactor, presenter: presenter)
         interactor.router = self
     }
 
@@ -48,6 +44,6 @@ final class OffGameRouter: ViewableRouter<OffGameInteractable, OffGameViewContro
     private func attachScoreBoard() {
         let scoreBoard = scoreBoardBuilder.build(withListener: interactor)
         attachChild(scoreBoard)
-        viewController.show(scoreBoardView: scoreBoard.viewControllable)
+        presenter.show(scoreBoardPresenter: scoreBoard.presentable)
     }
 }

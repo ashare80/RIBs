@@ -23,7 +23,6 @@ public protocol OffGameDependency: Dependency {
 }
 
 final class OffGameComponent: Component<OffGameDependency>, BasicScoreBoardDependency {
-
     var player1Name: String {
         return dependency.player1Name
     }
@@ -44,20 +43,19 @@ protocol OffGameBuildable: Buildable {
 }
 
 final class OffGameBuilder: Builder<OffGameDependency>, OffGameBuildable {
-
     override init(dependency: OffGameDependency) {
         super.init(dependency: dependency)
     }
 
     func build(withListener listener: OffGameListener, games: [Game]) -> OffGameRouting {
         let component = OffGameComponent(dependency: dependency)
-        let viewController = OffGameViewController(games: games)
-        let interactor = OffGameInteractor(presenter: viewController)
+        let presenter = OffGamePresenter(games: games)
+        let interactor = OffGameInteractor(presenter: presenter)
         interactor.listener = listener
 
         let scoreBoardBuilder = BasicScoreBoardBuilder(dependency: component)
         let router = OffGameRouter(interactor: interactor,
-                                   viewController: viewController,
+                                   presenter: presenter,
                                    scoreBoardBuilder: scoreBoardBuilder)
         return router
     }

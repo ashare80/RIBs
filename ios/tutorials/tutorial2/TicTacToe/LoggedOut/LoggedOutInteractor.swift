@@ -16,7 +16,7 @@
 
 import RIBs
 
-protocol LoggedOutRouting: ViewableRouting {
+protocol LoggedOutRouting: PresentableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 
@@ -30,7 +30,6 @@ protocol LoggedOutListener: AnyObject {
 }
 
 final class LoggedOutInteractor: PresentableInteractor<LoggedOutPresentable>, LoggedOutInteractable, LoggedOutPresentableListener {
-
     weak var router: LoggedOutRouting?
 
     weak var listener: LoggedOutListener?

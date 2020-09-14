@@ -14,33 +14,36 @@
 //  limitations under the License.
 //
 
-import RIBs
 import Combine
-import UIKit
+import RIBs
+import SwiftUI
 
 class WindowMock: UIWindow {
-    
     override var isKeyWindow: Bool {
         return internalIsKeyWindow
     }
-    
+
     override var rootViewController: UIViewController? {
-        get { return internalRootViewController }
-        set { internalRootViewController = newValue }
+        get { return internalRootPresenter }
+        set { internalRootPresenter = newValue }
     }
-    
+
     override func makeKeyAndVisible() {
         internalIsKeyWindow = true
     }
-    
+
     // MARK: - Private
-    
+
     private var internalIsKeyWindow: Bool = false
-    private var internalRootViewController: UIViewController?
+    private var internalRootPresenter: UIViewController?
 }
 
-class ViewControllableMock: ViewControllable {
-    let uiviewController = UIViewController(nibName: nil, bundle: nil)
+struct ViewableMock: Viewable {
+    let asAnyView: AnyView = EmptyView().asAnyView
+}
+
+class PresentableMock: Presentable {
+    var view: Viewable = ViewableMock()
 }
 
 class InteractorMock: Interactable {
@@ -71,14 +74,14 @@ class InteractableMock: Interactable {
     // Variables
     var isActive: Bool = false { didSet { isActiveSetCallCount += 1 } }
     var isActiveSetCallCount = 0
-    var isActiveStreamSubject: PassthroughSubject<Bool, Never> = PassthroughSubject<Bool, Never>() { didSet { isActiveStreamSubjectSetCallCount += 1 } }
+    var isActiveStreamSubject = PassthroughSubject<Bool, Never>() { didSet { isActiveStreamSubjectSetCallCount += 1 } }
     var isActiveStreamSubjectSetCallCount = 0
     var isActiveStream: AnyPublisher<Bool, Never> { return isActiveStreamSubject.eraseToAnyPublisher() }
 
     // Function Handlers
-    var activateHandler: (() -> ())?
+    var activateHandler: (() -> Void)?
     var activateCallCount: Int = 0
-    var deactivateHandler: (() -> ())?
+    var deactivateHandler: (() -> Void)?
     var deactivateCallCount: Int = 0
 
     init() {}

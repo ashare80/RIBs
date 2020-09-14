@@ -18,5 +18,5 @@ import Foundation
 import RIBs
 
 public class LaunchGameWorkflow: Workflow<RootActionableItem> {
-    init(url: URL) { super.init() }
+    init(url _: URL) { super.init() }
 }
